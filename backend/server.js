@@ -1,7 +1,27 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3003;
+const { Sequelize } = require("sequelize");
+
+sequelize = new Sequelize(
+  "groupomania_app",
+  process.env.DATABASE_USER,
+  process.env.DATABASE_PASSWORD,
+  {
+    dialect: "mysql",
+    host: "localhost",
+  }
+);
+
+try {
+  sequelize.authenticate();
+  console.log("Connecté à la base de données MySQL!");
+} catch (error) {
+  console.error("Impossible de se connecter, erreur suivante :", error);
+}
 
 // initialisation d'entetes
 app.use(cors());
