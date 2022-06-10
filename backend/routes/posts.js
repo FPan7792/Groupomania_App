@@ -1,14 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/posts", async (req, res) => {
-  sequelize.authenticate();
-  sequelize.query("SELECT * from users").then(([results, metadata]) => {
-    console.log(results);
-    console.log(metadata);
-  });
-  res.status(200).send("OK");
-});
+router.get("/posts", async (req, res) => {});
 
 // CREATION
 router.post("/posts/create", async (req, res) => {});
