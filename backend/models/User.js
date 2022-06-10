@@ -1,5 +1,4 @@
 const { DataTypes } = require("sequelize");
-// const sequelize = new Sequelize("mysql::memory:");
 
 const User = sequelize.define(
   "users",
@@ -12,6 +11,7 @@ const User = sequelize.define(
     email: {
       type: DataTypes.STRING(100),
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -21,6 +21,7 @@ const User = sequelize.define(
       type: DataTypes.STRING(50),
       allowNull: true,
       default: "",
+      unique: true,
     },
     is_admin: {
       type: DataTypes.BOOLEAN,

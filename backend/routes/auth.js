@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const argon2 = require("argon2");
-const dayjs = require("dayjs");
-const localeFR = require("dayjs/plugin/localeData");
-dayjs.extend(localeFR);
-
+// generation d'un webToken
+const jwt = require("jsonwebtoken");
+// models
 const User = require("../models/User");
 
+// ROUTE SIGNUP
 router.post("/auth/signup", async (req, res) => {
   const { email, password, is_admin } = req.body;
 
@@ -35,24 +35,42 @@ router.post("/auth/signup", async (req, res) => {
   }
 });
 
-router.post("/auth/login", async (req, res) => {});
+// ROUTE LOGIN
+router.post("/auth/login", async (req, res) => {
+  const { email, password } = req.body;
+  console.log("BODY", req.body);
+
+  try {
+    const targetedUser = await User.findOne({ where: { email } });
+    if (targetedUser === null) {
+      console.log("Not found!");
+      res.status(400).send("Aucun utlisateur ne correspond à votre requête");
+    } else {
+      const verifyPassword = await argon2.verify(
+        targetedUser.password,
+        password
+      );
+
+      if (verifyPassword) {
+        return res.status(200).json({
+          userId: targetedUser.user_id,
+          token: jwt.sign(
+            { userId: targetedUser.user_id },
+            "6c412ab29876412b84949998991358aa",
+            {
+              expiresIn: "24h",
+            }
+          ),
+        });
+      } else {
+        console.log("Accès refusé");
+        res.status(401).send("Mauvais email ou password");
+      }
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
 
 module.exports = router;
-
-// const createUser = await sequelize
-//   .query(
-//     `INSERT INTO ${"`users`"} (${"`email`"}, ${"`password`"}, ${"`is_admin`"}, ${"`created_at`"})
-
-//   VALUES
-
-//   ('${email}', '${hash}', '${is_admin ? 1 : 0}', '${DATETIME}');
-//   `
-//   )
-//   .then((results) => {
-//     console.log(results);
-//     return results;
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//     throw err.errors[0].message;
-//   });
