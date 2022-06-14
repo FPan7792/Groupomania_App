@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/posts", async (req, res) => {});
+const isAuthorized = require("../middlewares/isAuthorized");
+
+router.get("/posts", isAuthorized, async (req, res) => {
+  res.status(200).send("REQUEST OK");
+});
 
 // CREATION
 router.post("/posts/create", async (req, res) => {});
