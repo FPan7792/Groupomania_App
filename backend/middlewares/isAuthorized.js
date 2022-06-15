@@ -1,6 +1,9 @@
 // gestion du web token
 const jwt = require("jsonwebtoken");
 
+// model
+const User = require("../models/User");
+
 // middleware d'authentification TOKEN
 const isAuthorized = async (req, res, next) => {
   const getAuthorization =
@@ -17,18 +20,15 @@ const isAuthorized = async (req, res, next) => {
           if (e) {
             throw e;
           }
-          // console.log("DECODED1", decoded);
-          const parsedToken = decoded.userId;
+          console.log("DECODED1", decoded);
+          const parsedToken = decoded?.userId;
 
-          if (req.body.userId && parsedToken !== req.body.userId) {
+          if (!parsedToken) {
             console.log("Données d'acces incorrect");
             throw new Error(
               "Données d'acces incorrect. modifications impossibles"
             );
           } else {
-            req.body.userId = decoded.userId;
-            if (req.body.sauce) {
-            }
             console.log("AUTHORIZED OK");
             next();
           }

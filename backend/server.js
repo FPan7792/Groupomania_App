@@ -1,13 +1,19 @@
 require("dotenv").config();
 
 const express = require("express");
-const formidableMiddleware = require("express-formidable");
-const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3003;
 const { Sequelize } = require("sequelize");
 
 const cloudinary = require("cloudinary").v2;
+
+const app = express();
+
+// conversion des données en JSON
+app.use(express.json());
+
+// initialisation d'entetes
+app.use(cors());
 
 // BDD config
 sequelize = new Sequelize(
@@ -33,16 +39,8 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
 });
-
-// initialisation d'entetes
-app.use(cors());
-
-// conversion des données en JSON
-app.use(express.json());
-
-// envoi de données type datas
-app.use(formidableMiddleware());
 
 const authRoutes = require("./routes/auth");
 const postsRoutes = require("./routes/posts");
