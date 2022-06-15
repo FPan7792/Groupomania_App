@@ -26,6 +26,11 @@ const Post = sequelize.define(
       defaultValue: false,
       allowNull: false,
     },
+    image_url: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+      allowNull: true,
+    },
   },
   { tableName: "posts" }
 );

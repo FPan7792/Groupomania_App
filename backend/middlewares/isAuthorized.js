@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const isAuthorized = async (req, res, next) => {
   const getAuthorization =
     req.headers.authorization?.replace("Bearer ", "") || null;
-  console.log(req.headers.authorization);
 
   //   res.send("OK");
 
