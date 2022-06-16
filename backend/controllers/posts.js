@@ -30,7 +30,14 @@ exports.createPost = async (req, res) => {
         user_id,
       } = req.fields;
 
-      newPost = await Post.create({ title, content, likes, is_image: false });
+      newPost = await Post.create({
+        title,
+        content,
+        likes,
+        is_image: false,
+        owner_id: user_id,
+        usersIds_likes: JSON.stringify([]),
+      });
       return res.status(200).json({ message: "new post created", newPost });
     } else {
       const {
@@ -39,7 +46,6 @@ exports.createPost = async (req, res) => {
         likes = 0,
         is_image = true,
         user_id,
-        usersIds_likes,
       } = req.fields;
       const { image } = req.files;
 
@@ -65,8 +71,7 @@ exports.createPost = async (req, res) => {
     return res.status(400).send(error);
   }
 };
-// LIER LES POSTS A LA TABLE USERS
-
+// SUPRESSION
 exports.deletePost = async (req, res) => {
   const { post_id, user_id } = req.fields;
   console.log("LOGTEST", post_id);

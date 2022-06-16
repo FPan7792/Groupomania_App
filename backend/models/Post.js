@@ -25,6 +25,7 @@ const Post = sequelize.define(
     usersIds_likes: {
       type: DataTypes.TEXT,
       allowNull: false,
+      defaultValue: "[]",
     },
     is_image: {
       type: DataTypes.BOOLEAN,
@@ -35,11 +36,6 @@ const Post = sequelize.define(
       type: DataTypes.STRING,
       defaultValue: "",
       allowNull: true,
-    },
-    image_url: {
-      type: DataTypes.STRING,
-      foreignKey: true,
-      allowNull: false,
     },
   },
   { tableName: "posts" }
