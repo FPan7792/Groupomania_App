@@ -1,7 +1,11 @@
 const cloudinary = require("cloudinary").v2;
 
 // models
+const User = require("../models/User");
 const Post = require("../models/Post");
+
+// Charger le user avant le traitement
+// implementer le user ADMIN sur toutes les routes
 
 // Tout les posts
 exports.getAllPosts = async (req, res) => {
@@ -111,6 +115,7 @@ exports.deletePost = async (req, res) => {
   }
 };
 
+// MODIFICATION
 exports.modifyPost = async (req, res) => {
   try {
     const { post_id } = req.fields;
@@ -126,4 +131,22 @@ exports.modifyPost = async (req, res) => {
   }
 };
 
-// exports.likePost = async (req, res) => {};
+// LIKES
+exports.likePost = async (req, res) => {
+  try {
+    const { post_id, user_id, likes, usersIds_likes } = req.fields;
+
+    const USER = await User.findOne({ user_id });
+    const postToManageLike = await Post.findOne({ post_id });
+
+    postToManageLike.set({
+      likes: JSON.parse(usersIds_likes).length,
+      usersIds_likes,
+    });
+    const finalModifiedPost = await postToManageLike.save();
+
+    res.status(200).json({ finalModifiedPost });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};

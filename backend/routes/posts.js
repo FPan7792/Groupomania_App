@@ -18,6 +18,6 @@ router.post("/posts/delete", isAuthorized, postsControllers.deletePost);
 router.post("/posts/modify", isAuthorized, postsControllers.modifyPost);
 
 // LIKES
-// router.post("/posts/like", isAuthorized, postsControllers.likePost);
+router.post("/posts/like", isAuthorized, postsControllers.likePost);
 
 module.exports = router;
