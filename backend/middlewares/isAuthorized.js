@@ -30,6 +30,7 @@ const isAuthorized = async (req, res, next) => {
             );
           } else {
             console.log("AUTHORIZED OK");
+            req.fields.user_id = decoded.userId;
             next();
           }
         }

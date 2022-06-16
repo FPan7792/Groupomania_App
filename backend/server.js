@@ -4,10 +4,13 @@ const express = require("express");
 const cors = require("cors");
 const port = process.env.PORT || 3003;
 const { Sequelize } = require("sequelize");
+const formidableMiddleware = require("express-formidable");
 
 const cloudinary = require("cloudinary").v2;
 
 const app = express();
+// envoi de données type datas
+app.use(formidableMiddleware());
 
 // conversion des données en JSON
 app.use(express.json());
