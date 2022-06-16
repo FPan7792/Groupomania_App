@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+const User = require("./User");
 
 const Post = sequelize.define(
   "posts",
@@ -21,6 +22,10 @@ const Post = sequelize.define(
       allowNull: false,
       default: 0,
     },
+    usersIds_likes: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     is_image: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -31,9 +36,19 @@ const Post = sequelize.define(
       defaultValue: "",
       allowNull: true,
     },
+    image_url: {
+      type: DataTypes.STRING,
+      foreignKey: true,
+      allowNull: false,
+    },
   },
   { tableName: "posts" }
 );
+
+Post.belongsTo(User, {
+  foreignKey: "owner_id",
+  targetKey: "user_id",
+});
 
 if (Post !== sequelize.models.posts) {
   (async () => {

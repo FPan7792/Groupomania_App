@@ -18,24 +18,32 @@ exports.getAllPosts = async (req, res) => {
 exports.createPost = async (req, res) => {
   let newPost;
 
-  // console.log("REQ", req);
+  console.log("REQ", req.fields);
 
   try {
     if (!req.files.image) {
-      console.log("BODY", req.fields);
-      console.log("NO IMAGE");
-      const { title, content, likes = 0, is_image = false } = req.fields;
+      const {
+        title,
+        content,
+        likes = 0,
+        is_image = false,
+        user_id,
+      } = req.fields;
 
       newPost = await Post.create({ title, content, likes, is_image: false });
       return res.status(200).json({ message: "new post created", newPost });
     } else {
-      console.log("IMAGE");
-
-      const { title, content, likes = 0, is_image = true } = req.fields;
+      const {
+        title,
+        content,
+        likes = 0,
+        is_image = true,
+        user_id,
+        usersIds_likes,
+      } = req.fields;
       const { image } = req.files;
 
       let pictureToUpload = image.path;
-      // recupérer le num user dans MIDDLEWARE
       const uploadImage = await cloudinary.uploader.upload(pictureToUpload, {
         folder: `/groupomania_app/user_1`,
       });
@@ -46,6 +54,8 @@ exports.createPost = async (req, res) => {
         likes,
         is_image: true,
         image_url: uploadImage?.secure_url,
+        owner_id: user_id,
+        usersIds_likes: JSON.stringify([]),
       });
     }
 
@@ -55,6 +65,7 @@ exports.createPost = async (req, res) => {
     return res.status(400).send(error);
   }
 };
+// LIER LES POSTS A LA TABLE USERS
 
 exports.deletePost = async (req, res) => {
   const { post_id, user_id } = req.fields;

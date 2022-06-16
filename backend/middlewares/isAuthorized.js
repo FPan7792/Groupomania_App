@@ -1,9 +1,6 @@
 // gestion du web token
 const jwt = require("jsonwebtoken");
 
-// model
-const User = require("../models/User");
-
 // middleware d'authentification TOKEN
 const isAuthorized = async (req, res, next) => {
   const getAuthorization =
