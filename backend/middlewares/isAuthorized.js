@@ -6,8 +6,6 @@ const isAuthorized = async (req, res, next) => {
   const getAuthorization =
     req.headers.authorization?.replace("Bearer ", "") || null;
 
-  //   res.send("OK");
-
   if (getAuthorization) {
     try {
       await jwt.verify(

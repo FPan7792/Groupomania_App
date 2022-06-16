@@ -6,7 +6,7 @@ const User = require("../models/User");
 
 // ROUTE SIGNUP
 exports.signup = async (req, res) => {
-  const { email, password, is_admin } = req.body;
+  const { email, password, is_admin } = req.fields;
 
   try {
     const hash = await argon2
@@ -35,8 +35,8 @@ exports.signup = async (req, res) => {
 
 // ROUTE LOGIN
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  console.log("BODY", req.body);
+  const { email, password } = req.fields;
+  console.log("FIELDS", req.fields);
 
   try {
     const targetedUser = await User.findOne({ where: { email } });
@@ -56,7 +56,7 @@ exports.login = async (req, res) => {
             { userId: targetedUser.user_id },
             process.env.UUID_TOKEN_GENERATOR,
             {
-              expiresIn: "24h",
+              // expiresIn: "24h",
             }
           ),
         });

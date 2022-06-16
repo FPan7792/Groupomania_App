@@ -74,7 +74,6 @@ exports.createPost = async (req, res) => {
 // SUPRESSION
 exports.deletePost = async (req, res) => {
   const { post_id, user_id } = req.fields;
-  console.log("LOGTEST", post_id);
 
   try {
     if (post_id) {
@@ -112,6 +111,19 @@ exports.deletePost = async (req, res) => {
   }
 };
 
-// exports.modifyPost = async (req, res) => {};
+exports.modifyPost = async (req, res) => {
+  try {
+    const { post_id } = req.fields;
+    const postToModify = await Post.findOne({ post_id });
+
+    postToModify.set(req.fields);
+    const finalModifiedPost = await postToModify.save();
+
+    res.status(200).json({ finalModifiedPost });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send(error.message);
+  }
+};
 
 // exports.likePost = async (req, res) => {};
