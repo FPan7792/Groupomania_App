@@ -4,9 +4,6 @@ const cloudinary = require("cloudinary").v2;
 const User = require("../models/User");
 const Post = require("../models/Post");
 
-// Charger le user avant le traitement
-// implementer le user ADMIN sur toutes les routes
-
 // Tout les posts
 exports.getAllPosts = async (req, res) => {
   try {
@@ -21,8 +18,6 @@ exports.getAllPosts = async (req, res) => {
 // CREATION
 exports.createPost = async (req, res) => {
   let newPost;
-
-  console.log("REQ", req.fields);
 
   try {
     if (!req.files.image) {
@@ -78,37 +73,42 @@ exports.createPost = async (req, res) => {
 // SUPRESSION
 exports.deletePost = async (req, res) => {
   const { post_id, user_id } = req.fields;
-
   try {
-    if (post_id) {
-      const postToDelete = await Post.findOne({
-        where: { post_id },
-      });
+    const USER = await User.findOne({ where: { user_id } });
 
-      // refactoriser
-      const databaseId = postToDelete.image_url.split("/");
-      const id = databaseId[databaseId.length - 1].split(".");
-      console.log("ID", id[0]);
+    const postToDelete = await Post.findOne({
+      where: { post_id: post_id },
+    });
+    if (postToDelete) {
+      if (USER.is_admin || postToDelete.owner_id === USER.user_id) {
+        // refactoriser
+        const databaseId = postToDelete.image_url.split("/");
+        const id = databaseId[databaseId.length - 1].split(".");
+        console.log("ID", id[0]);
 
-      const dtbPostDeletionFeedback = await postToDelete.destroy();
+        const dtbPostDeletionFeedback = await postToDelete.destroy();
 
-      if (postToDelete.is_image && postToDelete.image_url !== "") {
-        const dtbMediaDeletionFeedback =
-          await cloudinary.api.delete_resources_by_prefix(
-            `groupomania_app/user_${user_id}/${id[0]}`
-          );
+        if (postToDelete.is_image && postToDelete.image_url !== "") {
+          const dtbMediaDeletionFeedback =
+            await cloudinary.api.delete_resources_by_prefix(
+              `groupomania_app/user_${user_id}/${id[0]}`
+            );
 
-        return res.status(200).json({
-          message: "le post à été supprimé",
-          dtbPostDeletionFeedback,
-          dtbMediaDeletionFeedback,
-        });
+          return res.status(200).json({
+            message: "le post à été supprimé",
+            dtbPostDeletionFeedback,
+            dtbMediaDeletionFeedback,
+          });
+        } else
+          return res.status(200).json({
+            message: "le post à été supprimé",
+            dtbPostDeletionFeedback,
+          });
       } else
-        return res.status(200).json({
-          message: "le post à été supprimé",
-          dtbPostDeletionFeedback,
+        return res.status(400).json({
+          message: " Erreur. Suppression non autorisée",
         });
-    }
+    } else return res.status(400).json({ message: "Erreur: post introuvable" });
   } catch (error) {
     console.log(error);
     return res.status(400).send(error.message);
@@ -119,12 +119,19 @@ exports.deletePost = async (req, res) => {
 exports.modifyPost = async (req, res) => {
   try {
     const { post_id } = req.fields;
-    const postToModify = await Post.findOne({ post_id });
+    const USER = await User.findOne({ where: { user_id } });
 
-    postToModify.set(req.fields);
-    const finalModifiedPost = await postToModify.save();
+    if (USER.is_admin || postToDelete.owner_id === USER.user_id) {
+      const postToModify = await Post.findOne({ where: { post_id } });
 
-    res.status(200).json({ finalModifiedPost });
+      postToModify.set(req.fields);
+      const finalModifiedPost = await postToModify.save();
+
+      res.status(200).json({ finalModifiedPost });
+    } else
+      return res
+        .status(400)
+        .json({ message: "Erreur. modification non autorisée" });
   } catch (error) {
     console.log(error.message);
     res.status(400).send(error.message);
@@ -135,9 +142,7 @@ exports.modifyPost = async (req, res) => {
 exports.likePost = async (req, res) => {
   try {
     const { post_id, user_id, likes, usersIds_likes } = req.fields;
-
-    const USER = await User.findOne({ user_id });
-    const postToManageLike = await Post.findOne({ post_id });
+    const postToManageLike = await Post.findOne({ where: { post_id } });
 
     postToManageLike.set({
       likes: JSON.parse(usersIds_likes).length,

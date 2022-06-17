@@ -53,7 +53,7 @@ app.use(postsRoutes);
 
 // si Route inexistante
 app.all("*", (req, res) => {
-  res.status(404).send("Page non trouvée");
+  res.status(404).send("Désolé, cette page n'existe pas");
 });
 
 app.listen(port, () => {
