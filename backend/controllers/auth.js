@@ -42,7 +42,9 @@ exports.login = async (req, res) => {
     const targetedUser = await User.findOne({ where: { email } });
     if (targetedUser === null) {
       console.log("Not found!");
-      res.status(400).send("Aucun utlisateur ne correspond à votre requête");
+      res
+        .status(400)
+        .json({ message: "Aucun utlisateur ne correspond à votre requête" });
     } else {
       const verifyPassword = await argon2.verify(
         targetedUser.password,
@@ -56,7 +58,7 @@ exports.login = async (req, res) => {
             { userId: targetedUser.user_id },
             process.env.UUID_TOKEN_GENERATOR,
             {
-              // expiresIn: "24h",
+              expiresIn: "48h",
             }
           ),
         });
