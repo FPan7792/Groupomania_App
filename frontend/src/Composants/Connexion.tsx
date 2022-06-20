@@ -1,9 +1,26 @@
+import { useContext } from "react";
+import { AuthContext } from "../Context/AuthContext";
+
+// TYPES
+import { CONNEXIONUTILISATEUR } from "../types";
+// type Props = {
+// 	setEtat: React.Dispatch<React.SetStateAction<"Connexion" | "Inscription">>;
+// };
+
+// gestion authentification
+import Cookies from "js-cookie";
+
+// css
 import { FormLabel, Input, Stack, Button } from "@chakra-ui/react";
 
+// gestion des formulaires
 import { useForm } from "react-hook-form";
 
 export const Connexion = () => {
+	const { estConnecte, setEstConnecte } = useContext(AuthContext);
+
 	const { register, handleSubmit } = useForm();
+
 	const onSubmit = async (datas: any) => {
 		console.log(datas);
 
@@ -12,17 +29,35 @@ export const Connexion = () => {
 
 		infosUtilisateur.append("email", email);
 		infosUtilisateur.append("password", password);
-		await fetch("http://localhost:3003/auth/signup", {
+		await fetch("http://localhost:3003/auth/login", {
 			method: "POST",
 			body: infosUtilisateur,
 		})
 			.then((response) => response.json())
-			.then((datas) => {
+			.then(async (datas: CONNEXIONUTILISATEUR) => {
 				console.log("DATAS", datas);
+				const { token } = datas;
+				if (token) {
+					Cookies.set("token", token, { expires: 24 });
+
+					if (Cookies.get("token")) {
+						console.log("TOKEN", Cookies.get("token"));
+
+						setEstConnecte({
+							connexion: true,
+							token: Cookies.get("token") || null,
+						});
+
+						console.log(estConnecte);
+					}
+				}
 			})
 			.catch((err) => {
 				console.log(err);
 				return err;
+			})
+			.finally(() => {
+				console.log("COOKIE SETTED : " + Cookies.get("token"));
 			});
 	};
 

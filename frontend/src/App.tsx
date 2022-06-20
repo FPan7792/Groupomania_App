@@ -1,21 +1,54 @@
+import { useState } from "react";
+
+// gestion de connexion utilisateur
+// context authentification utilisateur
+import { AuthContext } from "./Context/AuthContext";
+import Cookies from "js-cookie";
+
 // gestion des css components
-import { ChakraProvider } from "@chakra-ui/react";
-import { Flex } from "@chakra-ui/react";
+import { ChakraProvider, Flex } from "@chakra-ui/react";
 
 // gestion de la navigation et des pages
 import { Routes, Route } from "react-router-dom";
 
 // pages
 import Authentification from "./Pages/Authentification";
+import PagePrincipale from "./Pages/PagePrincipale";
 
 function App() {
+	const [estConnecte, setEstConnecte] = useState<{
+		connexion: boolean;
+		token: string | null;
+	}>({
+		connexion: Cookies.get("token") ? true : false,
+		token: Cookies.get("token") || null,
+	});
+
+	const gestionDeConnexion = {
+		estConnecte,
+		setEstConnecte,
+	};
+
 	return (
 		<ChakraProvider>
-			<Flex bgColor="#F5F5F5" height="100vh" justify="center" align="center">
-				<Routes>
-					<Route path="/" element={<Authentification />} />
-				</Routes>
-			</Flex>
+			<AuthContext.Provider value={gestionDeConnexion}>
+				<Flex
+					bgColor="#F5F5F5"
+					height="100vh"
+					justify="center"
+					align="center"
+				>
+					{!estConnecte.connexion ? (
+						<Routes>
+							<Route path="/" element={<Authentification />} />
+						</Routes>
+					) : (
+						<Routes>
+							<Route path="/" element={<PagePrincipale />} />
+						</Routes>
+					)}
+				</Flex>
+			</AuthContext.Provider>
 		</ChakraProvider>
 	);
 }

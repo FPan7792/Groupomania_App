@@ -1,7 +1,9 @@
 import { useState } from "react";
 
+// css
 import { Box } from "@chakra-ui/react";
 
+// composants
 import Inscription from "../Composants/Inscription";
 import Connexion from "../Composants/Connexion";
 import OngletsAuthentification from "../Composants/OngletsAuthentification";
@@ -30,7 +32,11 @@ export const Authentification = () => {
 				setEtat={setOngletAffiché}
 			/>
 
-			{ongletAffiché === "Inscription" ? <Inscription /> : <Connexion />}
+			{ongletAffiché === "Inscription" ? (
+				<Inscription setEtat={setOngletAffiché} />
+			) : (
+				<Connexion />
+			)}
 		</Box>
 	);
 };
