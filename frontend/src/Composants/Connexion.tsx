@@ -36,19 +36,22 @@ export const Connexion = () => {
 			.then((response) => response.json())
 			.then(async (datas: CONNEXIONUTILISATEUR) => {
 				console.log("DATAS", datas);
-				const { token } = datas;
+				const { token, userId } = datas;
 				if (token) {
 					Cookies.set("token", token, { expires: 24 });
+					Cookies.set("userId", userId.toString(), { expires: 24 });
 
 					if (Cookies.get("token")) {
 						console.log("TOKEN", Cookies.get("token"));
+						console.log("ID", Cookies.get("userId"));
 
 						setEstConnecte({
 							connexion: true,
 							token: Cookies.get("token") || null,
+							userId: Cookies.get("userId") || null,
 						});
 
-						console.log(estConnecte);
+						// console.log(estConnecte);
 					}
 				}
 			})

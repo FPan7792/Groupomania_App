@@ -19,9 +19,11 @@ function App() {
 	const [estConnecte, setEstConnecte] = useState<{
 		connexion: boolean;
 		token: string | null;
+		userId: string | number | null;
 	}>({
-		connexion: Cookies.get("token") ? true : false,
+		connexion: Cookies.get("token") && Cookies.get("userid") ? true : false,
 		token: Cookies.get("token") || null,
+		userId: Cookies.get("userId") || null,
 	});
 
 	const gestionDeConnexion = {

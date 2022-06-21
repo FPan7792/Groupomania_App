@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 
+import Cookies from "js-cookie";
+// token de session
+const TOKENACTIF = Cookies.get("token");
+
 export const useFetch = (url: string) => {
 	const [datas, setDatas] = useState<any>(null);
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -8,22 +12,31 @@ export const useFetch = (url: string) => {
 
 	useEffect(() => {
 		const fetchDatas = async () => {
-			setIsLoading(true);
+			setIsLoading((isLoading) => true);
 
-			await fetch(url)
-				.then((response) => {
-					return response.json();
+			await fetch(url, {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKENACTIF,
+				},
+			})
+				.then(async (response) => {
+					const resultat = await response.json();
+					if (!response.ok) {
+						throw new Error(resultat.message);
+					}
+
+					return resultat;
 				})
 				.then((datas) => {
 					setDatas(() => datas);
-					datas && setIsSuccess(true);
+					datas && setIsSuccess((isSuccess) => true);
 				})
 				.catch((err) => {
-					console.log(err);
-					setIsError(err);
+					setIsError((isError) => err);
 					return err;
 				})
-				.finally(() => setIsLoading(false));
+				.finally(() => setIsLoading((isLoading) => false));
 		};
 
 		fetchDatas();

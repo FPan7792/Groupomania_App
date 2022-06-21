@@ -11,7 +11,7 @@ exports.getAllPosts = async (req, res) => {
     res.status(200).json(allPosts);
   } catch (error) {
     console.log("ERROR", error);
-    res.status(400).send(error);
+    res.status(400).json(error);
   }
 };
 
@@ -111,7 +111,7 @@ exports.deletePost = async (req, res) => {
     } else return res.status(400).json({ message: "Erreur: post introuvable" });
   } catch (error) {
     console.log(error);
-    return res.status(400).send(error.message);
+    return res.status(400).json({ error });
   }
 };
 
@@ -134,7 +134,7 @@ exports.modifyPost = async (req, res) => {
         .json({ message: "Erreur. modification non autorisée" });
   } catch (error) {
     console.log(error.message);
-    res.status(400).send(error.message);
+    return res.status(400).json({ error });
   }
 };
 
@@ -152,6 +152,6 @@ exports.likePost = async (req, res) => {
 
     res.status(200).json({ finalModifiedPost });
   } catch (error) {
-    res.status(400).send(error.message);
+    return res.status(400).json({ error });
   }
 };

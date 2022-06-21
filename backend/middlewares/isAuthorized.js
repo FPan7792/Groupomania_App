@@ -32,10 +32,10 @@ const isAuthorized = async (req, res, next) => {
       );
     } catch (error) {
       console.log(error);
-      res.status(403).send(error.message);
+      res.status(403).json(error);
     }
   } else {
-    res.status(401).send("Entête de requètes manquantes");
+    res.status(401).json({ message: "Entête de requètes manquantes" });
   }
 };
 
