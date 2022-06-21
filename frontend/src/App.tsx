@@ -21,7 +21,7 @@ function App() {
 		token: string | null;
 		userId: string | number | null;
 	}>({
-		connexion: Cookies.get("token") && Cookies.get("userid") ? true : false,
+		connexion: Cookies.get("token") && Cookies.get("userId") ? true : false,
 		token: Cookies.get("token") || null,
 		userId: Cookies.get("userId") || null,
 	});

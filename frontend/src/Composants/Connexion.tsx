@@ -3,9 +3,6 @@ import { AuthContext } from "../Context/AuthContext";
 
 // TYPES
 import { CONNEXIONUTILISATEUR } from "../types";
-// type Props = {
-// 	setEtat: React.Dispatch<React.SetStateAction<"Connexion" | "Inscription">>;
-// };
 
 // gestion authentification
 import Cookies from "js-cookie";

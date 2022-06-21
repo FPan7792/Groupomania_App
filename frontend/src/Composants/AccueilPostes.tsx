@@ -32,6 +32,27 @@ async function supprimerPost(url: string, post_id: number) {
 		});
 }
 
+//  a creer et untiliser dans la page d'édition de post
+async function modifierPost(url: string, post_id: number) {
+	// const formulaireDeModification = new FormData();
+	// formulaireDeModification.append("post_id", post_id.toString());
+	// await fetch(url, {
+	// 	method: "POST",
+	// 	headers: { Authorization: "Bearer " + Cookies.get("token") },
+	// 	body: formulaireDeModification,
+	// })
+	// 	.then(async (response) => {
+	// 		const resultat = await response.json();
+	// 		if (!response.ok) {
+	// 			throw new Error(resultat.message);
+	// 		} else return resultat;
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log("error", err);
+	// 		return err;
+	// 	});
+}
+
 export const AccueilPostes = (Props: Props) => {
 	const { posts, userId } = Props;
 
@@ -44,21 +65,45 @@ export const AccueilPostes = (Props: Props) => {
 						<Text fontSize="xs">
 							Crée par : Utilisateur {post.owner_id}
 						</Text>
+						{/* ajouter date de creation  */}
+
+						{/* si creation n'est pas egal a update pour meme post-id*/}
+						{/* ajouiter la mention "modifié" */}
 						<p> {post.content}</p>
-						{userId === post.owner_id && (
-							<Button
-								size="xs"
-								colorScheme="red"
-								onClick={() =>
-									supprimerPost(
-										"http://localhost:3003/posts/delete",
-										post.post_id
-									)
-								}
-							>
-								Supprimer
-							</Button>
-						)}
+						{
+							// USER 1 === ADMIN
+							userId === post.owner_id ||
+								(userId === 1 && (
+									<Box>
+										<Button
+											size="xs"
+											colorScheme="red"
+											onClick={() =>
+												supprimerPost(
+													"http://localhost:3003/posts/delete",
+													post.post_id
+												)
+											}
+										>
+											Supprimer
+										</Button>
+										<Button
+											size="xs"
+											colorScheme="yellow"
+											onClick={() => {
+												console.log("modifier");
+
+												// attends de set un etat défini dans la page parent et
+												// affiche l'onglet d'édition de page
+												// mene vers la page d'édition de post et import les
+												// infos du post choisi
+											}}
+										>
+											Modifier
+										</Button>
+									</Box>
+								))
+						}
 					</div>
 				);
 			})}
@@ -66,3 +111,5 @@ export const AccueilPostes = (Props: Props) => {
 	);
 };
 export default AccueilPostes;
+
+// TRIER LES POSTE PAS ORDRE DE MODIFICATION DU PLUS RECENT AU PLUS ANCIEN
