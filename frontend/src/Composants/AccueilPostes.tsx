@@ -5,6 +5,9 @@ import { POST } from "../types";
 type Props = {
 	posts: POST[];
 	userId: string | number | null;
+	setEtat: React.Dispatch<
+		React.SetStateAction<"Accueil" | "Mes Posts" | "Likes" | "Edition">
+	>;
 };
 
 // composants css
@@ -54,7 +57,7 @@ async function modifierPost(url: string, post_id: number) {
 }
 
 export const AccueilPostes = (Props: Props) => {
-	const { posts, userId } = Props;
+	const { posts, userId, setEtat } = Props;
 
 	return (
 		<Box>
@@ -72,37 +75,38 @@ export const AccueilPostes = (Props: Props) => {
 						<p> {post.content}</p>
 						{
 							// USER 1 === ADMIN
-							userId === post.owner_id ||
-								(userId === 1 && (
-									<Box>
-										<Button
-											size="xs"
-											colorScheme="red"
-											onClick={() =>
-												supprimerPost(
-													"http://localhost:3003/posts/delete",
-													post.post_id
-												)
-											}
-										>
-											Supprimer
-										</Button>
-										<Button
-											size="xs"
-											colorScheme="yellow"
-											onClick={() => {
-												console.log("modifier");
+							// userId === post.owner_id ||
+							// 	(userId === 1 && (
+							<Box>
+								<Button
+									size="xs"
+									colorScheme="red"
+									onClick={() =>
+										supprimerPost(
+											"http://localhost:3003/posts/delete",
+											post.post_id
+										)
+									}
+								>
+									Supprimer
+								</Button>
+								<Button
+									size="xs"
+									colorScheme="yellow"
+									onClick={() => {
+										console.log("modifier");
+										setEtat((etat) => "Edition");
 
-												// attends de set un etat défini dans la page parent et
-												// affiche l'onglet d'édition de page
-												// mene vers la page d'édition de post et import les
-												// infos du post choisi
-											}}
-										>
-											Modifier
-										</Button>
-									</Box>
-								))
+										// attends de set un etat défini dans la page parent et
+										// affiche l'onglet d'édition de page
+										// mene vers la page d'édition de post et import les
+										// infos du post choisi
+									}}
+								>
+									Modifier
+								</Button>
+							</Box>
+							// ))
 						}
 					</div>
 				);

@@ -13,12 +13,13 @@ import { useFetch } from "../Hooks/hooks";
 // composants jsx
 import AccueilPostes from "../Composants/AccueilPostes";
 import OngletsNavigation from "../Composants/OngletsNavigation";
+import EditionPost from "../Composants/EditionPost";
 
 export const PagePrincipale = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
 
-	const [ongletAffiché, setongletAffiché] = useState<
-		"Accueil" | "Mes Posts" | "Likes"
+	const [ongletAffiché, setOngletAffiché] = useState<
+		"Accueil" | "Mes Posts" | "Likes" | "Edition"
 	>("Accueil");
 
 	const { isError, isLoading, isSuccess } = useFetch(
@@ -40,17 +41,17 @@ export const PagePrincipale = () => {
 			<OngletsNavigation
 				nomOnglet="Accueil"
 				etat={ongletAffiché}
-				setEtat={setongletAffiché}
+				setEtat={setOngletAffiché}
 			/>
 			<OngletsNavigation
 				nomOnglet="Mes Posts"
 				etat={ongletAffiché}
-				setEtat={setongletAffiché}
+				setEtat={setOngletAffiché}
 			/>
 			<OngletsNavigation
 				nomOnglet="Likes"
 				etat={ongletAffiché}
-				setEtat={setongletAffiché}
+				setEtat={setOngletAffiché}
 			/>
 			<header>
 				<Button
@@ -79,12 +80,18 @@ export const PagePrincipale = () => {
 			{ongletAffiché === "Accueil" && (
 				<Box>
 					{datas ? (
-						<AccueilPostes posts={datas} userId={estConnecte.userId} />
+						<AccueilPostes
+							posts={datas}
+							userId={estConnecte.userId}
+							setEtat={setOngletAffiché}
+						/>
 					) : (
 						isError && <p>{isError.message}</p>
 					)}
 				</Box>
 			)}
+
+			{ongletAffiché === "Edition" && <EditionPost />}
 		</Box>
 	);
 };

@@ -1,8 +1,8 @@
 type Props = {
-	nomOnglet: "Accueil" | "Mes Posts" | "Likes";
-	etat: "Accueil" | "Mes Posts" | "Likes";
+	nomOnglet: "Accueil" | "Mes Posts" | "Likes" | "Edition";
+	etat: "Accueil" | "Mes Posts" | "Likes" | "Edition";
 	setEtat: React.Dispatch<
-		React.SetStateAction<"Accueil" | "Mes Posts" | "Likes">
+		React.SetStateAction<"Accueil" | "Mes Posts" | "Likes" | "Edition">
 	>;
 };
 
