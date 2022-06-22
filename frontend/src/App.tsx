@@ -14,6 +14,7 @@ import { Routes, Route } from "react-router-dom";
 // pages
 import Authentification from "./Pages/Authentification";
 import PagePrincipale from "./Pages/PagePrincipale";
+import EditionPost from "./Composants/EditionPost";
 
 function App() {
 	const [estConnecte, setEstConnecte] = useState<{
@@ -47,6 +48,7 @@ function App() {
 					) : (
 						<Routes>
 							<Route path="/" element={<PagePrincipale />} />
+							<Route path="/post/:id" element={<EditionPost />} />
 						</Routes>
 					)}
 				</Flex>

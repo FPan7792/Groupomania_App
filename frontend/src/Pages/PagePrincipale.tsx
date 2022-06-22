@@ -15,7 +15,7 @@ import AccueilPostes from "../Composants/AccueilPostes";
 import OngletsNavigation from "../Composants/OngletsNavigation";
 import EditionPost from "../Composants/EditionPost";
 
-export const PagePrincipale = () => {
+const PagePrincipale = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
 
 	const [ongletAffiché, setOngletAffiché] = useState<
@@ -26,9 +26,6 @@ export const PagePrincipale = () => {
 		"http://localhost:3003/posts"
 	);
 	const { datas } = isSuccess;
-
-	// console.log("tou les postes", datas);
-	// console.log("tou les errer", isError);
 
 	return (
 		<Box

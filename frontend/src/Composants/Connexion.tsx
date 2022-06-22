@@ -13,7 +13,7 @@ import { FormLabel, Input, Stack, Button } from "@chakra-ui/react";
 // gestion des formulaires
 import { useForm } from "react-hook-form";
 
-export const Connexion = () => {
+const Connexion = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
 
 	const { register, handleSubmit } = useForm();

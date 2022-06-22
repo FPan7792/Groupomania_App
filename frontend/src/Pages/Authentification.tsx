@@ -8,7 +8,7 @@ import Inscription from "../Composants/Inscription";
 import Connexion from "../Composants/Connexion";
 import OngletsAuthentification from "../Composants/OngletsAuthentification";
 
-export const Authentification = () => {
+const Authentification = () => {
 	const [ongletAffiché, setOngletAffiché] = useState<
 		"Connexion" | "Inscription"
 	>("Connexion");

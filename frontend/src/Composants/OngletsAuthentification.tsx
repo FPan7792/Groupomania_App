@@ -4,7 +4,7 @@ type Props = {
 	setEtat: React.Dispatch<React.SetStateAction<"Connexion" | "Inscription">>;
 };
 
-export const OngletsAuthentification = (Props: Props) => {
+const OngletsAuthentification = (Props: Props) => {
 	const { nomOnglet, etat, setEtat } = Props;
 
 	return (

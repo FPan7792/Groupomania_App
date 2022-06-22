@@ -6,7 +6,7 @@ type Props = {
 	>;
 };
 
-export const OngletsNavigation = (Props: Props) => {
+const OngletsNavigation = (Props: Props) => {
 	const { nomOnglet, etat, setEtat } = Props;
 
 	return (

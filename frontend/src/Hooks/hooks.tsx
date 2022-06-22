@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-
+// types
+import { POST } from "../types";
+// session
 import Cookies from "js-cookie";
 // token de session
 const TOKENACTIF = Cookies.get("token");
 
 export const useFetch = (url: string) => {
-	const [datas, setDatas] = useState<any>(null);
+	const [datas, setDatas] = useState<POST[] | null>(null);
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isError, setIsError] = useState<null | Error>(null);
 
 	useEffect(() => {
 		const fetchDatas = async () => {
-			setIsLoading((isLoading) => true);
+			setIsLoading(true);
 
 			await fetch(url, {
 				method: "GET",
@@ -30,13 +32,13 @@ export const useFetch = (url: string) => {
 				})
 				.then((datas) => {
 					setDatas(() => datas);
-					datas && setIsSuccess((isSuccess) => true);
+					datas && setIsSuccess(true);
 				})
 				.catch((err) => {
-					setIsError((isError) => err);
+					setIsError(err);
 					return err;
 				})
-				.finally(() => setIsLoading((isLoading) => false));
+				.finally(() => setIsLoading(false));
 		};
 
 		fetchDatas();
@@ -48,41 +50,3 @@ export const useFetch = (url: string) => {
 		isLoading,
 	};
 };
-
-// PostDatas
-
-// export const usePostDonnees = (url: string, form: FormData) => {
-// 	const [datas, setDatas] = useState<any>(null);
-// 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
-// 	const [isLoading, setIsLoading] = useState<boolean>(false);
-// 	const [isError, setIsError] = useState<null | Error>(null);
-
-// 	useEffect(() => {
-// 		const postDatas = async () => {
-// 			setIsLoading(true);
-
-// 			await fetch(url, {
-// 				method: "POST",
-// 				body: form,
-// 			})
-// 				.then((datas) => {
-// 					setDatas(() => datas);
-// 					datas && setIsSuccess(true);
-// 				})
-// 				.catch((err) => {
-// 					console.log(err);
-// 					setIsError(err);
-// 					return err;
-// 				})
-// 				.finally(() => setIsLoading(false));
-// 		};
-
-// 		postDatas();
-// 	}, []);
-
-// 	return {
-// 		isSuccess: { isSuccess, datas },
-// 		isError,
-// 		isLoading,
-// 	};
-// };

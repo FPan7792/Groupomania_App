@@ -13,6 +13,7 @@ type Props = {
 // composants css
 import { Box, Button, Text } from "@chakra-ui/react";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 async function supprimerPost(url: string, post_id: number) {
 	const formulaireDeSuppression = new FormData();
@@ -56,8 +57,10 @@ async function modifierPost(url: string, post_id: number) {
 	// 	});
 }
 
-export const AccueilPostes = (Props: Props) => {
+const AccueilPostes = (Props: Props) => {
 	const { posts, userId, setEtat } = Props;
+
+	const navigate = useNavigate();
 
 	return (
 		<Box>
@@ -95,7 +98,8 @@ export const AccueilPostes = (Props: Props) => {
 									colorScheme="yellow"
 									onClick={() => {
 										console.log("modifier");
-										setEtat((etat) => "Edition");
+										// setEtat((etat) => "Edition");
+										navigate("/post/nouveaupost");
 
 										// attends de set un etat défini dans la page parent et
 										// affiche l'onglet d'édition de page

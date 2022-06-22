@@ -9,7 +9,7 @@ type Props = {
 // gestion fomulaire
 import { useForm } from "react-hook-form";
 
-export const Inscription = (Props: Props) => {
+const Inscription = (Props: Props) => {
 	const { register, handleSubmit } = useForm();
 
 	const { setEtat } = Props;
