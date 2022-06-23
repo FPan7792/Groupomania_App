@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.5",
     "framer-motion": "^6.3.11",
     "js-cookie": "^3.0.1",
+    "notyf": "^3.10.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.32.1",

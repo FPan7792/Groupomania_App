@@ -3,17 +3,19 @@
 // types
 import { POST } from "../types";
 type Props = {
-	posts: POST[];
+	posts: POST[] | null;
 	userId: string | number | null;
-	setEtat: React.Dispatch<
-		React.SetStateAction<"Accueil" | "Mes Posts" | "Likes" | "Edition">
-	>;
+	refresh: React.Dispatch<React.SetStateAction<number>>;
 };
 
 // composants css
 import { Box, Button, Text } from "@chakra-ui/react";
+
+// auth
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+
+// navigation
+import { Link } from "react-router-dom";
 
 async function supprimerPost(url: string, post_id: number) {
 	const formulaireDeSuppression = new FormData();
@@ -30,37 +32,17 @@ async function supprimerPost(url: string, post_id: number) {
 				throw new Error(resultat.message);
 			} else return resultat;
 		})
+		.then((confirmation: any) => {
+			console.log(confirmation);
+		})
 		.catch((err) => {
 			console.log("error", err);
 			return err;
 		});
 }
 
-//  a creer et untiliser dans la page d'édition de post
-async function modifierPost(url: string, post_id: number) {
-	// const formulaireDeModification = new FormData();
-	// formulaireDeModification.append("post_id", post_id.toString());
-	// await fetch(url, {
-	// 	method: "POST",
-	// 	headers: { Authorization: "Bearer " + Cookies.get("token") },
-	// 	body: formulaireDeModification,
-	// })
-	// 	.then(async (response) => {
-	// 		const resultat = await response.json();
-	// 		if (!response.ok) {
-	// 			throw new Error(resultat.message);
-	// 		} else return resultat;
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log("error", err);
-	// 		return err;
-	// 	});
-}
-
 const AccueilPostes = (Props: Props) => {
-	const { posts, userId, setEtat } = Props;
-
-	const navigate = useNavigate();
+	const { posts, userId, refresh } = Props;
 
 	return (
 		<Box>
@@ -78,39 +60,31 @@ const AccueilPostes = (Props: Props) => {
 						<p> {post.content}</p>
 						{
 							// USER 1 === ADMIN
-							// userId === post.owner_id ||
-							// 	(userId === 1 && (
-							<Box>
-								<Button
-									size="xs"
-									colorScheme="red"
-									onClick={() =>
-										supprimerPost(
-											"http://localhost:3003/posts/delete",
-											post.post_id
-										)
-									}
-								>
-									Supprimer
-								</Button>
-								<Button
-									size="xs"
-									colorScheme="yellow"
-									onClick={() => {
-										console.log("modifier");
-										// setEtat((etat) => "Edition");
-										navigate(`/post/${post.post_id - 1}`);
+							(Number(userId) === post.owner_id ||
+								Number(userId) === 1) && (
+								<Box>
+									<Button
+										size="xs"
+										colorScheme="red"
+										onClick={() => {
+											supprimerPost(
+												"http://localhost:3003/posts/delete",
+												post.post_id
+											);
 
-										// attends de set un etat défini dans la page parent et
-										// affiche l'onglet d'édition de page
-										// mene vers la page d'édition de post et import les
-										// infos du post choisi
-									}}
-								>
-									Modifier
-								</Button>
-							</Box>
-							// ))
+											refresh((ice) => ice + 1);
+										}}
+									>
+										Supprimer
+									</Button>
+
+									<Link to={`/post/${post.post_id}`}>
+										<Button size="xs" colorScheme="yellow">
+											Modifier
+										</Button>
+									</Link>
+								</Box>
+							)
 						}
 					</div>
 				);

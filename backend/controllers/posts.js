@@ -67,9 +67,10 @@ exports.createPost = async (req, res) => {
     return res.status(200).json({ message: "new post created", newPost });
   } catch (error) {
     console.log("ERROR", error);
-    return res.status(400).send(error);
+    return res.status(400).json({ error });
   }
 };
+
 // SUPRESSION
 exports.deletePost = async (req, res) => {
   const { post_id, user_id } = req.fields;

@@ -1,31 +1,66 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../Context/AuthContext";
+
+// types
+import { POST } from "../types";
 
 // gestion authentification
 import Cookies from "js-cookie";
+const TOKENACTIF = Cookies.get("token");
 
 // composants css
 import { Button, Box } from "@chakra-ui/react";
 
-// requetes
-import { useFetch } from "../Hooks/hooks";
-
 // composants jsx
 import AccueilPostes from "../Composants/AccueilPostes";
 import OngletsNavigation from "../Composants/OngletsNavigation";
-import EditionPost from "../Composants/EditionPost";
+import UtilisateurPosts from "../Composants/UtilisateurPosts";
 
 const PagePrincipale = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
 
+	const [refresh, setRefresh] = useState(0);
+
+	const [datas, setDatas] = useState<POST[] | null>(null);
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isError, setIsError] = useState<null | Error>(null);
+
 	const [ongletAffiché, setOngletAffiché] = useState<
-		"Accueil" | "Mes Posts" | "Likes" | "Edition"
+		"Accueil" | "Mes Posts" | "Likes" | null
 	>("Accueil");
 
-	const { isError, isLoading, isSuccess } = useFetch(
-		"http://localhost:3003/posts"
-	);
-	const { datas } = isSuccess;
+	useEffect(() => {
+		const fetchDatas = async () => {
+			setIsLoading(true);
+
+			await fetch("http://localhost:3003/posts", {
+				method: "GET",
+				headers: {
+					Authorization: "Bearer " + TOKENACTIF,
+				},
+			})
+				.then(async (response) => {
+					const resultat = await response.json();
+					if (!response.ok) {
+						throw new Error(resultat.message);
+					}
+
+					return resultat;
+				})
+				.then((datas) => {
+					setDatas(() => datas);
+					datas && setIsSuccess(true);
+				})
+				.catch((err) => {
+					setIsError(err);
+					return err;
+				})
+				.finally(() => setIsLoading(false));
+		};
+
+		fetchDatas();
+	}, [refresh]);
 
 	return (
 		<Box
@@ -66,21 +101,21 @@ const PagePrincipale = () => {
 					Deconnexion
 				</Button>
 				{/* <button
-					onClick={() => {
-						console.log(estConnecte);
-					}}
-				>
-					affiche
-				</button> */}
+						onClick={() => {
+							setRefresh((prevState) => prevState + 1);
+						}}
+					>
+						refresh
+					</button> */}
 			</header>
 
-			{ongletAffiché === "Accueil" && (
+			{isSuccess && ongletAffiché === "Accueil" && (
 				<Box>
 					{datas ? (
 						<AccueilPostes
 							posts={datas}
+							refresh={setRefresh}
 							userId={estConnecte.userId}
-							setEtat={setOngletAffiché}
 						/>
 					) : (
 						isError && <p>{isError.message}</p>
@@ -88,7 +123,7 @@ const PagePrincipale = () => {
 				</Box>
 			)}
 
-			{ongletAffiché === "Edition" && <EditionPost />}
+			{ongletAffiché === "Mes Posts" && <UtilisateurPosts />}
 		</Box>
 	);
 };
