@@ -99,7 +99,7 @@ const AccueilPostes = (Props: Props) => {
 									onClick={() => {
 										console.log("modifier");
 										// setEtat((etat) => "Edition");
-										navigate("/post/nouveaupost");
+										navigate(`/post/${post.post_id - 1}`);
 
 										// attends de set un etat défini dans la page parent et
 										// affiche l'onglet d'édition de page

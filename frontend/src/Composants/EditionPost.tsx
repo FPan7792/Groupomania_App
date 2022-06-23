@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 // composants css
 import { Button, Box, Text, Input, FormLabel, Stack } from "@chakra-ui/react";
 // types
 import { POST } from "../types";
 // navigation
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 // gestion du formulaire
 import { useForm, Controller } from "react-hook-form";
 // hook requete
@@ -29,7 +29,7 @@ const EditionPost = () => {
 			"http://localhost:3003/posts"
 		);
 
-		useEffect(() => {
+		useLayoutEffect(() => {
 			isSuccess?.datas &&
 				id !== undefined &&
 				typeof Number(id) === "number" &&
@@ -38,7 +38,7 @@ const EditionPost = () => {
 			console.log("POST", post);
 		}, [isSuccess]);
 	} else
-		useEffect(() => {
+		useLayoutEffect(() => {
 			setPost(id);
 		}, [post]);
 
@@ -47,6 +47,9 @@ const EditionPost = () => {
 
 	return (
 		<Box>
+			<Link to={"/"}>
+				<Button>Retour</Button>
+			</Link>
 			<Text align="center" fontWeight="bold">
 				{id !== "nouveaupost" ? "Edition de post" : "Nouveau post"}
 			</Text>
