@@ -52,7 +52,7 @@ exports.createPost = async (req, res) => {
 
       let pictureToUpload = image.path;
       const uploadImage = await cloudinary.uploader.upload(pictureToUpload, {
-        folder: `/groupomania_app/user_1`,
+        folder: `/groupomania_app/user_${user_id}`,
       });
 
       newPost = await Post.create({

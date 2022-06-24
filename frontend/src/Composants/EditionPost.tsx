@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useRef } from "react";
 // composants css
 import { Button, Box, Text, Input, FormLabel, Stack } from "@chakra-ui/react";
 // types
@@ -20,15 +20,20 @@ import Cookies from "js-cookie";
 import { activeNotif } from "../Fonctions";
 
 // Func REQUETES
-async function creerPost(formulaire: POST) {
+async function creerPost(formulaire: POST, image: HTMLInputElement | null) {
 	console.log(formulaire);
-	const { title, content } = formulaire;
 
+	const { title, content } = formulaire;
 	let creationConfirmation = false;
 
 	const nouveauPost = new FormData();
-	nouveauPost.append("title", title);
-	nouveauPost.append("content", content);
+	title && title !== "" && nouveauPost.append("title", title);
+	content && content !== "" && nouveauPost.append("content", content);
+	if (image && image.files) {
+		nouveauPost.append("image", image.files[0]);
+	}
+
+	// implémenter la validation avec useform
 
 	await fetch("http://localhost:3003/posts/create", {
 		method: "POST",
@@ -53,7 +58,11 @@ async function creerPost(formulaire: POST) {
 	return creationConfirmation;
 }
 
-async function modifierPost(formulaire: POST, post_id: string) {
+async function modifierPost(
+	formulaire: POST,
+	post_id: string,
+	image: HTMLInputElement | null
+) {
 	console.log(formulaire);
 
 	const { title, content } = formulaire;
@@ -63,6 +72,10 @@ async function modifierPost(formulaire: POST, post_id: string) {
 	nouveauPost.append("title", title);
 	nouveauPost.append("content", content);
 	nouveauPost.append("post_id", post_id);
+
+	if (image && image.files) {
+		nouveauPost.append("image", image.files[0]);
+	}
 
 	await fetch("http://localhost:3003/posts/modify", {
 		method: "POST",
@@ -107,7 +120,8 @@ const EditionPost = () => {
 
 	const [post, setPost] = useState<POST | null | "nouveaupost">(null);
 
-	// notifications
+	// recup image
+	const imageRef = useRef<HTMLInputElement | null>(null);
 
 	if (id !== "nouveaupost") {
 		const { isError, isLoading, isSuccess } = useFetch(
@@ -136,9 +150,11 @@ const EditionPost = () => {
 	// gestion de validation formulaire
 	const { handleSubmit, control } = useForm();
 	const onSubmit: SubmitHandler<any> = async (data: any) => {
+		const imageDuPost = imageRef.current;
+
 		if (id) {
 			if (id !== "nouveaupost") {
-				const confirmation = await modifierPost(data, id);
+				const confirmation = await modifierPost(data, id, imageDuPost);
 
 				confirmationOperation(
 					confirmation,
@@ -146,8 +162,7 @@ const EditionPost = () => {
 					navigate
 				);
 			} else {
-				const confirmation = await creerPost(data);
-
+				const confirmation = await creerPost(data, imageDuPost);
 				confirmationOperation(
 					confirmation,
 					"Nouveau poste créé !",
@@ -174,7 +189,9 @@ const EditionPost = () => {
 							name="title"
 							control={control}
 							defaultValue={post !== "nouveaupost" ? post?.title : ""}
-							render={({ field }) => <Input w="xs" {...field} />}
+							render={({ field }) => (
+								<Input type="text" w="xs" {...field} />
+							)}
 						/>
 
 						<FormLabel>Contenu</FormLabel>
@@ -182,7 +199,25 @@ const EditionPost = () => {
 							name="content"
 							control={control}
 							defaultValue={post !== "nouveaupost" ? post?.content : ""}
-							render={({ field }) => <Input w="2xl" h="xs" {...field} />}
+							render={({ field }) => (
+								<Input type="text" w="2xl" h="xs" {...field} />
+							)}
+						/>
+
+						<FormLabel>Image</FormLabel>
+						<Controller
+							name="image"
+							control={control}
+							defaultValue={post !== "nouveaupost" ? post?.content : ""}
+							render={({ field }) => (
+								<Input
+									type="file"
+									accept="accept"
+									multiple
+									{...field}
+									ref={imageRef}
+								/>
+							)}
 						/>
 					</Stack>
 					{id === "nouveaupost" ? (
