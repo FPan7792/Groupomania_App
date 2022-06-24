@@ -7,7 +7,9 @@ const Post = require("../models/Post");
 // Tout les posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const allPosts = await Post.findAll();
+    const allPosts = await Post.findAll({ order: [["updatedAt", "DESC"]] });
+
+    console.log(allPosts);
     res.status(200).json(allPosts);
   } catch (error) {
     console.log("ERROR", error);

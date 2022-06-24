@@ -9,38 +9,11 @@ type Props = {
 // composants css
 import { Box, Button, Text } from "@chakra-ui/react";
 
-// auth
-import Cookies from "js-cookie";
-
 // navigation
 import { Link } from "react-router-dom";
 
 // notification pop
-import { activeNotif } from "../App";
-
-async function supprimerPost(url: string, post_id: number) {
-	const formulaireDeSuppression = new FormData();
-	formulaireDeSuppression.append("post_id", post_id.toString());
-
-	await fetch(url, {
-		method: "POST",
-		headers: { Authorization: "Bearer " + Cookies.get("token") },
-		body: formulaireDeSuppression,
-	})
-		.then(async (response) => {
-			const resultat = await response.json();
-			if (!response.ok) {
-				throw new Error(resultat.message);
-			} else return resultat;
-		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
-		})
-		.catch((err) => {
-			console.log("error", err);
-			return err;
-		});
-}
+import { activeNotif, supprimerPost } from "../Fonctions";
 
 const AccueilPostes = (Props: Props) => {
 	const { posts, userId, refresh } = Props;
@@ -48,16 +21,26 @@ const AccueilPostes = (Props: Props) => {
 	return (
 		<Box>
 			{posts?.map((post) => {
-				return (
-					<div key={post.post_id}>
-						<p>{post.title}</p>
-						<Text fontSize="xs">
-							Crée par : Utilisateur {post.owner_id}
-						</Text>
-						{/* ajouter date de creation  */}
+				const dateDeCreation = new Date(post.createdAt.toString())
+					.toLocaleString("fr")
+					.toString();
 
-						{/* si creation n'est pas egal a update pour meme post-id*/}
-						{/* ajouiter la mention "modifié" */}
+				return (
+					<Box key={post.post_id} border=" black 2px solid" margin={3}>
+						<Text fontWeight="bold">{post.title}</Text>
+
+						<Text fontSize="x-small">
+							Crée par :
+							<Text fontWeight="bold"> Utilisateur {post.owner_id}</Text>
+							le {dateDeCreation}
+						</Text>
+
+						{post.createdAt !== post.updatedAt && (
+							<Text fontSize="x-small" fontStyle="italic">
+								modifié
+							</Text>
+						)}
+
 						<p> {post.content}</p>
 						{
 							// USER 1 === ADMIN
@@ -67,18 +50,17 @@ const AccueilPostes = (Props: Props) => {
 									<Button
 										size="xs"
 										colorScheme="red"
-										onClick={() => {
-											supprimerPost(
+										onClick={async () => {
+											await supprimerPost(
 												"http://localhost:3003/posts/delete",
 												post.post_id
 											);
+											await refresh((ice) => ice + 1);
 
 											activeNotif(
 												"Le post à bien été supprimé ",
 												true
 											);
-
-											refresh((ice) => ice + 1);
 										}}
 									>
 										Supprimer
@@ -92,12 +74,10 @@ const AccueilPostes = (Props: Props) => {
 								</Box>
 							)
 						}
-					</div>
+					</Box>
 				);
 			})}
 		</Box>
 	);
 };
 export default AccueilPostes;
-
-// TRIER LES POSTE PAS ORDRE DE MODIFICATION DU PLUS RECENT AU PLUS ANCIEN

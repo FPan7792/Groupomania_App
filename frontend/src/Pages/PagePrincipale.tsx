@@ -15,7 +15,7 @@ import { Button, Box } from "@chakra-ui/react";
 import AccueilPostes from "../Composants/AccueilPostes";
 import OngletsNavigation from "../Composants/OngletsNavigation";
 import UtilisateurPosts from "../Composants/UtilisateurPosts";
-import { activeNotif } from "../App";
+import { activeNotif } from "../Fonctions";
 
 const PagePrincipale = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
@@ -126,7 +126,14 @@ const PagePrincipale = () => {
 				</Box>
 			)}
 
-			{ongletAffiché === "Mes Posts" && <UtilisateurPosts />}
+			{ongletAffiché === "Mes Posts" && (
+				<UtilisateurPosts
+					posts={datas}
+					refresh={setRefresh}
+					userId={estConnecte.userId}
+					etat={ongletAffiché}
+				/>
+			)}
 		</Box>
 	);
 };

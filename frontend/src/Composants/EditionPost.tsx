@@ -17,7 +17,7 @@ import { useFetch } from "../Hooks/hooks";
 // auth
 import Cookies from "js-cookie";
 // notification pop
-import { activeNotif } from "../App";
+import { activeNotif } from "../Fonctions";
 
 // Func REQUETES
 async function creerPost(formulaire: POST) {
@@ -145,11 +145,6 @@ const EditionPost = () => {
 					"Le post à été modifié !",
 					navigate
 				);
-
-				// if (confirmation) {
-				// 	navigate("/");
-				// 	notyf.success("Le post à été modifié !");
-				// } else notyf.error("Un problème est survenue");
 			} else {
 				const confirmation = await creerPost(data);
 
@@ -158,11 +153,6 @@ const EditionPost = () => {
 					"Nouveau poste créé !",
 					navigate
 				);
-
-				// if (confirmation) {
-				// 	navigate("/");
-				// 	notyf.success("Nouveau poste créé !");
-				// } else notyf.error("Un problème est survenue");
 			}
 		}
 	};
