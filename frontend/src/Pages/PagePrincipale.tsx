@@ -16,6 +16,7 @@ import AccueilPostes from "../Composants/AccueilPostes";
 import OngletsNavigation from "../Composants/OngletsNavigation";
 import UtilisateurPosts from "../Composants/UtilisateurPosts";
 import { activeNotif } from "../Fonctions";
+import UtilisateurLikes from "../Composants/UtilisateurLikes";
 
 const PagePrincipale = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
@@ -128,6 +129,14 @@ const PagePrincipale = () => {
 
 			{ongletAffiché === "Mes Posts" && (
 				<UtilisateurPosts
+					posts={datas}
+					refresh={setRefresh}
+					userId={estConnecte.userId}
+					etat={ongletAffiché}
+				/>
+			)}
+			{ongletAffiché === "Likes" && (
+				<UtilisateurLikes
 					posts={datas}
 					refresh={setRefresh}
 					userId={estConnecte.userId}

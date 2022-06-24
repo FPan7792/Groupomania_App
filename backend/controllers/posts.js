@@ -7,7 +7,7 @@ const Post = require("../models/Post");
 // Tout les posts
 exports.getAllPosts = async (req, res) => {
   try {
-    const allPosts = await Post.findAll({ order: [["updatedAt", "DESC"]] });
+    const allPosts = await Post.findAll({ order: [["createdAt", "DESC"]] });
 
     console.log(allPosts);
     res.status(200).json(allPosts);
@@ -143,7 +143,9 @@ exports.modifyPost = async (req, res) => {
 // LIKES
 exports.likePost = async (req, res) => {
   try {
-    const { post_id, user_id, likes, usersIds_likes } = req.fields;
+    const { post_id, usersIds_likes } = req.fields;
+
+    console.log("RF", req.fields);
     const postToManageLike = await Post.findOne({ where: { post_id } });
 
     postToManageLike.set({
@@ -154,6 +156,7 @@ exports.likePost = async (req, res) => {
 
     res.status(200).json({ finalModifiedPost });
   } catch (error) {
+    console.log(error.message);
     return res.status(400).json({ error });
   }
 };

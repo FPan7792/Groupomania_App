@@ -13,7 +13,7 @@ import { Box, Button, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 // notification pop
-import { activeNotif, supprimerPost } from "../Fonctions";
+import { activeNotif, likerPost, supprimerPost } from "../Fonctions";
 
 const AccueilPostes = (Props: Props) => {
 	const { posts, userId, refresh } = Props;
@@ -25,14 +25,16 @@ const AccueilPostes = (Props: Props) => {
 					.toLocaleString("fr")
 					.toString();
 
+				const likesDuPost = JSON.parse(post.usersIds_likes);
+				const aLike = likesDuPost.findIndex((id: number) => id === userId);
+				const nombreDeLikes = likesDuPost.length;
+
 				return (
 					<Box key={post.post_id} border=" black 2px solid" margin={3}>
 						<Text fontWeight="bold">{post.title}</Text>
 
 						<Text fontSize="x-small">
-							Crée par :
-							<Text fontWeight="bold"> Utilisateur {post.owner_id}</Text>
-							le {dateDeCreation}
+							Crée par : Utilisateur {post.owner_id} le {dateDeCreation}
 						</Text>
 
 						{post.createdAt !== post.updatedAt && (
@@ -41,7 +43,31 @@ const AccueilPostes = (Props: Props) => {
 							</Text>
 						)}
 
-						<p> {post.content}</p>
+						<Text> {post.content}</Text>
+						<Text fontSize="xs">
+							{nombreDeLikes}{" "}
+							{nombreDeLikes > 1
+								? "likes"
+								: nombreDeLikes > 20
+								? " 20+ likes"
+								: "like"}
+						</Text>
+
+						<Button
+							size="xs"
+							colorScheme={aLike !== -1 ? "pink" : "gray"}
+							onClick={async () => {
+								if (aLike !== -1) {
+									likesDuPost.splice(aLike, 1);
+								} else {
+									likesDuPost.push(userId);
+								}
+								await likerPost(likesDuPost, post.post_id);
+								refresh((prevState) => prevState + 1);
+							}}
+						>
+							{aLike !== -1 ? "Disliker" : "Liker"}
+						</Button>
 						{
 							// USER 1 === ADMIN
 							(Number(userId) === post.owner_id ||

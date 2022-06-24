@@ -63,3 +63,29 @@ export function activeNotif(message: string, success: boolean) {
 		notyf.success(message);
 	} else notyf.error(message);
 }
+
+// like / dislike
+export async function likerPost(nouveauLikes: number[], post_id: number) {
+	const formulaire = new FormData();
+	formulaire.append("usersIds_likes", JSON.stringify(nouveauLikes));
+	formulaire.append("post_id", post_id.toString());
+
+	await fetch("http://localhost:3003/posts/like", {
+		method: "POST",
+		headers: { Authorization: "Bearer " + Cookies.get("token") },
+		body: formulaire,
+	})
+		.then(async (response) => {
+			const resultat = await response.json();
+			if (!response.ok) {
+				throw new Error(resultat.message);
+			} else return resultat;
+		})
+		.then((confirmation: any) => {
+			console.log(confirmation);
+		})
+		.catch((err) => {
+			console.log("error", err);
+			return err;
+		});
+}
