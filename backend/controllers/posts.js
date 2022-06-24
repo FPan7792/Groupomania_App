@@ -119,12 +119,11 @@ exports.deletePost = async (req, res) => {
 // MODIFICATION
 exports.modifyPost = async (req, res) => {
   try {
-    const { post_id } = req.fields;
+    const { post_id, user_id } = req.fields;
     const USER = await User.findOne({ where: { user_id } });
+    const postToModify = await Post.findOne({ where: { post_id } });
 
-    if (USER.is_admin || postToDelete.owner_id === USER.user_id) {
-      const postToModify = await Post.findOne({ where: { post_id } });
-
+    if (USER.is_admin || postToModify.owner_id === USER.user_id) {
       postToModify.set(req.fields);
       const finalModifiedPost = await postToModify.save();
 

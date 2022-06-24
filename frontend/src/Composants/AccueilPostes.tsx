@@ -1,5 +1,3 @@
-// import { useFetch } from "../Hooks/hooks";
-
 // types
 import { POST } from "../types";
 type Props = {
@@ -16,6 +14,9 @@ import Cookies from "js-cookie";
 
 // navigation
 import { Link } from "react-router-dom";
+
+// notification pop
+import { activeNotif } from "../App";
 
 async function supprimerPost(url: string, post_id: number) {
 	const formulaireDeSuppression = new FormData();
@@ -70,6 +71,11 @@ const AccueilPostes = (Props: Props) => {
 											supprimerPost(
 												"http://localhost:3003/posts/delete",
 												post.post_id
+											);
+
+											activeNotif(
+												"Le post à bien été supprimé ",
+												true
 											);
 
 											refresh((ice) => ice + 1);

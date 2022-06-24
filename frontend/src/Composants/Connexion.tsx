@@ -12,6 +12,7 @@ import { FormLabel, Input, Stack, Button } from "@chakra-ui/react";
 
 // gestion des formulaires
 import { useForm } from "react-hook-form";
+import { activeNotif } from "../App";
 
 const Connexion = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
@@ -58,6 +59,9 @@ const Connexion = () => {
 			})
 			.finally(() => {
 				console.log("COOKIE SETTED : " + Cookies.get("token"));
+				Cookies.get("token") && Cookies.get("userId")
+					? activeNotif("Vous êtes maintenant connecté", true)
+					: activeNotif("Un problème est survenue", false);
 			});
 	};
 

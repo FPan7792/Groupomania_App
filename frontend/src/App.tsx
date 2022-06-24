@@ -16,6 +16,45 @@ import Authentification from "./Pages/Authentification";
 import PagePrincipale from "./Pages/PagePrincipale";
 import EditionPost from "./Composants/EditionPost";
 
+// notification UX
+import { Notyf } from "notyf";
+export function activeNotif(message: string, success: boolean) {
+	const notyf = new Notyf({
+		duration: 4000,
+		position: {
+			x: "right",
+			y: "bottom",
+		},
+		types: [
+			// {
+			// 	type: "warning",
+			// 	background: "orange",
+			// 	icon: {
+			// 		className: "material-icons",
+			// 		tagName: "i",
+			// 		text: "warning",
+			// 	},
+			// },
+			// {
+			// 	type: "error",
+			// 	background: "indianred",
+			// 	duration: 2000,
+			// 	dismissible: true,
+			// },
+			// {
+			// 	type: "success",
+			// 	background: "lightpink",
+			// 	duration: 2000,
+			// 	dismissible: true,
+			// },
+		],
+	});
+
+	if (success) {
+		notyf.success(message);
+	} else notyf.error(message);
+}
+
 function App() {
 	const [estConnecte, setEstConnecte] = useState<{
 		connexion: boolean;
@@ -58,6 +97,3 @@ function App() {
 }
 
 export default App;
-
-// si le useToken est present , on montre l'application sinon seules
-// les pages de connexion et de signup sont dispos

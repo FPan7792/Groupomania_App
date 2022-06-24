@@ -15,11 +15,12 @@ import { Button, Box } from "@chakra-ui/react";
 import AccueilPostes from "../Composants/AccueilPostes";
 import OngletsNavigation from "../Composants/OngletsNavigation";
 import UtilisateurPosts from "../Composants/UtilisateurPosts";
+import { activeNotif } from "../App";
 
 const PagePrincipale = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
 
-	const [refresh, setRefresh] = useState(0);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	const [datas, setDatas] = useState<POST[] | null>(null);
 	const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -95,6 +96,8 @@ const PagePrincipale = () => {
 								connexion: false,
 								token: null,
 							});
+
+							activeNotif("Vous êtes bien déconnecté", true);
 						}
 					}}
 				>
