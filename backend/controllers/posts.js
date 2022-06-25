@@ -127,6 +127,24 @@ exports.modifyPost = async (req, res) => {
 
     if (USER.is_admin || postToModify.owner_id === USER.user_id) {
       postToModify.set(req.fields);
+      if (req.files.image) {
+        const { image } = req.files;
+        let pictureToUpload = image.path;
+
+        const uploadImage = await cloudinary.uploader.upload(pictureToUpload, {
+          folder: `/groupomania_app/user_${user_id}`,
+        });
+
+        const databaseId = postToModify.image_url.split("/");
+        const id = databaseId[databaseId.length - 1].split(".");
+
+        postToModify.image_url = uploadImage.secure_url;
+
+        await cloudinary.api.delete_resources_by_prefix(
+          `groupomania_app/user_${user_id}/${id[0]}`
+        );
+      }
+
       const finalModifiedPost = await postToModify.save();
 
       res.status(200).json({ finalModifiedPost });

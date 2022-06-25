@@ -21,5 +21,4 @@ export type POST = {
 	is_image: boolean;
 	owner_id: number;
 	updatedAt: Date;
-	image?: any;
 };

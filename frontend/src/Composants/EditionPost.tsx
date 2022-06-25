@@ -1,6 +1,14 @@
 import { useState, useLayoutEffect, useRef } from "react";
 // composants css
-import { Button, Box, Text, Input, FormLabel, Stack } from "@chakra-ui/react";
+import {
+	Button,
+	Box,
+	Text,
+	Input,
+	FormLabel,
+	Stack,
+	Image,
+} from "@chakra-ui/react";
 // types
 import { POST } from "../types";
 // navigation
@@ -73,7 +81,7 @@ async function modifierPost(
 	nouveauPost.append("content", content);
 	nouveauPost.append("post_id", post_id);
 
-	if (image && image.files) {
+	if (image && image.files && image.files?.length !== 0) {
 		nouveauPost.append("image", image.files[0]);
 	}
 
@@ -139,8 +147,6 @@ const EditionPost = () => {
 					Post.post_id === Number(id) && setPost(Post);
 				}
 			}
-
-			console.log("POST", post);
 		}, [isSuccess]);
 	} else
 		useLayoutEffect(() => {
@@ -205,19 +211,19 @@ const EditionPost = () => {
 						/>
 
 						<FormLabel>Image</FormLabel>
-						<Controller
-							name="image"
-							control={control}
-							defaultValue={post !== "nouveaupost" ? post?.content : ""}
-							render={({ field }) => (
-								<Input
-									type="file"
-									accept="accept"
-									multiple
-									{...field}
-									ref={imageRef}
-								/>
-							)}
+
+						{post !== "nouveaupost" && post.is_image && (
+							<Image
+								src={post.image_url}
+								boxSize="100px"
+								objectFit="cover"
+							></Image>
+						)}
+						<Input
+							type="file"
+							accept="accept"
+							id="image"
+							ref={imageRef}
 						/>
 					</Stack>
 					{id === "nouveaupost" ? (
@@ -231,3 +237,7 @@ const EditionPost = () => {
 	);
 };
 export default EditionPost;
+
+// Crreer bouton supprimer la photo en mofifiant is_image
+// recup is_image dans le backend et si false on supprile tout simplement l'image et on ne revoie rien
+// on supp aussi l'image dans la BDD

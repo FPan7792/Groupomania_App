@@ -7,7 +7,7 @@ type Props = {
 };
 
 // composants css
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text, Image } from "@chakra-ui/react";
 
 // navigation
 import { Link } from "react-router-dom";
@@ -32,6 +32,13 @@ const AccueilPostes = (Props: Props) => {
 				return (
 					<Box key={post.post_id} border=" black 2px solid" margin={3}>
 						<Text fontWeight="bold">{post.title}</Text>
+						{post.is_image && (
+							<Image
+								src={post.image_url}
+								boxSize="100px"
+								objectFit="cover"
+							></Image>
+						)}
 
 						<Text fontSize="x-small">
 							Crée par : Utilisateur {post.owner_id} le {dateDeCreation}
