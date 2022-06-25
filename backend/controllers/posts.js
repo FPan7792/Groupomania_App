@@ -29,6 +29,7 @@ exports.createPost = async (req, res) => {
         likes = 0,
         is_image = false,
         user_id,
+        username,
       } = req.fields;
 
       newPost = await Post.create({
@@ -37,6 +38,7 @@ exports.createPost = async (req, res) => {
         likes,
         is_image: false,
         owner_id: user_id,
+        owner_name: username,
         usersIds_likes: JSON.stringify([]),
       });
       return res.status(200).json({ message: "new post created", newPost });
@@ -47,6 +49,7 @@ exports.createPost = async (req, res) => {
         likes = 0,
         is_image = true,
         user_id,
+        username,
       } = req.fields;
       const { image } = req.files;
 
@@ -62,6 +65,7 @@ exports.createPost = async (req, res) => {
         is_image: true,
         image_url: uploadImage?.secure_url,
         owner_id: user_id,
+        owner_name: username,
         usersIds_likes: JSON.stringify([]),
       });
     }

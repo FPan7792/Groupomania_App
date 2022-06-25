@@ -52,8 +52,11 @@ exports.login = async (req, res) => {
       );
 
       if (verifyPassword) {
+        const username = targetedUser.email.split("@")[0];
+
         return res.status(200).json({
           userId: targetedUser.user_id,
+          username,
           token: jwt.sign(
             { userId: targetedUser.user_id },
             process.env.UUID_TOKEN_GENERATOR,

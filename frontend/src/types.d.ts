@@ -2,6 +2,7 @@
 export type CONNEXIONUTILISATEUR = {
 	userId: number;
 	token: string;
+	username: string;
 };
 
 export type CREATIONUTILISATEUR = {
@@ -11,6 +12,7 @@ export type CREATIONUTILISATEUR = {
 };
 
 export type POST = {
+	owner_name: string;
 	post_id: number;
 	title: string;
 	content: string;

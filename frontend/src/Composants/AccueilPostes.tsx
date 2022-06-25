@@ -41,7 +41,8 @@ const AccueilPostes = (Props: Props) => {
 						)}
 
 						<Text fontSize="x-small">
-							Crée par : Utilisateur {post.owner_id} le {dateDeCreation}
+							{/* owner_name en gras */}
+							Crée par : {post.owner_name} le {dateDeCreation}
 						</Text>
 
 						{post.createdAt !== post.updatedAt && (

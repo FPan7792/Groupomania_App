@@ -37,6 +37,11 @@ const Post = sequelize.define(
       defaultValue: "",
       allowNull: true,
     },
+
+    owner_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   { tableName: "posts" }
 );

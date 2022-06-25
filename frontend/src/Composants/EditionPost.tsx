@@ -37,6 +37,9 @@ async function creerPost(formulaire: POST, image: HTMLInputElement | null) {
 	const nouveauPost = new FormData();
 	title && title !== "" && nouveauPost.append("title", title);
 	content && content !== "" && nouveauPost.append("content", content);
+	Cookies.get("username") &&
+		nouveauPost.append("username", Cookies.get("username") as string);
+
 	if (image && image.files) {
 		nouveauPost.append("image", image.files[0]);
 	}
@@ -80,6 +83,8 @@ async function modifierPost(
 	nouveauPost.append("title", title);
 	nouveauPost.append("content", content);
 	nouveauPost.append("post_id", post_id);
+	Cookies.get("username") &&
+		nouveauPost.append("username", Cookies.get("username") as string);
 
 	if (image && image.files && image.files?.length !== 0) {
 		nouveauPost.append("image", image.files[0]);

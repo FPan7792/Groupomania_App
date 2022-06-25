@@ -34,10 +34,12 @@ const Connexion = () => {
 			.then((response) => response.json())
 			.then(async (datas: CONNEXIONUTILISATEUR) => {
 				console.log("DATAS", datas);
-				const { token, userId } = datas;
+				const { token, userId, username } = datas;
+
 				if (token) {
 					Cookies.set("token", token, { expires: 24 });
 					Cookies.set("userId", userId.toString(), { expires: 24 });
+					Cookies.set("username", username, { expires: 24 });
 
 					if (Cookies.get("token")) {
 						console.log("TOKEN", Cookies.get("token"));
@@ -47,6 +49,7 @@ const Connexion = () => {
 							connexion: true,
 							token: Cookies.get("token") || null,
 							userId: Cookies.get("userId") || null,
+							username: Cookies.get("username") || null,
 						});
 
 						// console.log(estConnecte);

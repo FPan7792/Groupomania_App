@@ -21,10 +21,12 @@ function App() {
 		connexion: boolean;
 		token: string | null;
 		userId: string | number | null;
+		username: string | null;
 	}>({
 		connexion: Cookies.get("token") && Cookies.get("userId") ? true : false,
 		token: Cookies.get("token") || null,
 		userId: Cookies.get("userId") || null,
+		username: Cookies.get("username") || null,
 	});
 
 	const gestionDeConnexion = {
