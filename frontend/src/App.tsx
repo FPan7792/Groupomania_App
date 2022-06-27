@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 // gestion de connexion utilisateur
 // context authentification utilisateur
@@ -17,8 +17,6 @@ import PagePrincipale from "./Pages/PagePrincipale";
 import EditionPost from "./Composants/EditionPost";
 
 function App() {
-	const isAdmin = useMemo;
-
 	const [estConnecte, setEstConnecte] = useState<{
 		connexion: boolean;
 		token: string | null;
@@ -37,8 +35,6 @@ function App() {
 		estConnecte,
 		setEstConnecte,
 	};
-
-	console.log(estConnecte);
 
 	return (
 		<ChakraProvider>

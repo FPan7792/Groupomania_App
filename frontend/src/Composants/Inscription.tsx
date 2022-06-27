@@ -1,4 +1,13 @@
-import { FormLabel, Input, Stack, Button } from "@chakra-ui/react";
+import { useState } from "react";
+
+import {
+	FormLabel,
+	Input,
+	Button,
+	Flex,
+	InputGroup,
+	InputRightElement,
+} from "@chakra-ui/react";
 
 // types
 import { CREATIONUTILISATEUR } from "../types";
@@ -6,15 +15,25 @@ type Props = {
 	setEtat: React.Dispatch<React.SetStateAction<"Connexion" | "Inscription">>;
 };
 
+type FormInputs = {
+	email: string;
+	password: string;
+};
+
 // gestion fomulaire
 import { useForm } from "react-hook-form";
 
 const Inscription = (Props: Props) => {
-	const { register, handleSubmit } = useForm();
+	const {
+		register,
+		handleSubmit,
+		formState: { isSubmitting },
+	} = useForm<FormInputs>();
 
 	const { setEtat } = Props;
+	const [showPassword, setShowPassword] = useState(false);
 
-	const onSubmit = async (datas: any) => {
+	const onSubmit = async (datas: FormInputs) => {
 		console.log(datas);
 
 		const { email, password } = datas;
@@ -22,6 +41,7 @@ const Inscription = (Props: Props) => {
 
 		infosUtilisateur.append("email", email);
 		infosUtilisateur.append("password", password);
+
 		await fetch("http://localhost:3003/auth/signup", {
 			method: "POST",
 			body: infosUtilisateur,
@@ -42,27 +62,58 @@ const Inscription = (Props: Props) => {
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<Stack>
-				<FormLabel>Email</FormLabel>
+			<FormLabel transform="translateX(2%)">Email utilisateur :</FormLabel>
+			<Input
+				size="sm"
+				w="100%"
+				id="email"
+				type="email"
+				placeholder="e-mail professionnel"
+				disabled={isSubmitting}
+				required={true}
+				focusBorderColor="crimson"
+				{...register("email")}
+			/>
+
+			<FormLabel transform="translateX(2%)" marginTop={5}>
+				Mot de passe :
+			</FormLabel>
+
+			<InputGroup size="sm">
 				<Input
-					size="md"
-					w="md"
-					id="email"
-					type="email"
-					{...register("email")}
-				/>
-				<FormLabel>Password</FormLabel>
-				<Input
-					size="md"
-					w="md"
+					size="sm"
+					w="100%"
 					id="password"
-					type="password"
+					placeholder="Code confidentiel"
+					type={showPassword ? "text" : "password"}
+					disabled={isSubmitting}
+					required={true}
+					focusBorderColor="crimson"
 					{...register("password")}
 				/>
-				<Button size="md" w="xs" type="submit">
-					S&apos;enregistrer
+				<InputRightElement width="4.5rem">
+					<Button
+						h="70%"
+						mr="10px"
+						size="sm"
+						onClick={() => setShowPassword((value) => !value)}
+					>
+						{showPassword ? "Cacher" : "Voir"}
+					</Button>
+				</InputRightElement>
+			</InputGroup>
+
+			<Flex justify="center">
+				<Button
+					marginTop="10"
+					disabled={isSubmitting}
+					size="sm"
+					w="40%"
+					type="submit"
+				>
+					S&apos;inscrire
 				</Button>
-			</Stack>
+			</Flex>
 		</form>
 	);
 };

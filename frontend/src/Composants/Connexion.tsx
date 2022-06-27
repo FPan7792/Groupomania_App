@@ -1,39 +1,58 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
-
 // TYPES
 import { CONNEXIONUTILISATEUR } from "../types";
 
+type FormInputs = {
+	email: string;
+	password: string;
+};
 // gestion authentification
 import Cookies from "js-cookie";
-
 // css
-import { FormLabel, Input, Stack, Button } from "@chakra-ui/react";
-
+import {
+	FormLabel,
+	Input,
+	Button,
+	Flex,
+	InputGroup,
+	InputRightElement,
+} from "@chakra-ui/react";
 // gestion des formulaires
 import { useForm } from "react-hook-form";
 import { activeNotif } from "../Fonctions";
 
 const Connexion = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
+	const [showPassword, setShowPassword] = useState(false);
 
-	const { register, handleSubmit } = useForm();
+	const {
+		register,
+		handleSubmit,
+		formState: { isSubmitting },
+	} = useForm<FormInputs>({
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
 
-	const onSubmit = async (datas: any) => {
+	const onSubmit = async (datas: FormInputs) => {
+		const { email, password } = datas;
+
 		console.log(datas);
 
-		const { email, password } = datas;
 		const infosUtilisateur = new FormData();
 
 		infosUtilisateur.append("email", email);
 		infosUtilisateur.append("password", password);
+
 		await fetch("http://localhost:3003/auth/login", {
 			method: "POST",
 			body: infosUtilisateur,
 		})
 			.then((response) => response.json())
 			.then(async (datas: CONNEXIONUTILISATEUR) => {
-				console.log("DATAS", datas);
 				const { token, userId, username, is_admin } = datas;
 
 				if (token) {
@@ -43,9 +62,6 @@ const Connexion = () => {
 					Cookies.set("admin", is_admin, { expires: 24 });
 
 					if (Cookies.get("token")) {
-						console.log("TOKEN", Cookies.get("token"));
-						console.log("ID", Cookies.get("userId"));
-
 						await setEstConnecte({
 							connexion: true,
 							token: Cookies.get("token") || null,
@@ -70,27 +86,66 @@ const Connexion = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<Stack>
-				<FormLabel>Email</FormLabel>
+			<FormLabel transform="translateX(2%)">Email utilisateur :</FormLabel>
+			<Input
+				size="sm"
+				w="100%"
+				id="email"
+				type="email"
+				placeholder="e-mail professionnel"
+				disabled={isSubmitting}
+				required={true}
+				focusBorderColor="crimson"
+				{...register("email")}
+			/>
+
+			<FormLabel transform="translateX(2%)" marginTop={5}>
+				Mot de passe :
+			</FormLabel>
+
+			<InputGroup size="sm">
 				<Input
-					size="md"
-					w="md"
-					id="email"
-					type="email"
-					{...register("email")}
-				/>
-				<FormLabel>Password</FormLabel>
-				<Input
-					size="md"
-					w="md"
+					size="sm"
+					w="100%"
 					id="password"
-					type="password"
+					placeholder="Code confidentiel"
+					type={showPassword ? "text" : "password"}
+					disabled={isSubmitting}
+					required={true}
+					focusBorderColor="crimson"
 					{...register("password")}
 				/>
-				<Button size="md" w="xs" type="submit">
+				<InputRightElement width="4.5rem">
+					<Button
+						h="70%"
+						mr="10px"
+						size="sm"
+						onClick={() => setShowPassword((value) => !value)}
+					>
+						{showPassword ? "Cacher" : "Voir"}
+					</Button>
+				</InputRightElement>
+			</InputGroup>
+
+			<Flex justify="center">
+				<Button
+					marginTop="10"
+					disabled={isSubmitting}
+					size="sm"
+					w="40%"
+					type="submit"
+				>
 					Se connecter
 				</Button>
-			</Stack>
+			</Flex>
+			{/* <Text fontSize="xs" textAlign="center" fontStyle="italic" mt={5}>
+				Si vous n&apos;avez pas encore de compte, vous pouvez vous inscrire
+				<span onClick={() => setEtat("Inscription") } >
+				ici
+
+				</span>
+
+			</Text> */}
 		</form>
 	);
 };
