@@ -6,6 +6,7 @@ type ContextConnexion = {
 		token: string | null;
 		userId: string | number | null;
 		username: string | null;
+		isAdmin: boolean | null;
 	};
 	setEstConnecte: React.Dispatch<any>;
 };
@@ -16,6 +17,7 @@ const etatDeConnexion: ContextConnexion = {
 		token: null,
 		userId: null,
 		username: null,
+		isAdmin: null,
 	},
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	setEstConnecte: () => {},

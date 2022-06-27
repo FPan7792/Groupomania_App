@@ -4,6 +4,7 @@ type Props = {
 	posts: POST[] | null;
 	userId: string | number | null;
 	refresh: React.Dispatch<React.SetStateAction<number>>;
+	isAdmin: boolean | null;
 };
 
 // composants css
@@ -16,7 +17,7 @@ import { Link } from "react-router-dom";
 import { activeNotif, likerPost, supprimerPost } from "../Fonctions";
 
 const AccueilPostes = (Props: Props) => {
-	const { posts, userId, refresh } = Props;
+	const { posts, userId, refresh, isAdmin } = Props;
 
 	return (
 		<Box>
@@ -47,7 +48,7 @@ const AccueilPostes = (Props: Props) => {
 
 						{post.createdAt !== post.updatedAt && (
 							<Text fontSize="x-small" fontStyle="italic">
-								modifié
+								(modifié)
 							</Text>
 						)}
 
@@ -78,8 +79,7 @@ const AccueilPostes = (Props: Props) => {
 						</Button>
 						{
 							// USER 1 === ADMIN
-							(Number(userId) === post.owner_id ||
-								Number(userId) === 1) && (
+							(Number(userId) === post.owner_id || isAdmin === true) && (
 								<Box>
 									<Button
 										size="xs"

@@ -3,6 +3,7 @@ export type CONNEXIONUTILISATEUR = {
 	userId: number;
 	token: string;
 	username: string;
+	is_admin: string;
 };
 
 export type CREATIONUTILISATEUR = {

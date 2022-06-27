@@ -92,7 +92,13 @@ const PagePrincipale = () => {
 					onClick={() => {
 						Cookies.remove("token");
 						Cookies.remove("userId");
-						if (!Cookies.get("token") && !Cookies.get("userId")) {
+						Cookies.remove("username");
+						Cookies.remove("admin");
+						if (
+							!Cookies.get("token") &&
+							!Cookies.get("userId") &&
+							!Cookies.get("username")
+						) {
 							setEstConnecte({
 								connexion: false,
 								token: null,
@@ -120,6 +126,7 @@ const PagePrincipale = () => {
 							posts={datas}
 							refresh={setRefresh}
 							userId={estConnecte.userId}
+							isAdmin={estConnecte.isAdmin}
 						/>
 					) : (
 						isError && <p>{isError.message}</p>
