@@ -9,17 +9,16 @@ import Cookies from "js-cookie";
 const TOKENACTIF = Cookies.get("token");
 
 // composants css
-import { Button, Box } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 
 // composants jsx
 import AccueilPostes from "../Composants/AccueilPostes";
 import OngletsNavigation from "../Composants/OngletsNavigation";
 import UtilisateurPosts from "../Composants/UtilisateurPosts";
-import { activeNotif } from "../Fonctions";
 import UtilisateurLikes from "../Composants/UtilisateurLikes";
 
 const PagePrincipale = () => {
-	const { estConnecte, setEstConnecte } = useContext(AuthContext);
+	const { estConnecte } = useContext(AuthContext);
 
 	const [refresh, setRefresh] = useState<number>(0);
 
@@ -56,7 +55,6 @@ const PagePrincipale = () => {
 				})
 				.catch((err) => {
 					setIsError(err);
-					return err;
 				})
 				.finally(() => setIsLoading(false));
 		};
@@ -64,93 +62,83 @@ const PagePrincipale = () => {
 		fetchDatas();
 	}, [refresh]);
 
+	// useEffect(() => {
+	// 	console.log("test");
+	// }, [ongletAffiché]);
+
+	if (isLoading) {
+		return <Text>En cours de chargement ..</Text>;
+	}
+
 	return (
-		<Box
-			w="80%"
-			h="80%"
-			background="white"
-			borderRadius="3xl"
-			overflow="hidden"
+		<Flex
+			align="center"
+			flexDirection="column"
+			w="100%"
+			h="100%"
+			// border={"2px blue solid"}
 		>
-			<OngletsNavigation
-				nomOnglet="Accueil"
-				etat={ongletAffiché}
-				setEtat={setOngletAffiché}
-			/>
-			<OngletsNavigation
-				nomOnglet="Mes Posts"
-				etat={ongletAffiché}
-				setEtat={setOngletAffiché}
-			/>
-			<OngletsNavigation
-				nomOnglet="Likes"
-				etat={ongletAffiché}
-				setEtat={setOngletAffiché}
-			/>
-			<header>
-				<Button
-					onClick={() => {
-						Cookies.remove("token");
-						Cookies.remove("userId");
-						Cookies.remove("username");
-						Cookies.remove("admin");
-						if (
-							!Cookies.get("token") &&
-							!Cookies.get("userId") &&
-							!Cookies.get("username")
-						) {
-							setEstConnecte({
-								connexion: false,
-								token: null,
-							});
+			{/* <Header /> */}
+			<Box
+				pos="relative"
+				w="95%"
+				h="95%"
+				margin="0 auto"
+				background="white"
+				borderRadius="3xl"
+				overflow="hidden"
+			>
+				<Flex>
+					<OngletsNavigation
+						nomOnglet="Accueil"
+						etat={ongletAffiché}
+						setEtat={setOngletAffiché}
+					/>
+					<OngletsNavigation
+						nomOnglet="Mes Posts"
+						etat={ongletAffiché}
+						setEtat={setOngletAffiché}
+					/>
+					<OngletsNavigation
+						nomOnglet="Likes"
+						etat={ongletAffiché}
+						setEtat={setOngletAffiché}
+					/>
+				</Flex>
 
-							activeNotif("Vous êtes bien déconnecté", true);
-						}
-					}}
-				>
-					Deconnexion
-				</Button>
-				{/* <button
-						onClick={() => {
-							setRefresh((prevState) => prevState + 1);
-						}}
-					>
-						refresh
-					</button> */}
-			</header>
+				{isSuccess && ongletAffiché === "Accueil" && (
+					<Box>
+						{datas ? (
+							<AccueilPostes
+								posts={datas}
+								refresh={setRefresh}
+								userId={estConnecte.userId}
+								isAdmin={estConnecte.isAdmin}
+							/>
+						) : (
+							isError && <p>{isError.message}</p>
+						)}
+					</Box>
+				)}
 
-			{isSuccess && ongletAffiché === "Accueil" && (
-				<Box>
-					{datas ? (
-						<AccueilPostes
-							posts={datas}
-							refresh={setRefresh}
-							userId={estConnecte.userId}
-							isAdmin={estConnecte.isAdmin}
-						/>
-					) : (
-						isError && <p>{isError.message}</p>
-					)}
-				</Box>
-			)}
-
-			{ongletAffiché === "Mes Posts" && (
-				<UtilisateurPosts
-					posts={datas}
-					refresh={setRefresh}
-					userId={estConnecte.userId}
-					etat={ongletAffiché}
-				/>
-			)}
-			{ongletAffiché === "Likes" && (
-				<UtilisateurLikes
-					posts={datas}
-					refresh={setRefresh}
-					userId={estConnecte.userId}
-					etat={ongletAffiché}
-				/>
-			)}
-		</Box>
+				{ongletAffiché === "Mes Posts" && (
+					<UtilisateurPosts
+						posts={datas}
+						refresh={setRefresh}
+						userId={estConnecte.userId}
+						etat={ongletAffiché}
+					/>
+				)}
+				{ongletAffiché === "Likes" && (
+					<UtilisateurLikes
+						posts={datas}
+						refresh={setRefresh}
+						userId={estConnecte.userId}
+						etat={ongletAffiché}
+					/>
+				)}
+			</Box>
+		</Flex>
 	);
 };
 export default PagePrincipale;

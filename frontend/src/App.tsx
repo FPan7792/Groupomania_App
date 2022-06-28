@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AuthContext } from "./Context/AuthContext";
 import Cookies from "js-cookie";
 
-// gestion des css components
+// gestion des css components & icones
 import { ChakraProvider, Flex } from "@chakra-ui/react";
 
 // gestion de la navigation et des pages
@@ -15,6 +15,7 @@ import { Routes, Route } from "react-router-dom";
 import Authentification from "./Pages/Authentification";
 import PagePrincipale from "./Pages/PagePrincipale";
 import EditionPost from "./Composants/EditionPost";
+import Header from "./Composants/Header";
 
 function App() {
 	const [estConnecte, setEstConnecte] = useState<{
@@ -41,10 +42,15 @@ function App() {
 			<AuthContext.Provider value={gestionDeConnexion}>
 				<Flex
 					bgColor="#F5F5F5"
-					height="100vh"
-					justify="center"
+					height="100%"
 					align="center"
+					justifyContent={!estConnecte.connexion ? "center" : "none"}
+					flexDirection="column"
+					pos="relative"
 				>
+					{estConnecte.connexion && (
+						<Header setEstConnecte={setEstConnecte} />
+					)}
 					{!estConnecte.connexion ? (
 						<Routes>
 							<Route path="/" element={<Authentification />} />

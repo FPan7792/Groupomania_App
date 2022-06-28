@@ -68,7 +68,7 @@ const Inscription = (Props: Props) => {
 				w="100%"
 				id="email"
 				type="email"
-				placeholder="e-mail professionnel"
+				placeholder="E-mail professionnel"
 				disabled={isSubmitting}
 				required={true}
 				focusBorderColor="crimson"
