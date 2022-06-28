@@ -62,11 +62,10 @@ const PagePrincipale = () => {
 		fetchDatas();
 	}, [refresh]);
 
-	// useEffect(() => {
-	// 	console.log("test");
-	// }, [ongletAffiché]);
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	useEffect(() => {}, [ongletAffiché]);
 
-	if (isLoading) {
+	if (refresh === 0 && isLoading) {
 		return <Text>En cours de chargement ..</Text>;
 	}
 
@@ -127,6 +126,7 @@ const PagePrincipale = () => {
 						refresh={setRefresh}
 						userId={estConnecte.userId}
 						etat={ongletAffiché}
+						isAdmin={estConnecte.isAdmin}
 					/>
 				)}
 				{ongletAffiché === "Likes" && (
@@ -135,6 +135,7 @@ const PagePrincipale = () => {
 						refresh={setRefresh}
 						userId={estConnecte.userId}
 						etat={ongletAffiché}
+						isAdmin={estConnecte.isAdmin}
 					/>
 				)}
 			</Box>

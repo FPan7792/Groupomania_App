@@ -143,6 +143,7 @@ exports.modifyPost = async (req, res) => {
         const id = databaseId[databaseId.length - 1].split(".");
 
         postToModify.image_url = uploadImage.secure_url;
+        postToModify.is_image = true;
 
         await cloudinary.api.delete_resources_by_prefix(
           `groupomania_app/user_${user_id}/${id[0]}`

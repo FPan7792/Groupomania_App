@@ -7,17 +7,17 @@ type Props = {
 	userId: string | number | null;
 	refresh: React.Dispatch<React.SetStateAction<number>>;
 	etat: "Accueil" | "Mes Posts" | "Likes" | null;
+	isAdmin: boolean | null;
 };
 
 // composants css
-import { Button, Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
-// navigation
-import { Link } from "react-router-dom";
-// import { activeNotif, supprimerPost } from "../Fonctions";
+// composants
+import Post from "./Post";
 
 export const UtilisateurPosts = (Props: Props) => {
-	const { posts, userId, etat } = Props;
+	const { posts, userId, etat, refresh, isAdmin } = Props;
 	const [mesPosts, setMesPosts] = useState<POST[]>([]);
 
 	useLayoutEffect(() => {
@@ -35,21 +35,21 @@ export const UtilisateurPosts = (Props: Props) => {
 		setMesPosts(nouveauTableau);
 	}, [posts, etat]);
 
-	console.log("MP", mesPosts);
 	return (
 		<Box>
 			{mesPosts &&
 				mesPosts.map((post) => {
 					return (
-						<Box key={post.post_id} border=" black 2px solid" margin={3}>
-							<Text fontWeight="bold">{post.title}</Text>
-							<Text>{post.content}</Text>
-						</Box>
+						<Post
+							key={post.post_id}
+							post={post}
+							userId={userId}
+							refresh={refresh}
+							isAdmin={isAdmin}
+						/>
 					);
 				})}
 		</Box>
 	);
 };
 export default UtilisateurPosts;
-
-// Creer composant defaut pour le design ?

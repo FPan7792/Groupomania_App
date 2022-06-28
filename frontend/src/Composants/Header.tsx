@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 // types
 type Props = {
 	setEstConnecte: React.Dispatch<
@@ -18,6 +16,42 @@ import { activeNotif } from "../Fonctions";
 import Cookies from "js-cookie";
 
 import { Flex, Button } from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+
+function deconnexion(
+	setState: React.Dispatch<
+		React.SetStateAction<{
+			connexion: boolean;
+			token: string | null;
+			userId: string | number | null;
+			username: string | null;
+			isAdmin: boolean | null;
+		}>
+	>
+) {
+	{
+		Cookies.remove("token");
+		Cookies.remove("userId");
+		Cookies.remove("username");
+		Cookies.remove("admin");
+		if (
+			!Cookies.get("token") &&
+			!Cookies.get("userId") &&
+			!Cookies.get("username")
+		) {
+			setState({
+				connexion: false,
+				token: null,
+				userId: null,
+				username: null,
+				isAdmin: null,
+			});
+
+			activeNotif("Vous êtes bien déconnecté", true);
+		}
+	}
+}
 
 export const Header = (Props: Props) => {
 	const { setEstConnecte } = Props;
@@ -41,31 +75,13 @@ export const Header = (Props: Props) => {
 					/>
 				</switch>
 			</svg>
-
 			<Button
-				onClick={() => {
-					Cookies.remove("token");
-					Cookies.remove("userId");
-					Cookies.remove("username");
-					Cookies.remove("admin");
-					if (
-						!Cookies.get("token") &&
-						!Cookies.get("userId") &&
-						!Cookies.get("username")
-					) {
-						setEstConnecte({
-							connexion: false,
-							token: null,
-							userId: null,
-							username: null,
-							isAdmin: null,
-						});
-
-						activeNotif("Vous êtes bien déconnecté", true);
-					}
-				}}
+				onClick={() => deconnexion(setEstConnecte)}
+				rightIcon={<FontAwesomeIcon icon={faDoorOpen} />}
+				colorScheme="red"
+				variant="solid"
 			>
-				Deconnexion
+				Déconnexion
 			</Button>
 		</Flex>
 	);

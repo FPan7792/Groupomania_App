@@ -33,7 +33,7 @@ const Authentification = () => {
 				/>
 			</Flex>
 
-			<Flex mt="80px" align="center" flexDirection="column" h="100%">
+			<Flex mt="80px" align="center" flexDirection="column" h={500}>
 				<Stack spacing={20} pos="relative">
 					<svg
 						height="78"

@@ -42,6 +42,7 @@ function App() {
 			<AuthContext.Provider value={gestionDeConnexion}>
 				<Flex
 					bgColor="#F5F5F5"
+					minH="100vh"
 					height="100%"
 					align="center"
 					justifyContent={!estConnecte.connexion ? "center" : "none"}
