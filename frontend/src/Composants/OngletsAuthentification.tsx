@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, useColorMode } from "@chakra-ui/react";
 
 type Props = {
 	nomOnglet: "Connexion" | "Inscription";
@@ -9,14 +9,20 @@ type Props = {
 const OngletsAuthentification = (Props: Props) => {
 	const { nomOnglet, etat, setEtat } = Props;
 
+	const { colorMode } = useColorMode();
+
 	return (
 		<Box w="100%">
 			{etat === nomOnglet ? (
 				<Button
 					w="100%"
 					transition="ease-in 0.2s "
-					colorScheme="red"
-					borderBottom="6px solid blue"
+					colorScheme={colorMode === "light" ? "red" : "elements.dark"}
+					borderBottom="6px solid "
+					borderBottomColor={
+						colorMode === "light" ? "textes.light" : "elements.dark"
+					}
+					color={colorMode === "light" ? "textes.light" : "elements.dark"}
 					size="md"
 					onClick={() => setEtat(nomOnglet)}
 				>

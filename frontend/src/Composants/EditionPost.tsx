@@ -8,6 +8,7 @@ import {
 	FormLabel,
 	Stack,
 	Image,
+	useColorMode,
 } from "@chakra-ui/react";
 // types
 import { POST } from "../types";
@@ -116,12 +117,13 @@ async function modifierPost(
 function confirmationOperation(
 	operation: boolean,
 	message: string,
-	navigate: NavigateFunction
+	navigate: NavigateFunction,
+	notyfColor: string
 ) {
 	if (operation) {
 		navigate("/");
-		activeNotif(message, true);
-	} else activeNotif("Un problème est survenue", false);
+		activeNotif(message, true, notyfColor);
+	} else activeNotif("Un problème est survenue", false, notyfColor);
 }
 
 const EditionPost = () => {
@@ -135,6 +137,9 @@ const EditionPost = () => {
 
 	// recup image
 	const imageRef = useRef<HTMLInputElement | null>(null);
+
+	// gestion du theme
+	const { colorMode } = useColorMode();
 
 	if (id !== "nouveaupost") {
 		const { isError, isLoading, isSuccess } = useFetch(
@@ -170,14 +175,16 @@ const EditionPost = () => {
 				confirmationOperation(
 					confirmation,
 					"Le post à été modifié !",
-					navigate
+					navigate,
+					colorMode === "light" ? "#4E5166" : "#FFD7D7"
 				);
 			} else {
 				const confirmation = await creerPost(data, imageDuPost);
 				confirmationOperation(
 					confirmation,
 					"Nouveau poste créé !",
-					navigate
+					navigate,
+					colorMode === "light" ? "#4E5166" : "#FFD7D7"
 				);
 			}
 		}

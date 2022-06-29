@@ -9,7 +9,7 @@ type Props = {
 	isAdmin: boolean | null;
 };
 // composants css
-import { Button, Box } from "@chakra-ui/react";
+import { Button, Box, Flex } from "@chakra-ui/react";
 // navigation
 import { Link } from "react-router-dom";
 // composants
@@ -33,6 +33,14 @@ export const UtilisateurPosts = (Props: Props) => {
 
 	return (
 		<Box>
+			<Link to={"/post/nouveaupost"}>
+				<Flex justify="center" m="50px 10px">
+					<Button size="md" colorScheme="red" variant="solid" w="30%">
+						Nouvelle publication
+					</Button>
+				</Flex>
+			</Link>
+
 			{mesPosts &&
 				mesPosts.map((post) => {
 					return (
@@ -45,9 +53,6 @@ export const UtilisateurPosts = (Props: Props) => {
 						/>
 					);
 				})}
-			<Link to={"/post/nouveaupost"}>
-				<Button>Nouvelle publication</Button>
-			</Link>
 		</Box>
 	);
 };

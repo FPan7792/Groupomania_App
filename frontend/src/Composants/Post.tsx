@@ -1,5 +1,13 @@
 // composants css & icones
-import { Box, Button, Text, Image, Heading, Flex } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Text,
+	Image,
+	Heading,
+	Flex,
+	useColorMode,
+} from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 // types
@@ -26,16 +34,11 @@ export const Post = (Props: Props) => {
 	const aLike = likesDuPost.findIndex((id: number) => id === userId);
 	const nombreDeLikes = likesDuPost.length;
 
+	const { colorMode } = useColorMode();
+
 	return (
-		<Box
-			key={post.post_id}
-			// border=" black 1px solid"
-			m={3}
-			p={3}
-			borderRadius={10}
-			boxShadow="md"
-		>
-			<Flex justify="space-between">
+		<Box key={post.post_id} m={8} p={3} borderRadius={10} boxShadow="md">
+			<Flex justify="space-between" pos="relative">
 				<Box>
 					<Heading as="h2" size="md" mb={2}>
 						{post.title}
@@ -59,7 +62,13 @@ export const Post = (Props: Props) => {
 							</Text>
 						)}
 					</Flex>
-					<Text fontSize="xs" colorScheme="pink">
+					<Text
+						pos="absolute"
+						right={3}
+						top={2}
+						fontSize="xs"
+						colorScheme="pink"
+					>
 						{nombreDeLikes}{" "}
 						<FontAwesomeIcon icon={faHeart} color="lightpink" />
 					</Text>
@@ -108,7 +117,11 @@ export const Post = (Props: Props) => {
 									);
 									await refresh((ice) => ice + 1);
 
-									activeNotif("Le post à bien été supprimé ", true);
+									activeNotif(
+										"Le post à bien été supprimé ",
+										true,
+										colorMode === "light" ? "#4E5166" : "#FFD7D7"
+									);
 								}}
 							>
 								Supprimer
@@ -128,7 +141,17 @@ export const Post = (Props: Props) => {
 					pos="absolute"
 					right="10px"
 					bottom={0}
-					colorScheme={aLike !== -1 ? "pink" : "gray"}
+					colorScheme={"pink"}
+					bgColor={!aLike ? "none" : "whitesmoke"}
+					color={
+						colorMode === "dark"
+							? aLike
+								? "whitesmoke"
+								: "#4E5166"
+							: !aLike
+							? "whitesmoke"
+							: "#4E5166"
+					}
 					onClick={async () => {
 						if (aLike !== -1) {
 							likesDuPost.splice(aLike, 1);

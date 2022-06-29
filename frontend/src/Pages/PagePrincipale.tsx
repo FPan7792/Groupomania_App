@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 const TOKENACTIF = Cookies.get("token");
 
 // composants css
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, useColorMode } from "@chakra-ui/react";
 
 // composants jsx
 import AccueilPostes from "../Composants/AccueilPostes";
@@ -60,7 +60,7 @@ const PagePrincipale = () => {
 		};
 
 		fetchDatas();
-	}, [refresh]);
+	}, [refresh, isSuccess]);
 
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	useEffect(() => {}, [ongletAffiché]);
@@ -69,15 +69,10 @@ const PagePrincipale = () => {
 		return <Text>En cours de chargement ..</Text>;
 	}
 
+	const { colorMode } = useColorMode();
+
 	return (
-		<Flex
-			align="center"
-			flexDirection="column"
-			w="100%"
-			h="100%"
-			// border={"2px blue solid"}
-		>
-			{/* <Header /> */}
+		<Flex align="center" flexDirection="column" w="100%" h="100%">
 			<Box
 				pos="relative"
 				w="95%"
@@ -86,6 +81,7 @@ const PagePrincipale = () => {
 				background="white"
 				borderRadius="3xl"
 				overflow="hidden"
+				bgColor={colorMode === "light" ? "#FFFFFF" : "fond.dark"}
 			>
 				<Flex>
 					<OngletsNavigation

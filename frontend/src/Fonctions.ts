@@ -27,7 +27,7 @@ export async function supprimerPost(url: string, post_id: number) {
 
 // notification UX
 import { Notyf } from "notyf";
-export function activeNotif(message: string, success: boolean) {
+export function activeNotif(message: string, success: boolean, color: string) {
 	const notyf = new Notyf({
 		duration: 4000,
 		position: {
@@ -44,18 +44,18 @@ export function activeNotif(message: string, success: boolean) {
 			// 		text: "warning",
 			// 	},
 			// },
-			// {
-			// 	type: "error",
-			// 	background: "indianred",
-			// 	duration: 2000,
-			// 	dismissible: true,
-			// },
-			// {
-			// 	type: "success",
-			// 	background: "lightpink",
-			// 	duration: 2000,
-			// 	dismissible: true,
-			// },
+			{
+				type: "error",
+				background: color,
+				duration: 2000,
+				dismissible: true,
+			},
+			{
+				type: "success",
+				background: color,
+				duration: 2000,
+				dismissible: true,
+			},
 		],
 	});
 

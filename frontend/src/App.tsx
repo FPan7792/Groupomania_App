@@ -6,7 +6,12 @@ import { AuthContext } from "./Context/AuthContext";
 import Cookies from "js-cookie";
 
 // gestion des css components & icones
-import { ChakraProvider, Flex } from "@chakra-ui/react";
+import {
+	Button,
+	Flex,
+	useColorMode,
+	useColorModeValue,
+} from "@chakra-ui/react";
 
 // gestion de la navigation et des pages
 import { Routes, Route } from "react-router-dom";
@@ -37,34 +42,44 @@ function App() {
 		setEstConnecte,
 	};
 
+	const { toggleColorMode } = useColorMode();
+	const color = useColorModeValue("textes.light", "textes.dark");
+	const bgColor = useColorModeValue("fond.light", "rgb(20, 24, 33)");
+
 	return (
-		<ChakraProvider>
-			<AuthContext.Provider value={gestionDeConnexion}>
-				<Flex
-					bgColor="#F5F5F5"
-					minH="100vh"
-					height="100%"
-					align="center"
-					justifyContent={!estConnecte.connexion ? "center" : "none"}
-					flexDirection="column"
-					pos="relative"
+		<AuthContext.Provider value={gestionDeConnexion}>
+			<Flex
+				bgColor={bgColor}
+				color={color}
+				minH="100vh"
+				height="100%"
+				align="center"
+				justifyContent={!estConnecte.connexion ? "center" : "none"}
+				flexDirection="column"
+				pos="relative"
+			>
+				<Button
+					onClick={() => {
+						toggleColorMode();
+					}}
 				>
-					{estConnecte.connexion && (
-						<Header setEstConnecte={setEstConnecte} />
-					)}
-					{!estConnecte.connexion ? (
-						<Routes>
-							<Route path="/" element={<Authentification />} />
-						</Routes>
-					) : (
-						<Routes>
-							<Route path="/" element={<PagePrincipale />} />
-							<Route path="/post/:id" element={<EditionPost />} />
-						</Routes>
-					)}
-				</Flex>
-			</AuthContext.Provider>
-		</ChakraProvider>
+					Toggle
+				</Button>
+				{estConnecte.connexion && (
+					<Header setEstConnecte={setEstConnecte} />
+				)}
+				{!estConnecte.connexion ? (
+					<Routes>
+						<Route path="/" element={<Authentification />} />
+					</Routes>
+				) : (
+					<Routes>
+						<Route path="/" element={<PagePrincipale />} />
+						<Route path="/post/:id" element={<EditionPost />} />
+					</Routes>
+				)}
+			</Flex>
+		</AuthContext.Provider>
 	);
 }
 

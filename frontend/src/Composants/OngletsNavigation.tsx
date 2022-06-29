@@ -1,4 +1,5 @@
-import { Box, Button } from "@chakra-ui/react";
+// composants css
+import { Box, Button, useColorMode } from "@chakra-ui/react";
 
 type Props = {
 	nomOnglet: "Accueil" | "Mes Posts" | "Likes" | null;
@@ -11,15 +12,21 @@ type Props = {
 const OngletsNavigation = (Props: Props) => {
 	const { nomOnglet, etat, setEtat } = Props;
 
+	const { colorMode } = useColorMode();
+
 	return (
 		<Box w="100%">
 			{etat === nomOnglet ? (
 				<Button
 					w="100%"
 					transition="ease-in 0.2s "
-					colorScheme="red"
+					colorScheme={"red"}
 					borderBottom="6px solid blue"
 					size="md"
+					borderBottomColor={
+						colorMode === "light" ? "textes.light" : "elements.dark"
+					}
+					color={"textes.light"}
 					onClick={() => setEtat(nomOnglet)}
 				>
 					{nomOnglet}

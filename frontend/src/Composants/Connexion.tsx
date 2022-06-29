@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { useContext, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
 // TYPES
@@ -17,6 +18,7 @@ import {
 	Flex,
 	InputGroup,
 	InputRightElement,
+	useColorMode,
 } from "@chakra-ui/react";
 // gestion des formulaires
 import { useForm } from "react-hook-form";
@@ -25,6 +27,8 @@ import { activeNotif } from "../Fonctions";
 const Connexion = () => {
 	const { estConnecte, setEstConnecte } = useContext(AuthContext);
 	const [showPassword, setShowPassword] = useState(false);
+
+	const { colorMode } = useColorMode();
 
 	const {
 		register,
@@ -79,8 +83,16 @@ const Connexion = () => {
 			.finally(() => {
 				console.log("COOKIE SETTED : " + Cookies.get("token"));
 				Cookies.get("token") && Cookies.get("userId")
-					? activeNotif("Vous êtes maintenant connecté", true)
-					: activeNotif("Un problème est survenue", false);
+					? activeNotif(
+							"Vous êtes maintenant connecté",
+							true,
+							colorMode === "light" ? "#4E5166" : "#FFD7D7"
+					  )
+					: activeNotif(
+							"Un problème est survenue",
+							false,
+							colorMode === "light" ? "#4E5166" : "#FFD7D7"
+					  );
 			});
 	};
 
