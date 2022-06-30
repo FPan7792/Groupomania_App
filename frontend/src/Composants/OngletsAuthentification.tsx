@@ -17,12 +17,13 @@ const OngletsAuthentification = (Props: Props) => {
 				<Button
 					w="100%"
 					transition="ease-in 0.2s "
-					colorScheme={colorMode === "light" ? "red" : "elements.dark"}
+					h="120%"
+					colorScheme="red"
 					borderBottom="6px solid "
 					borderBottomColor={
 						colorMode === "light" ? "textes.light" : "elements.dark"
 					}
-					color={colorMode === "light" ? "textes.light" : "elements.dark"}
+					color={colorMode === "light" ? "textes.dark" : "textes.light"}
 					size="md"
 					onClick={() => setEtat(nomOnglet)}
 				>

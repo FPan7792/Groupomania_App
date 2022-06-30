@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useRef } from "react";
+import { useState, useLayoutEffect, useRef, useEffect } from "react";
 // composants css
 import {
 	Button,
@@ -9,9 +9,21 @@ import {
 	Stack,
 	Image,
 	useColorMode,
+	InputGroup,
+	InputRightElement,
+	Flex,
+	Textarea,
 } from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faArrowLeft,
+	faCircleXmark,
+	faFileCircleCheck,
+	faFileCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 // types
 import { POST } from "../types";
+
 // navigation
 import {
 	useParams,
@@ -27,6 +39,7 @@ import { useFetch } from "../Hooks/hooks";
 import Cookies from "js-cookie";
 // notification pop
 import { activeNotif } from "../Fonctions";
+import { Heading } from "@chakra-ui/react";
 
 // Func REQUETES
 async function creerPost(formulaire: POST, image: HTMLInputElement | null) {
@@ -134,6 +147,7 @@ const EditionPost = () => {
 	const navigate = useNavigate();
 
 	const [post, setPost] = useState<POST | null | "nouveaupost">(null);
+	const [imageAttendue, setImageAttendue] = useState<any>(null);
 
 	// recup image
 	const imageRef = useRef<HTMLInputElement | null>(null);
@@ -164,9 +178,10 @@ const EditionPost = () => {
 		}, [post]);
 
 	// gestion de validation formulaire
-	const { handleSubmit, control } = useForm();
-	const onSubmit: SubmitHandler<any> = async (data: any) => {
-		const imageDuPost = imageRef.current;
+	const { handleSubmit, control } = useForm<POST>();
+
+	const onSubmit: SubmitHandler<POST> = async (data: POST) => {
+		const imageDuPost = imageAttendue ? imageRef.current : null;
 
 		if (id) {
 			if (id !== "nouveaupost") {
@@ -191,60 +206,137 @@ const EditionPost = () => {
 	};
 
 	return (
-		<Box>
-			<Link to={"/"}>
-				<Button>Retour</Button>
-			</Link>
-			<Text align="center" fontWeight="bold">
-				{id !== "nouveaupost" ? "Edition de post" : "Nouveau post"}
-			</Text>
+		<Box w="95%" border="2px solid black" borderRadius={"3xl"} p={5}>
+			<Stack spacing={5}>
+				<Flex w="100%" align="center" mb={5}>
+					<Link to={"/"}>
+						<Button colorScheme="red" variant="outline">
+							<FontAwesomeIcon icon={faArrowLeft} />
+						</Button>
+					</Link>
+					<Heading as="h1" fontSize="2xl" fontWeight="bold" m="0 auto">
+						{id !== "nouveaupost" ? "Edition de post" : "Nouveau post"}
+					</Heading>
+				</Flex>
 
-			{post && (
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<Stack>
-						<FormLabel>Titre</FormLabel>
-						<Controller
-							name="title"
-							control={control}
-							defaultValue={post !== "nouveaupost" ? post?.title : ""}
-							render={({ field }) => (
-								<Input type="text" w="xs" {...field} />
-							)}
-						/>
+				{post && (
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<Stack spacing={10}>
+							<Stack spacing={0}>
+								<FormLabel fontSize="md" fontWeight="bold">
+									Titre
+								</FormLabel>
+								<Controller
+									name="title"
+									control={control}
+									defaultValue={
+										post !== "nouveaupost" ? post?.title : ""
+									}
+									render={({ field }) => (
+										<Input
+											type="text"
+											w="xs"
+											fontSize="sm"
+											required={true}
+											{...field}
+										/>
+									)}
+								/>
+							</Stack>
 
-						<FormLabel>Contenu</FormLabel>
-						<Controller
-							name="content"
-							control={control}
-							defaultValue={post !== "nouveaupost" ? post?.content : ""}
-							render={({ field }) => (
-								<Input type="text" w="2xl" h="xs" {...field} />
-							)}
-						/>
+							<Stack spacing={0}>
+								<FormLabel fontSize="md" fontWeight="bold">
+									Contenu
+								</FormLabel>
+								<Flex align="center">
+									<Controller
+										name="content"
+										control={control}
+										defaultValue={
+											post !== "nouveaupost" ? post?.content : ""
+										}
+										render={({ field }) => (
+											<Textarea
+												flex={2}
+												fontSize="sm"
+												w="2xl"
+												h="xs"
+												required={true}
+												{...field}
+											/>
+										)}
+									/>
+									{post !== "nouveaupost" &&
+										post.is_image === true && (
+											<Image
+												flex={1}
+												objectFit="contain"
+												h={100}
+												src={post.image_url}
+												alt={`${post.title}`}
+											/>
+										)}
+								</Flex>
+							</Stack>
 
-						<FormLabel>Image</FormLabel>
+							<Stack spacing={0}>
+								<FormLabel fontSize="md" fontWeight="bold">
+									Image
+								</FormLabel>
+								<InputGroup w="50%">
+									<Input
+										type="file"
+										accept=".jpg, .jpeg, .png"
+										name="image"
+										id="image"
+										ref={imageRef}
+										border="none"
+										onChange={(e) => {
+											setImageAttendue(e.target.value);
+											console.log(e.target.value);
+										}}
+									/>
 
-						{post !== "nouveaupost" && post.is_image && (
-							<Image
-								src={post.image_url}
-								boxSize="100px"
-								objectFit="cover"
-							></Image>
-						)}
-						<Input
-							type="file"
-							accept="accept"
-							id="image"
-							ref={imageRef}
-						/>
-					</Stack>
-					{id === "nouveaupost" ? (
-						<Button type="submit">Publier</Button>
-					) : (
-						<Button type="submit">Modifier</Button>
-					)}
-				</form>
-			)}
+									<InputRightElement>
+										<FontAwesomeIcon
+											icon={
+												!imageAttendue
+													? faFileCircleXmark
+													: faFileCircleCheck
+											}
+											color={!imageAttendue ? "red" : "green"}
+										/>
+										{imageAttendue && (
+											<Button
+												onClick={() => {
+													setImageAttendue(null);
+													console.log(imageRef.current?.value);
+												}}
+											>
+												<FontAwesomeIcon
+													icon={faCircleXmark}
+													color="black"
+												/>
+											</Button>
+										)}
+									</InputRightElement>
+								</InputGroup>
+							</Stack>
+						</Stack>
+
+						<Flex justify="center" m={10}>
+							<Button
+								type="submit"
+								colorScheme="red"
+								w="xs"
+								variant="outline"
+							>
+								{id === "nouveaupost" ? "Publier" : "Modifier"}
+							</Button>
+						</Flex>
+					</form>
+				)}
+			</Stack>
 		</Box>
 	);
 };

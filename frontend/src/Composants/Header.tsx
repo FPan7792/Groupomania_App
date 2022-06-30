@@ -10,13 +10,10 @@ type Props = {
 		}>
 	>;
 };
-
 // notification pop
 import { activeNotif } from "../Fonctions";
-
 // gestion auth
 import Cookies from "js-cookie";
-
 // composants css & icones
 import { Flex, Button, useColorMode } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

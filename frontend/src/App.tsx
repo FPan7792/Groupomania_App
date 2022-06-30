@@ -12,6 +12,8 @@ import {
 	useColorMode,
 	useColorModeValue,
 } from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 // gestion de la navigation et des pages
 import { Routes, Route } from "react-router-dom";
@@ -42,7 +44,7 @@ function App() {
 		setEstConnecte,
 	};
 
-	const { toggleColorMode } = useColorMode();
+	const { colorMode, toggleColorMode } = useColorMode();
 	const color = useColorModeValue("textes.light", "textes.dark");
 	const bgColor = useColorModeValue("fond.light", "rgb(20, 24, 33)");
 
@@ -58,13 +60,32 @@ function App() {
 				flexDirection="column"
 				pos="relative"
 			>
-				<Button
-					onClick={() => {
-						toggleColorMode();
-					}}
+				<Flex
+					justify="center"
+					mt={4}
+					w={!estConnecte.connexion ? "80%" : "95%"}
+					// mb={4}
 				>
-					Toggle
-				</Button>
+					<Button
+						colorScheme="red"
+						size="sm"
+						right={0}
+						top={0}
+						onClick={() => {
+							toggleColorMode();
+						}}
+					>
+						{colorMode === "light" ? (
+							<FontAwesomeIcon icon={faMoon} size="1x" color="#4E5166" />
+						) : (
+							<FontAwesomeIcon
+								icon={faSun}
+								size="1x"
+								color="whitesmoke"
+							/>
+						)}
+					</Button>
+				</Flex>
 				{estConnecte.connexion && (
 					<Header setEstConnecte={setEstConnecte} />
 				)}

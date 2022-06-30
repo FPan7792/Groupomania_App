@@ -105,7 +105,7 @@ const Connexion = () => {
 				id="email"
 				type="email"
 				placeholder="E-mail professionnel"
-				disabled={isSubmitting}
+				isDisabled={isSubmitting}
 				required={true}
 				focusBorderColor="crimson"
 				{...register("email")}
@@ -122,7 +122,7 @@ const Connexion = () => {
 					id="password"
 					placeholder="Code confidentiel"
 					type={showPassword ? "text" : "password"}
-					disabled={isSubmitting}
+					isDisabled={isSubmitting}
 					required={true}
 					focusBorderColor="crimson"
 					{...register("password")}
@@ -142,22 +142,15 @@ const Connexion = () => {
 			<Flex justify="center">
 				<Button
 					marginTop="10"
-					disabled={isSubmitting}
+					isDisabled={isSubmitting}
 					size="sm"
 					w="40%"
 					type="submit"
+					colorScheme="red"
 				>
 					Se connecter
 				</Button>
 			</Flex>
-			{/* <Text fontSize="xs" textAlign="center" fontStyle="italic" mt={5}>
-				Si vous n&apos;avez pas encore de compte, vous pouvez vous inscrire
-				<span onClick={() => setEtat("Inscription") } >
-				ici
-
-				</span>
-
-			</Text> */}
 		</form>
 	);
 };

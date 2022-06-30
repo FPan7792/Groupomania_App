@@ -37,7 +37,15 @@ export const Post = (Props: Props) => {
 	const { colorMode } = useColorMode();
 
 	return (
-		<Box key={post.post_id} m={8} p={3} borderRadius={10} boxShadow="md">
+		<Box
+			key={post.post_id}
+			m={8}
+			p={3}
+			borderRadius={10}
+			boxShadow="md"
+			border="1px solid"
+			borderColor={colorMode === "light" ? "fond.dark" : "fond.light"}
+		>
 			<Flex justify="space-between" pos="relative">
 				<Box>
 					<Heading as="h2" size="md" mb={2}>

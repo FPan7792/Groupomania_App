@@ -25,8 +25,9 @@ const theme = extendTheme({
 			dark: "#4E5166",
 		},
 	},
-
 	config,
 });
 
 export default theme;
+
+// fix primaire, secondaire, tertiaire

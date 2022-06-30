@@ -105,6 +105,7 @@ const Inscription = (Props: Props) => {
 
 			<Flex justify="center">
 				<Button
+					colorScheme="red"
 					marginTop="10"
 					disabled={isSubmitting}
 					size="sm"
