@@ -64,13 +64,11 @@ function App() {
 					justify="center"
 					mt={4}
 					w={!estConnecte.connexion ? "80%" : "95%"}
-					// mb={4}
 				>
 					<Button
 						colorScheme="red"
-						size="sm"
-						right={0}
-						top={0}
+						size="md"
+						variant="outline"
 						onClick={() => {
 							toggleColorMode();
 						}}

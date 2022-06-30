@@ -1,9 +1,8 @@
-import { useState, useLayoutEffect, useRef, useEffect } from "react";
+import { useState, useLayoutEffect, useRef } from "react";
 // composants css
 import {
 	Button,
 	Box,
-	Text,
 	Input,
 	FormLabel,
 	Stack,
@@ -206,11 +205,17 @@ const EditionPost = () => {
 	};
 
 	return (
-		<Box w="95%" border="2px solid black" borderRadius={"3xl"} p={5}>
+		<Box
+			bgColor={colorMode === "light" ? "#ffffff" : "fond.dark"}
+			w="95%"
+			borderRadius={"3xl"}
+			shadow="lg"
+			p={10}
+		>
 			<Stack spacing={5}>
 				<Flex w="100%" align="center" mb={5}>
 					<Link to={"/"}>
-						<Button colorScheme="red" variant="outline">
+						<Button colorScheme="red">
 							<FontAwesomeIcon icon={faArrowLeft} />
 						</Button>
 					</Link>
@@ -283,7 +288,12 @@ const EditionPost = () => {
 								<FormLabel fontSize="md" fontWeight="bold">
 									Image
 								</FormLabel>
-								<InputGroup w="50%">
+								<InputGroup
+									w="30%"
+									minW="360px"
+									flexShrink={1}
+									flexWrap="wrap"
+								>
 									<Input
 										type="file"
 										accept=".jpg, .jpeg, .png"
@@ -324,13 +334,8 @@ const EditionPost = () => {
 							</Stack>
 						</Stack>
 
-						<Flex justify="center" m={10}>
-							<Button
-								type="submit"
-								colorScheme="red"
-								w="xs"
-								variant="outline"
-							>
+						<Flex justify="center" m={10} mt="100px">
+							<Button type="submit" colorScheme="red" w="xs">
 								{id === "nouveaupost" ? "Publier" : "Modifier"}
 							</Button>
 						</Flex>

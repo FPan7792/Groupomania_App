@@ -19,11 +19,13 @@ const OngletsNavigation = (Props: Props) => {
 			{etat === nomOnglet ? (
 				<Button
 					w="100%"
-					h="120%"
+					// h="120%"
+					h={9}
+					bgSize="sm"
 					transition="ease-in 0.2s "
 					colorScheme={"red"}
-					borderBottom="6px solid blue"
-					size="md"
+					borderBottom="5px solid"
+					size="sm"
 					borderBottomColor={
 						colorMode === "light" ? "textes.light" : "elements.dark"
 					}
@@ -33,7 +35,13 @@ const OngletsNavigation = (Props: Props) => {
 					{nomOnglet}
 				</Button>
 			) : (
-				<Button w="100%" onClick={() => setEtat(nomOnglet)}>
+				<Button
+					w="100%"
+					h={8}
+					size="sm"
+					opacity={0.7}
+					onClick={() => setEtat(nomOnglet)}
+				>
 					{nomOnglet}
 				</Button>
 			)}

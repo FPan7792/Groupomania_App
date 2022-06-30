@@ -81,7 +81,7 @@ const PagePrincipale = () => {
 				background="white"
 				borderRadius="3xl"
 				overflow="hidden"
-				bgColor={colorMode === "light" ? "#FFFFFF" : "fond.dark"}
+				bgColor={colorMode === "light" ? "#fdfdfd" : "fond.dark"}
 			>
 				<Flex>
 					<OngletsNavigation

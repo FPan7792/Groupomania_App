@@ -89,7 +89,7 @@ export const Header = (Props: Props) => {
 				}
 				rightIcon={<FontAwesomeIcon icon={faDoorOpen} />}
 				colorScheme="red"
-				variant="solid"
+				variant="outline"
 			>
 				Déconnexion
 			</Button>

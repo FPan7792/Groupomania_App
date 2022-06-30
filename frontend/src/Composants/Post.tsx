@@ -42,8 +42,9 @@ export const Post = (Props: Props) => {
 			m={8}
 			p={3}
 			borderRadius={10}
-			boxShadow="md"
-			border="1px solid"
+			shadow="
+			0 2px 5px 1px rgba(0,0,0,0.1)"
+			// border="1px solid"
 			borderColor={colorMode === "light" ? "fond.dark" : "fond.light"}
 		>
 			<Flex justify="space-between" pos="relative">
@@ -63,12 +64,12 @@ export const Post = (Props: Props) => {
 							</Text>
 							: {dateDeCreation}
 						</Text>
-						{post.createdAt !== post.updatedAt && (
+						{/* {post.createdAt !== post.updatedAt && (
 							<Text fontSize="x-small" fontStyle="italic">
 								{" "}
 								(modifié)
 							</Text>
-						)}
+						)} */}
 					</Flex>
 					<Text
 						pos="absolute"
@@ -115,7 +116,7 @@ export const Post = (Props: Props) => {
 					(Number(userId) === post.owner_id || isAdmin === true) && (
 						<Box>
 							<Button
-								m="0 10px"
+								mr=" 10px"
 								size="xs"
 								colorScheme="red"
 								onClick={async () => {
@@ -147,15 +148,13 @@ export const Post = (Props: Props) => {
 				<Button
 					size="xs"
 					pos="absolute"
-					right="10px"
+					right={0}
 					bottom={0}
 					colorScheme={"pink"}
 					bgColor={!aLike ? "none" : "whitesmoke"}
 					color={
 						colorMode === "dark"
-							? aLike
-								? "whitesmoke"
-								: "#4E5166"
+							? "#4E5166"
 							: !aLike
 							? "whitesmoke"
 							: "#4E5166"

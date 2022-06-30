@@ -35,7 +35,7 @@ export const UtilisateurPosts = (Props: Props) => {
 		<Box>
 			<Link to={"/post/nouveaupost"}>
 				<Flex justify="center" m="50px 10px">
-					<Button size="md" colorScheme="red" variant="solid" w="30%">
+					<Button size="md" colorScheme="red" variant="outline" w="30%">
 						Nouvelle publication
 					</Button>
 				</Flex>
