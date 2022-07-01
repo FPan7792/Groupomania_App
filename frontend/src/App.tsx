@@ -46,7 +46,7 @@ function App() {
 
 	const { colorMode, toggleColorMode } = useColorMode();
 	const color = useColorModeValue("textes.light", "textes.dark");
-	const bgColor = useColorModeValue("fond.light", "rgb(20, 24, 33)");
+	const bgColor = useColorModeValue("fond.light", "fond.dark");
 
 	return (
 		<AuthContext.Provider value={gestionDeConnexion}>
@@ -63,24 +63,21 @@ function App() {
 				<Flex
 					justify="center"
 					mt={4}
+					mb={!estConnecte.connexion ? 10 : 0}
 					w={!estConnecte.connexion ? "80%" : "95%"}
 				>
 					<Button
-						colorScheme="red"
-						size="md"
-						variant="outline"
+						colorScheme={color}
+						size="sm"
+						variant="ghost"
 						onClick={() => {
 							toggleColorMode();
 						}}
 					>
 						{colorMode === "light" ? (
-							<FontAwesomeIcon icon={faMoon} size="1x" color="#4E5166" />
+							<FontAwesomeIcon icon={faMoon} size="2x" color={color} />
 						) : (
-							<FontAwesomeIcon
-								icon={faSun}
-								size="1x"
-								color="whitesmoke"
-							/>
+							<FontAwesomeIcon icon={faSun} size="2x" color={color} />
 						)}
 					</Button>
 				</Flex>

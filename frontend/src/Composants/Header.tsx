@@ -15,7 +15,12 @@ import { activeNotif } from "../Fonctions";
 // gestion auth
 import Cookies from "js-cookie";
 // composants css & icones
-import { Flex, Button, useColorMode } from "@chakra-ui/react";
+import {
+	Flex,
+	Button,
+	useColorMode,
+	useColorModeValue,
+} from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
@@ -59,9 +64,10 @@ export const Header = (Props: Props) => {
 	const { setEstConnecte } = Props;
 
 	const { colorMode } = useColorMode();
+	const color = useColorModeValue("primaire", "secondaire");
 
 	return (
-		<Flex justify="space-between" align="center" w="95%" m="20px auto">
+		<Flex justify="space-between" align="center" w="95%" m="50px auto 30px ">
 			<svg
 				height="40"
 				viewBox="0 0 485 78"
@@ -88,7 +94,9 @@ export const Header = (Props: Props) => {
 					)
 				}
 				rightIcon={<FontAwesomeIcon icon={faDoorOpen} />}
-				colorScheme="red"
+				color={color}
+				border="1px solid"
+				borderColor={color}
 				variant="outline"
 			>
 				Déconnexion

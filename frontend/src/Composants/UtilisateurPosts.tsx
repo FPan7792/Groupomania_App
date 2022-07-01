@@ -9,7 +9,7 @@ type Props = {
 	isAdmin: boolean | null;
 };
 // composants css
-import { Button, Box, Flex } from "@chakra-ui/react";
+import { Button, Box, Flex, useColorModeValue } from "@chakra-ui/react";
 // navigation
 import { Link } from "react-router-dom";
 // composants
@@ -31,11 +31,19 @@ export const UtilisateurPosts = (Props: Props) => {
 		setMesPosts(nouveauTableau);
 	}, [posts, etat]);
 
+	const color = useColorModeValue("primaire", "secondaire");
+
 	return (
 		<Box>
 			<Link to={"/post/nouveaupost"}>
 				<Flex justify="center" m="50px 10px">
-					<Button size="md" colorScheme="red" variant="outline" w="30%">
+					<Button
+						size="md"
+						colorScheme="primaire"
+						variant="outline"
+						w="30%"
+						color={color}
+					>
 						Nouvelle publication
 					</Button>
 				</Flex>

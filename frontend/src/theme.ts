@@ -13,21 +13,25 @@ const config: ThemeConfig = {
 const theme = extendTheme({
 	colors: {
 		textes: {
-			light: "#4E5166",
-			dark: "whitesmoke",
+			sombre: "#4E5166",
+			white: "whitesmoke",
 		},
 		elements: {
-			light: "#FD2D01",
-			dark: "#FFD7D7",
+			rouge: "#FD2D01",
+			rose: "#FFD7D7",
+			bleu: "#4E5166",
 		},
 		fond: {
 			light: "whitesmoke",
-			dark: "#4E5166",
+			dark: "rgb(20, 24, 48)",
+			elements: "rgb(20, 24, 33)",
 		},
+		primaire: "#FD2D01",
+		secondaire: "#FFD7D7",
+		tertiaire: "#4E5166",
+		neutre: "whitesmoke",
 	},
 	config,
 });
 
 export default theme;
-
-// fix primaire, secondaire, tertiaire

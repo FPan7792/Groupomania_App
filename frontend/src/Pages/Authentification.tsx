@@ -18,7 +18,7 @@ const Authentification = () => {
 		<Box
 			w="80%"
 			h="80%"
-			background={colorMode === "light" ? "#ffffff" : "fond.dark"}
+			background={colorMode === "light" ? "#ffffff" : "tertiaire"}
 			borderRadius="3xl"
 			overflow="hidden"
 		>

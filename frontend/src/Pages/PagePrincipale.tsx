@@ -72,7 +72,7 @@ const PagePrincipale = () => {
 	const { colorMode } = useColorMode();
 
 	return (
-		<Flex align="center" flexDirection="column" w="100%" h="100%">
+		<Flex align="center" flexDirection="column" w="100%" h="100% ">
 			<Box
 				pos="relative"
 				w="95%"
@@ -81,7 +81,7 @@ const PagePrincipale = () => {
 				background="white"
 				borderRadius="3xl"
 				overflow="hidden"
-				bgColor={colorMode === "light" ? "#fdfdfd" : "fond.dark"}
+				bgColor={colorMode === "light" ? "#fdfdfd" : "tertiaire"}
 			>
 				<Flex>
 					<OngletsNavigation

@@ -1,5 +1,5 @@
 // composants css
-import { Box, Button, useColorMode } from "@chakra-ui/react";
+import { Box, Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
 
 type Props = {
 	nomOnglet: "Accueil" | "Mes Posts" | "Likes" | null;
@@ -13,23 +13,25 @@ const OngletsNavigation = (Props: Props) => {
 	const { nomOnglet, etat, setEtat } = Props;
 
 	const { colorMode } = useColorMode();
+	const color = useColorModeValue("primaire", "secondaire");
 
 	return (
 		<Box w="100%">
 			{etat === nomOnglet ? (
 				<Button
 					w="100%"
-					// h="120%"
 					h={9}
+					fontWeight="bold"
 					bgSize="sm"
 					transition="ease-in 0.2s "
 					colorScheme={"red"}
+					bgColor={color}
 					borderBottom="5px solid"
 					size="sm"
 					borderBottomColor={
-						colorMode === "light" ? "textes.light" : "elements.dark"
+						colorMode === "light" ? "elements.bleu" : "whitesmoke"
 					}
-					color={colorMode === "light" ? "textes.dark" : "textes.light"}
+					color={colorMode === "light" ? "textes.white" : "textes.sombre"}
 					onClick={() => setEtat(nomOnglet)}
 				>
 					{nomOnglet}
@@ -40,6 +42,8 @@ const OngletsNavigation = (Props: Props) => {
 					h={8}
 					size="sm"
 					opacity={0.7}
+					shadow="md"
+					fontWeight="bold"
 					onClick={() => setEtat(nomOnglet)}
 				>
 					{nomOnglet}

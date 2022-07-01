@@ -7,6 +7,7 @@ import {
 	Heading,
 	Flex,
 	useColorMode,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -35,12 +36,14 @@ export const Post = (Props: Props) => {
 	const nombreDeLikes = likesDuPost.length;
 
 	const { colorMode } = useColorMode();
+	const color = useColorModeValue("gray.200", "fond.dark");
+	const buttonColor = useColorModeValue("primaire", "secondaire");
 
 	return (
 		<Box
 			key={post.post_id}
 			m={8}
-			p={3}
+			p={10}
 			borderRadius={10}
 			shadow="
 			0 2px 5px 1px rgba(0,0,0,0.1)"
@@ -73,23 +76,32 @@ export const Post = (Props: Props) => {
 					</Flex>
 					<Text
 						pos="absolute"
-						right={3}
+						fontWeight="bold"
+						right={2}
 						top={2}
 						fontSize="xs"
 						colorScheme="pink"
 					>
 						{nombreDeLikes}{" "}
-						<FontAwesomeIcon icon={faHeart} color="lightpink" />
+						<FontAwesomeIcon icon={faHeart} color={"#FFD7D7"} />
 					</Text>
 				</Box>
 			</Flex>
 
-			<Flex w="100%" m="40px 0 " p={10} shadow="xs">
+			<Flex
+				w="100%"
+				m="40px 0"
+				p={10}
+				border=" 1px solid "
+				borderColor={color}
+				borderRadius="md"
+			>
 				<Text
 					p="10px"
 					fontSize="sm"
 					m="20px 0"
 					mr={10}
+					// border="2px solid white"
 					borderRadius={10}
 					flex={3}
 				>
@@ -98,7 +110,6 @@ export const Post = (Props: Props) => {
 				</Text>
 				{post.is_image && (
 					<Image
-						// border="solid 2px black"
 						borderRadius="lg"
 						shadow="xs"
 						mr={5}
@@ -119,6 +130,7 @@ export const Post = (Props: Props) => {
 								mr=" 10px"
 								size="xs"
 								colorScheme="red"
+								// bgColor="primaire"
 								onClick={async () => {
 									await supprimerPost(
 										"http://localhost:3003/posts/delete",
