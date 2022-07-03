@@ -72,15 +72,16 @@ const PagePrincipale = () => {
 	const { colorMode } = useColorMode();
 
 	return (
-		<Flex align="center" flexDirection="column" w="100%" h="100% ">
+		<Flex align="center" flexDirection="column" w="100%" h="100%">
 			<Box
 				pos="relative"
 				w="95%"
 				h="95%"
-				margin="0 auto"
+				margin="0 auto 50px"
 				background="white"
 				borderRadius="3xl"
 				overflow="hidden"
+				shadow="base"
 				bgColor={colorMode === "light" ? "#fdfdfd" : "tertiaire"}
 			>
 				<Flex>

@@ -43,7 +43,7 @@ export const Post = (Props: Props) => {
 		<Box
 			key={post.post_id}
 			m={8}
-			p={10}
+			p={5}
 			borderRadius={10}
 			shadow="
 			0 2px 5px 1px rgba(0,0,0,0.1)"

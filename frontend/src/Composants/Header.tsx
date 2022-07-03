@@ -67,7 +67,7 @@ export const Header = (Props: Props) => {
 	const color = useColorModeValue("primaire", "secondaire");
 
 	return (
-		<Flex justify="space-between" align="center" w="95%" m="50px auto 30px ">
+		<Flex justify="space-between" align="center" w="95%" m="40px auto 30px ">
 			<svg
 				height="40"
 				viewBox="0 0 485 78"

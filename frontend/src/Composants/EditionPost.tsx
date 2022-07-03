@@ -12,6 +12,8 @@ import {
 	InputRightElement,
 	Flex,
 	Textarea,
+	Heading,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -38,7 +40,6 @@ import { useFetch } from "../Hooks/hooks";
 import Cookies from "js-cookie";
 // notification pop
 import { activeNotif } from "../Fonctions";
-import { Heading } from "@chakra-ui/react";
 
 // Func REQUETES
 async function creerPost(formulaire: POST, image: HTMLInputElement | null) {
@@ -138,6 +139,38 @@ function confirmationOperation(
 	} else activeNotif("Un problème est survenue", false, notyfColor);
 }
 
+async function supprimerLaPhoto(post: POST) {
+	let modificationConfirmation = false;
+
+	const nouveauPost = new FormData();
+	nouveauPost.append("post_id", post.post_id.toString());
+	nouveauPost.append("process", "process_deleteImage");
+
+	await fetch("http://localhost:3003/posts/modify", {
+		method: "POST",
+		headers: { Authorization: "Bearer " + Cookies.get("token") },
+		body: nouveauPost,
+	})
+		.then(async (response) => {
+			const resultat = await response.json();
+			if (!response.ok) {
+				throw new Error(resultat.message);
+			} else return resultat;
+		})
+		.then((confirmation: any) => {
+			console.log(confirmation);
+			modificationConfirmation = true;
+		})
+		.catch((err) => {
+			console.log("error", err);
+			return err;
+		});
+
+	console.log(modificationConfirmation);
+
+	return modificationConfirmation;
+}
+
 const EditionPost = () => {
 	// url params
 	const { id } = useParams();
@@ -147,12 +180,18 @@ const EditionPost = () => {
 
 	const [post, setPost] = useState<POST | null | "nouveaupost">(null);
 	const [imageAttendue, setImageAttendue] = useState<any>(null);
+	const [showImage, setShowImage] = useState<boolean>(true);
 
 	// recup image
 	const imageRef = useRef<HTMLInputElement | null>(null);
 
 	// gestion du theme
 	const { colorMode } = useColorMode();
+	const buttonColor = useColorModeValue("primaire", "secondaire");
+	const color = useColorModeValue("textes.light", "textes.dark");
+	const notifColor = useColorModeValue("#4E5166", "#FFD7D7");
+
+	console.log(notifColor);
 
 	if (id !== "nouveaupost") {
 		const { isError, isLoading, isSuccess } = useFetch(
@@ -174,10 +213,15 @@ const EditionPost = () => {
 	} else
 		useLayoutEffect(() => {
 			setPost(id);
+			console.log(post);
 		}, [post]);
 
 	// gestion de validation formulaire
-	const { handleSubmit, control } = useForm<POST>();
+	const {
+		handleSubmit,
+		control,
+		formState: { isSubmitting },
+	} = useForm<POST>();
 
 	const onSubmit: SubmitHandler<POST> = async (data: POST) => {
 		const imageDuPost = imageAttendue ? imageRef.current : null;
@@ -190,7 +234,7 @@ const EditionPost = () => {
 					confirmation,
 					"Le post à été modifié !",
 					navigate,
-					colorMode === "light" ? "#4E5166" : "#FFD7D7"
+					notifColor
 				);
 			} else {
 				const confirmation = await creerPost(data, imageDuPost);
@@ -198,7 +242,7 @@ const EditionPost = () => {
 					confirmation,
 					"Nouveau poste créé !",
 					navigate,
-					colorMode === "light" ? "#4E5166" : "#FFD7D7"
+					notifColor
 				);
 			}
 		}
@@ -206,16 +250,22 @@ const EditionPost = () => {
 
 	return (
 		<Box
-			bgColor={colorMode === "light" ? "#ffffff" : "fond.dark"}
+			bgColor={colorMode === "light" ? "#fdfdfd" : "fond.dark"}
 			w="95%"
+			color={color}
 			borderRadius={"3xl"}
-			shadow="lg"
+			shadow="xs"
 			p={10}
 		>
 			<Stack spacing={5}>
 				<Flex w="100%" align="center" mb={5}>
 					<Link to={"/"}>
-						<Button colorScheme="red">
+						<Button
+							colorScheme="red"
+							color={buttonColor}
+							variant="outline"
+							isDisabled={isSubmitting}
+						>
 							<FontAwesomeIcon icon={faArrowLeft} />
 						</Button>
 					</Link>
@@ -243,6 +293,7 @@ const EditionPost = () => {
 											w="xs"
 											fontSize="sm"
 											required={true}
+											isDisabled={isSubmitting}
 											{...field}
 										/>
 									)}
@@ -262,24 +313,56 @@ const EditionPost = () => {
 										}
 										render={({ field }) => (
 											<Textarea
-												flex={2}
+												flex={3}
+												mr={2}
 												fontSize="sm"
 												w="2xl"
 												h="xs"
 												required={true}
+												isDisabled={isSubmitting}
 												{...field}
 											/>
 										)}
 									/>
 									{post !== "nouveaupost" &&
-										post.is_image === true && (
-											<Image
+										post.is_image === true &&
+										showImage && (
+											<Flex
+												flexDir="column"
+												align="center"
+												justify="center"
 												flex={1}
-												objectFit="contain"
-												h={100}
-												src={post.image_url}
-												alt={`${post.title}`}
-											/>
+												// border="2px solid black"
+												h="xs"
+											>
+												<Image
+													h="60%"
+													objectFit="contain"
+													src={post.image_url}
+													alt={`${post.title}`}
+												/>
+												<Button
+													colorScheme="red"
+													color={buttonColor}
+													variant="outline"
+													size="xs"
+													mt={5}
+													w="50%"
+													isDisabled={isSubmitting}
+													onClick={async () => {
+														const suppression =
+															await supprimerLaPhoto(post);
+														suppression && setShowImage(false);
+														activeNotif(
+															"La photo à bien été supprimée",
+															true,
+															notifColor
+														);
+													}}
+												>
+													Supprimer l&apos;image
+												</Button>
+											</Flex>
 										)}
 								</Flex>
 							</Stack>
@@ -301,6 +384,7 @@ const EditionPost = () => {
 										id="image"
 										ref={imageRef}
 										border="none"
+										isDisabled={isSubmitting}
 										onChange={(e) => {
 											setImageAttendue(e.target.value);
 											console.log(e.target.value);
@@ -335,7 +419,13 @@ const EditionPost = () => {
 						</Stack>
 
 						<Flex justify="center" m={10} mt="100px">
-							<Button type="submit" colorScheme="red" w="xs">
+							<Button
+								type="submit"
+								colorScheme="red"
+								bgColor={buttonColor}
+								w="xs"
+								isDisabled={isSubmitting}
+							>
 								{id === "nouveaupost" ? "Publier" : "Modifier"}
 							</Button>
 						</Flex>
@@ -346,7 +436,3 @@ const EditionPost = () => {
 	);
 };
 export default EditionPost;
-
-// Crreer bouton supprimer la photo en mofifiant is_image
-// recup is_image dans le backend et si false on supprile tout simplement l'image et on ne revoie rien
-// on supp aussi l'image dans la BDD

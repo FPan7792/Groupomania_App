@@ -9,7 +9,7 @@ exports.getAllPosts = async (req, res) => {
   try {
     const allPosts = await Post.findAll({ order: [["createdAt", "DESC"]] });
 
-    console.log(allPosts);
+    // console.log(allPosts);
     res.status(200).json(allPosts);
   } catch (error) {
     console.log("ERROR", error);
@@ -125,29 +125,44 @@ exports.deletePost = async (req, res) => {
 // MODIFICATION
 exports.modifyPost = async (req, res) => {
   try {
-    const { post_id, user_id } = req.fields;
+    const { post_id, user_id, process } = req.fields;
+    console.log("REQFILDES", req.fields);
     const USER = await User.findOne({ where: { user_id } });
     const postToModify = await Post.findOne({ where: { post_id } });
 
     if (USER.is_admin || postToModify.owner_id === USER.user_id) {
       postToModify.set(req.fields);
-      if (req.files.image) {
+      console.log("PTM", postToModify);
+
+      // suppression image
+      if (process && process === "process_deleteImage") {
+        const databaseId = postToModify.image_url.split("/");
+        const id = databaseId[databaseId.length - 1].split(".");
+
+        await cloudinary.api.delete_resources_by_prefix(
+          `groupomania_app/user_${user_id}/${id[0]}`
+        );
+
+        postToModify.image_url = "";
+        postToModify.is_image = false;
+      } else if (req.files.image) {
+        // modifier le post
         const { image } = req.files;
         let pictureToUpload = image.path;
+
+        const databaseId = postToModify.image_url.split("/");
+        const id = databaseId[databaseId.length - 1].split(".");
+
+        await cloudinary.api.delete_resources_by_prefix(
+          `groupomania_app/user_${user_id}/${id[0]}`
+        );
 
         const uploadImage = await cloudinary.uploader.upload(pictureToUpload, {
           folder: `/groupomania_app/user_${user_id}`,
         });
 
-        const databaseId = postToModify.image_url.split("/");
-        const id = databaseId[databaseId.length - 1].split(".");
-
         postToModify.image_url = uploadImage.secure_url;
         postToModify.is_image = true;
-
-        await cloudinary.api.delete_resources_by_prefix(
-          `groupomania_app/user_${user_id}/${id[0]}`
-        );
       }
 
       const finalModifiedPost = await postToModify.save();

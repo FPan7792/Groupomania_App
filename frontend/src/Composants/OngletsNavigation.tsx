@@ -40,6 +40,7 @@ const OngletsNavigation = (Props: Props) => {
 				<Button
 					w="100%"
 					h={8}
+					transform="scale(0.99)"
 					size="sm"
 					opacity={0.7}
 					shadow="md"

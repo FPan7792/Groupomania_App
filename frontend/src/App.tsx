@@ -62,7 +62,7 @@ function App() {
 			>
 				<Flex
 					justify="center"
-					mt={4}
+					mt={2}
 					mb={!estConnecte.connexion ? 10 : 0}
 					w={!estConnecte.connexion ? "80%" : "95%"}
 				>
@@ -74,11 +74,11 @@ function App() {
 							toggleColorMode();
 						}}
 					>
-						{colorMode === "light" ? (
-							<FontAwesomeIcon icon={faMoon} size="2x" color={color} />
-						) : (
-							<FontAwesomeIcon icon={faSun} size="2x" color={color} />
-						)}
+						<FontAwesomeIcon
+							icon={colorMode === "light" ? faMoon : faSun}
+							size="2x"
+							color={color}
+						/>
 					</Button>
 				</Flex>
 				{estConnecte.connexion && (

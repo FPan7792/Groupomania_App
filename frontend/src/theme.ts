@@ -11,6 +11,13 @@ const config: ThemeConfig = {
 
 // 3. extend the theme
 const theme = extendTheme({
+	styles: {
+		global: {
+			"html, body": {
+				fontFamily: "Lato, sans-serif",
+			},
+		},
+	},
 	colors: {
 		textes: {
 			sombre: "#4E5166",
@@ -22,7 +29,7 @@ const theme = extendTheme({
 			bleu: "#4E5166",
 		},
 		fond: {
-			light: "whitesmoke",
+			light: "white",
 			dark: "rgb(20, 24, 48)",
 			elements: "rgb(20, 24, 33)",
 		},
