@@ -1,6 +1,6 @@
 import { useState } from "react";
 // css et images
-import { Box, Flex, Stack, Text, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 
 // composants
 import Inscription from "../Composants/Inscription";
@@ -12,15 +12,18 @@ const Authentification = () => {
 		"Connexion" | "Inscription"
 	>("Connexion");
 
-	const { colorMode } = useColorMode();
+	const couleurDuTexte = useColorModeValue("textes.sombre", "textes.white");
+	const couleurDuFond = useColorModeValue("#F4F4F4", "tertiaire");
 
 	return (
 		<Box
 			w="80%"
 			h="80%"
-			background={colorMode === "light" ? "#ffffff" : "tertiaire"}
+			background={couleurDuFond}
 			borderRadius="3xl"
 			overflow="hidden"
+			shadow="md"
+			color={couleurDuTexte}
 		>
 			<Flex>
 				<OngletsAuthentification

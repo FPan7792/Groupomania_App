@@ -332,7 +332,6 @@ const EditionPost = () => {
 												align="center"
 												justify="center"
 												flex={1}
-												// border="2px solid black"
 												h="xs"
 											>
 												<Image
@@ -424,7 +423,12 @@ const EditionPost = () => {
 								colorScheme="red"
 								bgColor={buttonColor}
 								w="xs"
-								isDisabled={isSubmitting}
+								isLoading={isSubmitting}
+								loadingText={
+									id === "nouveaupost"
+										? "Création ..."
+										: "Modifications ..."
+								}
 							>
 								{id === "nouveaupost" ? "Publier" : "Modifier"}
 							</Button>

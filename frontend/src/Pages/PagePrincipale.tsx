@@ -72,7 +72,13 @@ const PagePrincipale = () => {
 	const { colorMode } = useColorMode();
 
 	return (
-		<Flex align="center" flexDirection="column" w="100%" h="100%">
+		<Flex
+			align="center"
+			flexDirection="column"
+			w="100%"
+			h="100%"
+			minHeight="100vh"
+		>
 			<Box
 				pos="relative"
 				w="95%"

@@ -19,16 +19,18 @@ import {
 	InputGroup,
 	InputRightElement,
 	useColorMode,
+	useColorModeValue,
 } from "@chakra-ui/react";
 // gestion des formulaires
 import { useForm } from "react-hook-form";
 import { activeNotif } from "../Fonctions";
 
 const Connexion = () => {
-	const { estConnecte, setEstConnecte } = useContext(AuthContext);
+	const { setEstConnecte } = useContext(AuthContext);
 	const [showPassword, setShowPassword] = useState(false);
 
 	const { colorMode } = useColorMode();
+	const buttonColor = useColorModeValue("primaire", "secondaire");
 
 	const {
 		register,
@@ -98,7 +100,9 @@ const Connexion = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<FormLabel transform="translateX(2%)">Email utilisateur :</FormLabel>
+			<FormLabel transform="translateX(2%)" fontWeight="bold">
+				Email utilisateur :
+			</FormLabel>
 			<Input
 				size="sm"
 				w="100%"
@@ -111,7 +115,7 @@ const Connexion = () => {
 				{...register("email")}
 			/>
 
-			<FormLabel transform="translateX(2%)" marginTop={5}>
+			<FormLabel transform="translateX(2%)" marginTop={5} fontWeight="bold">
 				Mot de passe :
 			</FormLabel>
 
@@ -147,6 +151,7 @@ const Connexion = () => {
 					w="40%"
 					type="submit"
 					colorScheme="red"
+					bgColor={buttonColor}
 				>
 					Se connecter
 				</Button>

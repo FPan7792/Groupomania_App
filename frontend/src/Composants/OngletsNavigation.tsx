@@ -23,8 +23,9 @@ const OngletsNavigation = (Props: Props) => {
 					h={9}
 					fontWeight="bold"
 					bgSize="sm"
+					fontSize="lg"
 					transition="ease-in 0.2s "
-					colorScheme={"red"}
+					colorScheme="red"
 					bgColor={color}
 					borderBottom="5px solid"
 					size="sm"

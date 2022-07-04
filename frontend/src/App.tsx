@@ -23,6 +23,7 @@ import Authentification from "./Pages/Authentification";
 import PagePrincipale from "./Pages/PagePrincipale";
 import EditionPost from "./Composants/EditionPost";
 import Header from "./Composants/Header";
+import Footer from "./Composants/Footer";
 
 function App() {
 	const [estConnecte, setEstConnecte] = useState<{
@@ -47,6 +48,7 @@ function App() {
 	const { colorMode, toggleColorMode } = useColorMode();
 	const color = useColorModeValue("textes.light", "textes.dark");
 	const bgColor = useColorModeValue("fond.light", "fond.dark");
+	const couleurIcone = useColorModeValue("elements.bleu", "neutre");
 
 	return (
 		<AuthContext.Provider value={gestionDeConnexion}>
@@ -77,7 +79,7 @@ function App() {
 						<FontAwesomeIcon
 							icon={colorMode === "light" ? faMoon : faSun}
 							size="2x"
-							color={color}
+							color={couleurIcone}
 						/>
 					</Button>
 				</Flex>
@@ -94,6 +96,7 @@ function App() {
 						<Route path="/post/:id" element={<EditionPost />} />
 					</Routes>
 				)}
+				<Footer />
 			</Flex>
 		</AuthContext.Provider>
 	);

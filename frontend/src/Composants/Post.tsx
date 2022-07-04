@@ -37,18 +37,16 @@ export const Post = (Props: Props) => {
 
 	const { colorMode } = useColorMode();
 	const color = useColorModeValue("gray.200", "fond.dark");
-	const buttonColor = useColorModeValue("primaire", "secondaire");
 
 	return (
 		<Box
 			key={post.post_id}
-			m={8}
+			m="20px auto"
+			w="90%"
 			p={5}
 			borderRadius={10}
 			shadow="
 			0 2px 5px 1px rgba(0,0,0,0.1)"
-			// border="1px solid"
-			borderColor={colorMode === "light" ? "fond.dark" : "fond.light"}
 		>
 			<Flex justify="space-between" pos="relative">
 				<Box>

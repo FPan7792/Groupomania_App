@@ -7,6 +7,7 @@ import {
 	Flex,
 	InputGroup,
 	InputRightElement,
+	useColorModeValue,
 } from "@chakra-ui/react";
 
 // types
@@ -32,6 +33,9 @@ const Inscription = (Props: Props) => {
 
 	const { setEtat } = Props;
 	const [showPassword, setShowPassword] = useState(false);
+
+	// gestion du theme
+	const buttonColor = useColorModeValue("primaire", "secondaire");
 
 	const onSubmit = async (datas: FormInputs) => {
 		console.log(datas);
@@ -62,7 +66,9 @@ const Inscription = (Props: Props) => {
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<FormLabel transform="translateX(2%)">Email utilisateur :</FormLabel>
+			<FormLabel transform="translateX(2%)" fontWeight="bold">
+				Email utilisateur :
+			</FormLabel>
 			<Input
 				size="sm"
 				w="100%"
@@ -75,7 +81,7 @@ const Inscription = (Props: Props) => {
 				{...register("email")}
 			/>
 
-			<FormLabel transform="translateX(2%)" marginTop={5}>
+			<FormLabel transform="translateX(2%)" marginTop={5} fontWeight="bold">
 				Mot de passe :
 			</FormLabel>
 
@@ -110,6 +116,7 @@ const Inscription = (Props: Props) => {
 					disabled={isSubmitting}
 					size="sm"
 					w="40%"
+					bgColor={buttonColor}
 					type="submit"
 				>
 					S&apos;inscrire
