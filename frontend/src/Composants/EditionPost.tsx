@@ -14,6 +14,7 @@ import {
 	Textarea,
 	Heading,
 	useColorModeValue,
+	InputLeftElement,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -188,10 +189,8 @@ const EditionPost = () => {
 	// gestion du theme
 	const { colorMode } = useColorMode();
 	const buttonColor = useColorModeValue("primaire", "secondaire");
-	const color = useColorModeValue("textes.light", "textes.dark");
 	const notifColor = useColorModeValue("#4E5166", "#FFD7D7");
-
-	console.log(notifColor);
+	const couleurDuTexte = useColorModeValue("textes.sombre", "textes.white");
 
 	if (id !== "nouveaupost") {
 		const { isError, isLoading, isSuccess } = useFetch(
@@ -251,12 +250,12 @@ const EditionPost = () => {
 	return (
 		<Box
 			bgColor={colorMode === "light" ? "#fdfdfd" : "fond.dark"}
-			w="95%"
-			color={color}
-			borderRadius={"3xl"}
+			w={{ base: "90%", md: "95%" }}
+			// m="0 auto"
+			color={couleurDuTexte}
+			borderRadius={{ base: "xl", md: "3xl" }}
 			shadow="xs"
-			// fontSize={{ base: "xs", md: "6xl", lg: "9xl" }}
-			p={10}
+			p={{ base: 3, md: 10 }}
 		>
 			<Stack spacing={5}>
 				<Flex w="100%" align="center" mb={5}>
@@ -266,11 +265,17 @@ const EditionPost = () => {
 							color={buttonColor}
 							variant="outline"
 							isDisabled={isSubmitting}
+							size={{ base: "xs", md: "md" }}
 						>
 							<FontAwesomeIcon icon={faArrowLeft} />
 						</Button>
 					</Link>
-					<Heading as="h1" fontSize="2xl" fontWeight="bold" m="0 auto">
+					<Heading
+						as="h1"
+						fontSize={{ base: "xl", md: "2xl" }}
+						fontWeight="bold"
+						m="0 auto"
+					>
 						{id !== "nouveaupost" ? "Edition de post" : "Nouveau post"}
 					</Heading>
 				</Flex>
@@ -279,7 +284,10 @@ const EditionPost = () => {
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<Stack spacing={10}>
 							<Stack spacing={0}>
-								<FormLabel fontSize="md" fontWeight="bold">
+								<FormLabel
+									fontSize={{ base: "sm", md: "md" }}
+									fontWeight="bold"
+								>
 									Titre
 								</FormLabel>
 								<Controller
@@ -291,8 +299,9 @@ const EditionPost = () => {
 									render={({ field }) => (
 										<Input
 											type="text"
-											w="xs"
-											fontSize="sm"
+											size={{ base: "sm", md: "md" }}
+											w={{ base: "80%", md: "xs" }}
+											fontSize={{ base: "xs", md: "sm" }}
 											required={true}
 											isDisabled={isSubmitting}
 											{...field}
@@ -302,10 +311,17 @@ const EditionPost = () => {
 							</Stack>
 
 							<Stack spacing={0}>
-								<FormLabel fontSize="md" fontWeight="bold">
+								<FormLabel
+									fontSize={{ base: "sm", md: "md" }}
+									fontWeight="bold"
+								>
 									Contenu
 								</FormLabel>
-								<Flex align="center">
+								<Flex
+									flexDir={{ base: "column", md: "row" }}
+									align="center"
+									// border="black solid 2px"
+								>
 									<Controller
 										name="content"
 										control={control}
@@ -314,11 +330,12 @@ const EditionPost = () => {
 										}
 										render={({ field }) => (
 											<Textarea
-												flex={3}
-												mr={2}
-												fontSize="sm"
-												w="2xl"
-												h="xs"
+												flex={{ md: 3 }}
+												mr={{ base: 0, md: 2 }}
+												fontSize={{ base: "xs", md: "sm" }}
+												// w="2xl"
+												w={{ base: "100%", md: "2xl" }}
+												h={{ base: "200px", md: "xs" }}
 												required={true}
 												isDisabled={isSubmitting}
 												{...field}
@@ -331,12 +348,19 @@ const EditionPost = () => {
 											<Flex
 												flexDir="column"
 												align="center"
-												justify="center"
-												flex={1}
-												h="xs"
+												justify={{
+													base: "flex-start",
+													md: "center",
+												}}
+												flex={{ md: 1 }}
+												h={{ base: "100%", md: "md" }}
+												w="100%"
+												mt={{ base: "5", md: "0" }}
 											>
 												<Image
-													h="60%"
+													w="80%"
+													shadow={{ base: "sm", md: "none" }}
+													p={{ base: 5, md: "0" }}
 													objectFit="contain"
 													src={post.image_url}
 													alt={`${post.title}`}
@@ -346,7 +370,7 @@ const EditionPost = () => {
 													color={buttonColor}
 													variant="outline"
 													size="xs"
-													mt={5}
+													mt={{ base: 2, md: 5 }}
 													w="50%"
 													isDisabled={isSubmitting}
 													onClick={async () => {
@@ -368,30 +392,19 @@ const EditionPost = () => {
 							</Stack>
 
 							<Stack spacing={0}>
-								<FormLabel fontSize="md" fontWeight="bold">
+								<FormLabel
+									fontSize={{ base: "sm", md: "md" }}
+									fontWeight="bold"
+								>
 									Image
 								</FormLabel>
 								<InputGroup
-									w="30%"
-									minW="360px"
+									// w="30%"
+									size={{ base: "sm", md: "md" }}
 									flexShrink={1}
 									flexWrap="wrap"
 								>
-									<Input
-										type="file"
-										accept=".jpg, .jpeg, .png"
-										name="image"
-										id="image"
-										ref={imageRef}
-										border="none"
-										isDisabled={isSubmitting}
-										onChange={(e) => {
-											setImageAttendue(e.target.value);
-											console.log(e.target.value);
-										}}
-									/>
-
-									<InputRightElement>
+									<InputLeftElement left={-2} top={2}>
 										<FontAwesomeIcon
 											icon={
 												!imageAttendue
@@ -413,17 +426,36 @@ const EditionPost = () => {
 												/>
 											</Button>
 										)}
-									</InputRightElement>
+									</InputLeftElement>
+									<Input
+										type="file"
+										accept=".jpg, .jpeg, .png"
+										name="image"
+										id="image"
+										ref={imageRef}
+										border="none"
+										isDisabled={isSubmitting}
+										onChange={(e) => {
+											setImageAttendue(e.target.value);
+											console.log(e.target.value);
+										}}
+									/>
 								</InputGroup>
 							</Stack>
 						</Stack>
 
-						<Flex justify="center" m={10} mt="100px">
+						<Flex
+							justify="center"
+							m={10}
+							// mt="100px"
+							mt={{ base: 10, md: "100px" }}
+						>
 							<Button
 								type="submit"
 								colorScheme="red"
 								bgColor={buttonColor}
 								w="xs"
+								size={{ base: "xs", md: "md" }}
 								isLoading={isSubmitting}
 								loadingText={
 									id === "nouveaupost"
