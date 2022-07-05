@@ -20,10 +20,10 @@ const OngletsNavigation = (Props: Props) => {
 			{etat === nomOnglet ? (
 				<Button
 					w="100%"
-					h={9}
+					h={{ base: "8", md: "9" }}
+					fontSize={{ base: "xs", md: "lg" }}
 					fontWeight="bold"
 					bgSize="sm"
-					fontSize="lg"
 					transition="ease-in 0.2s "
 					colorScheme="red"
 					bgColor={color}
@@ -40,7 +40,8 @@ const OngletsNavigation = (Props: Props) => {
 			) : (
 				<Button
 					w="100%"
-					h={8}
+					h={{ base: "7", md: "8" }}
+					fontSize={{ base: "xs", md: "md" }}
 					transform="scale(0.99)"
 					size="sm"
 					opacity={0.7}

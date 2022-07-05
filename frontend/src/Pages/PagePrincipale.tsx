@@ -81,7 +81,8 @@ const PagePrincipale = () => {
 		>
 			<Box
 				pos="relative"
-				w="95%"
+				// w="95%"
+				w={{ base: "90%", md: "95%" }}
 				h="95%"
 				margin="0 auto 50px"
 				background="white"

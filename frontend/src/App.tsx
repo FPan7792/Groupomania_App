@@ -45,10 +45,12 @@ function App() {
 		setEstConnecte,
 	};
 
+	// gestion du theme
 	const { colorMode, toggleColorMode } = useColorMode();
 	const color = useColorModeValue("textes.light", "textes.dark");
 	const bgColor = useColorModeValue("fond.light", "fond.dark");
 	const couleurIcone = useColorModeValue("elements.bleu", "neutre");
+	const couleurIconeFlottante = useColorModeValue("primaire", "neutre");
 
 	return (
 		<AuthContext.Provider value={gestionDeConnexion}>
@@ -69,16 +71,20 @@ function App() {
 					w={!estConnecte.connexion ? "80%" : "95%"}
 				>
 					<Button
+						pos="fixed"
+						zIndex={1}
+						top={5}
 						colorScheme={color}
-						size="sm"
-						variant="ghost"
+						size={{ base: "xs", md: "sm" }}
+						// variant="ghost"
+						bgColor={couleurIconeFlottante}
 						onClick={() => {
 							toggleColorMode();
 						}}
 					>
 						<FontAwesomeIcon
 							icon={colorMode === "light" ? faMoon : faSun}
-							size="2x"
+							// size="2x"
 							color={couleurIcone}
 						/>
 					</Button>

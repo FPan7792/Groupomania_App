@@ -255,6 +255,7 @@ const EditionPost = () => {
 			color={color}
 			borderRadius={"3xl"}
 			shadow="xs"
+			// fontSize={{ base: "xs", md: "6xl", lg: "9xl" }}
 			p={10}
 		>
 			<Stack spacing={5}>

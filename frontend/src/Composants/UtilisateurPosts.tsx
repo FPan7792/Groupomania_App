@@ -38,10 +38,10 @@ export const UtilisateurPosts = (Props: Props) => {
 			<Link to={"/post/nouveaupost"}>
 				<Flex justify="center" m="50px 10px">
 					<Button
-						size="md"
+						size={{ base: "xs", md: "md" }}
+						w={{ base: "60%", md: "30%" }}
 						colorScheme="primaire"
 						variant="outline"
-						w="30%"
 						color={color}
 					>
 						Nouvelle publication
