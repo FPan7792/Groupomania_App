@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App";
 // notifications pop
 import "notyf/notyf.min.css";
-import theme from "./theme";
+import theme from "./Themes/theme";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement

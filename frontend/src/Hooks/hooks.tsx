@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // types
-import { POST } from "../types";
+import { POST } from "../Types/types";
 // session
 import Cookies from "js-cookie";
 // token de session

@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../Context/AuthContext";
 
 // types
-import { POST } from "../types";
+import { POST } from "../Types/types";
 
 // gestion authentification
 import Cookies from "js-cookie";
@@ -81,7 +81,6 @@ const PagePrincipale = () => {
 		>
 			<Box
 				pos="relative"
-				// w="95%"
 				w={{ base: "90%", md: "95%" }}
 				h="95%"
 				margin="0 auto 50px"

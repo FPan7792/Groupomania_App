@@ -24,6 +24,7 @@ const Authentification = () => {
 			overflow="hidden"
 			shadow="md"
 			color={couleurDuTexte}
+			mt={{ base: 2, md: 10 }}
 		>
 			<Flex>
 				<OngletsAuthentification

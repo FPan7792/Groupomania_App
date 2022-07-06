@@ -16,7 +16,7 @@ import {
 	faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 // types
-import { POST } from "../types";
+import { POST } from "../Types/types";
 type Props = {
 	post: POST;
 	userId?: string | number | null;
@@ -26,7 +26,7 @@ type Props = {
 // navigation
 import { Link } from "react-router-dom";
 // notification pop
-import { activeNotif, likerPost, supprimerPost } from "../Fonctions";
+import { activeNotif, likerPost, supprimerPost } from "../Fonctions/Fonctions";
 
 export const Post = (Props: Props) => {
 	const { post, isAdmin, refresh, userId } = Props;

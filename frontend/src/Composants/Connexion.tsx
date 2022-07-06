@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
 // TYPES
-import { CONNEXIONUTILISATEUR } from "../types";
+import { CONNEXIONUTILISATEUR } from "../Types/types";
 
 type FormInputs = {
 	email: string;
@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 // gestion des formulaires
 import { useForm } from "react-hook-form";
-import { activeNotif } from "../Fonctions";
+import { activeNotif } from "../Fonctions/Fonctions";
 
 const Connexion = () => {
 	const { setEstConnecte } = useContext(AuthContext);

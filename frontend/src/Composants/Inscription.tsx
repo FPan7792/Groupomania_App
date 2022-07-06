@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 // types
-import { CREATIONUTILISATEUR } from "../types";
+import { CREATIONUTILISATEUR } from "../Types/types";
 type Props = {
 	setEtat: React.Dispatch<React.SetStateAction<"Connexion" | "Inscription">>;
 };

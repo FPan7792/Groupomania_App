@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect } from "react";
 
 // types
-import { POST } from "../types";
+import { POST } from "../Types/types";
 type Props = {
 	posts: POST[] | null;
 	userId: string | number | null;

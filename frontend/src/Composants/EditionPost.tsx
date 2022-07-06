@@ -24,7 +24,7 @@ import {
 	faFileCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 // types
-import { POST } from "../types";
+import { POST } from "../Types/types";
 
 // navigation
 import {
@@ -40,7 +40,7 @@ import { useFetch } from "../Hooks/hooks";
 // auth
 import Cookies from "js-cookie";
 // notification pop
-import { activeNotif } from "../Fonctions";
+import { activeNotif } from "../Fonctions/Fonctions";
 
 // Func REQUETES
 async function creerPost(formulaire: POST, image: HTMLInputElement | null) {

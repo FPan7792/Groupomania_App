@@ -11,7 +11,7 @@ type Props = {
 	>;
 };
 // notification pop
-import { activeNotif } from "../Fonctions";
+import { activeNotif } from "../Fonctions/Fonctions";
 // gestion auth
 import Cookies from "js-cookie";
 // composants css & icones
