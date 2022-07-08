@@ -8,6 +8,7 @@ import {
 	InputGroup,
 	InputRightElement,
 	useColorModeValue,
+	Stack,
 } from "@chakra-ui/react";
 
 // types
@@ -66,7 +67,11 @@ const Inscription = (Props: Props) => {
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<FormLabel transform="translateX(2%)" fontWeight="bold">
+			<FormLabel
+				transform="translateX(2%)"
+				fontWeight="bold"
+				fontSize={{ base: "xs", md: "md" }}
+			>
 				Email utilisateur :
 			</FormLabel>
 			<Input
@@ -75,13 +80,18 @@ const Inscription = (Props: Props) => {
 				id="email"
 				type="email"
 				placeholder="E-mail professionnel"
-				disabled={isSubmitting}
+				isDisabled={isSubmitting}
 				required={true}
 				focusBorderColor="crimson"
 				{...register("email")}
 			/>
 
-			<FormLabel transform="translateX(2%)" marginTop={5} fontWeight="bold">
+			<FormLabel
+				transform="translateX(2%)"
+				marginTop={5}
+				fontWeight="bold"
+				fontSize={{ base: "xs", md: "md" }}
+			>
 				Mot de passe :
 			</FormLabel>
 
@@ -92,7 +102,7 @@ const Inscription = (Props: Props) => {
 					id="password"
 					placeholder="Code confidentiel"
 					type={showPassword ? "text" : "password"}
-					disabled={isSubmitting}
+					isDisabled={isSubmitting}
 					required={true}
 					focusBorderColor="crimson"
 					{...register("password")}
@@ -101,7 +111,7 @@ const Inscription = (Props: Props) => {
 					<Button
 						h="70%"
 						mr="10px"
-						size="sm"
+						size="xs"
 						onClick={() => setShowPassword((value) => !value)}
 					>
 						{showPassword ? "Cacher" : "Voir"}

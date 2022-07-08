@@ -52,15 +52,19 @@ function App() {
 	const couleurIcone = useColorModeValue("elements.bleu", "neutre");
 	const couleurIconeFlottante = useColorModeValue("primaire", "neutre");
 
+	console.log(estConnecte);
+
 	return (
 		<AuthContext.Provider value={gestionDeConnexion}>
 			<Flex
 				bgColor={bgColor}
 				color={color}
 				minH="100vh"
-				height="100%"
-				align="center"
-				justifyContent={!estConnecte.connexion ? "center" : "none"}
+				align={{ base: "center", md: "center" }}
+				justifyContent={{
+					base: "inherit",
+					md: !estConnecte.connexion ? "center" : "none",
+				}}
 				flexDirection="column"
 				pos="relative"
 			>
@@ -75,8 +79,7 @@ function App() {
 						zIndex={1}
 						top={5}
 						colorScheme={color}
-						size={{ base: "xs", md: "sm" }}
-						// variant="ghost"
+						size={{ base: "sm", md: "sm" }}
 						bgColor={couleurIconeFlottante}
 						onClick={() => {
 							toggleColorMode();
@@ -84,7 +87,6 @@ function App() {
 					>
 						<FontAwesomeIcon
 							icon={colorMode === "light" ? faMoon : faSun}
-							// size="2x"
 							color={couleurIcone}
 						/>
 					</Button>

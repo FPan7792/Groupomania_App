@@ -10,19 +10,14 @@ type Props = {
 		}>
 	>;
 };
+
+import { NavigateFunction, useNavigate } from "react-router-dom";
 // notification pop
 import { activeNotif } from "../Fonctions/Fonctions";
 // gestion auth
 import Cookies from "js-cookie";
 // composants css & icones
-import {
-	Flex,
-	Button,
-	useColorMode,
-	useColorModeValue,
-	Text,
-	Box,
-} from "@chakra-ui/react";
+import { Flex, Button, useColorModeValue, Text, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
@@ -37,7 +32,8 @@ function deconnexion(
 			isAdmin: boolean | null;
 		}>
 	>,
-	notyfColor: string
+	notyfColor: string,
+	navigationFunction: NavigateFunction
 ) {
 	{
 		Cookies.remove("token");
@@ -56,7 +52,7 @@ function deconnexion(
 				username: null,
 				isAdmin: null,
 			});
-
+			navigationFunction("/");
 			activeNotif("Vous êtes bien déconnecté", true, notyfColor);
 		}
 	}
@@ -65,9 +61,11 @@ function deconnexion(
 export const Header = (Props: Props) => {
 	const { setEstConnecte } = Props;
 
-	const { colorMode } = useColorMode();
+	const navigate = useNavigate();
+
 	const color = useColorModeValue("primaire", "secondaire");
 	const couleurLogo = useColorModeValue("black", "whitesmoke");
+	const couleurNotifications = useColorModeValue("#4E5166", "#FFD7D7");
 
 	return (
 		<Flex
@@ -138,10 +136,7 @@ export const Header = (Props: Props) => {
 			<Button
 				size="xs"
 				onClick={() =>
-					deconnexion(
-						setEstConnecte,
-						colorMode === "light" ? "#4E5166" : "#FFD7D7"
-					)
+					deconnexion(setEstConnecte, couleurNotifications, navigate)
 				}
 				rightIcon={<FontAwesomeIcon icon={faDoorOpen} />}
 				color={color}
@@ -156,10 +151,7 @@ export const Header = (Props: Props) => {
 			<Button
 				// size="sm"
 				onClick={() =>
-					deconnexion(
-						setEstConnecte,
-						colorMode === "light" ? "#4E5166" : "#FFD7D7"
-					)
+					deconnexion(setEstConnecte, couleurNotifications, navigate)
 				}
 				color={color}
 				border="1px solid"

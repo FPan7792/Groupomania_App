@@ -30,7 +30,7 @@ const Connexion = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const { colorMode } = useColorMode();
-	const buttonColor = useColorModeValue("primaire", "secondaire");
+	const couleurDesBoutons = useColorModeValue("primaire", "secondaire");
 
 	const {
 		register,
@@ -100,7 +100,11 @@ const Connexion = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<FormLabel transform="translateX(2%)" fontWeight="bold">
+			<FormLabel
+				transform="translateX(2%)"
+				fontWeight="bold"
+				fontSize={{ base: "xs", md: "md" }}
+			>
 				Email utilisateur :
 			</FormLabel>
 			<Input
@@ -108,6 +112,7 @@ const Connexion = () => {
 				w="100%"
 				id="email"
 				type="email"
+				errorBorderColor="green"
 				placeholder="E-mail professionnel"
 				isDisabled={isSubmitting}
 				required={true}
@@ -115,7 +120,12 @@ const Connexion = () => {
 				{...register("email")}
 			/>
 
-			<FormLabel transform="translateX(2%)" marginTop={5} fontWeight="bold">
+			<FormLabel
+				transform="translateX(2%)"
+				marginTop={5}
+				fontWeight="bold"
+				fontSize={{ base: "xs", md: "md" }}
+			>
 				Mot de passe :
 			</FormLabel>
 
@@ -135,7 +145,7 @@ const Connexion = () => {
 					<Button
 						h="70%"
 						mr="10px"
-						size="sm"
+						size="xs"
 						onClick={() => setShowPassword((value) => !value)}
 					>
 						{showPassword ? "Cacher" : "Voir"}
@@ -145,13 +155,14 @@ const Connexion = () => {
 
 			<Flex justify="center">
 				<Button
-					marginTop="10"
+					marginTop={10}
+					m={{ base: "60px 0 ", md: "" }}
 					isDisabled={isSubmitting}
 					size="sm"
 					w="40%"
 					type="submit"
 					colorScheme="red"
-					bgColor={buttonColor}
+					bgColor={couleurDesBoutons}
 				>
 					Se connecter
 				</Button>

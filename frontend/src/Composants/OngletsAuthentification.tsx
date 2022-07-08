@@ -1,4 +1,4 @@
-import { Box, Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, useColorModeValue } from "@chakra-ui/react";
 
 type Props = {
 	nomOnglet: "Connexion" | "Inscription";
@@ -10,7 +10,7 @@ const OngletsAuthentification = (Props: Props) => {
 	const { nomOnglet, etat, setEtat } = Props;
 
 	// gestion du theme
-	const couleurDesElements = useColorModeValue("primaire", "secondaire");
+	// const couleurDesElements = useColorModeValue("primaire", "secondaire");
 	const couleurBordureBas = useColorModeValue("elements.bleu", "whitesmoke");
 	const couleurDuTexte = useColorModeValue("textes.white", "textes.sombre");
 
@@ -19,13 +19,15 @@ const OngletsAuthentification = (Props: Props) => {
 			{etat === nomOnglet ? (
 				<Button
 					w="100%"
+					h={10}
+					fontSize={{ base: "sm", md: "lg" }}
 					transition="ease-in 0.2s "
-					h="120%"
-					fontSize="lg"
 					colorScheme="red"
-					bgColor={couleurDesElements}
-					borderBottom="5px solid "
-					borderBottomColor={couleurBordureBas}
+					borderBottom={{ base: "4px solid", md: "5px solid" }}
+					borderBottomColor={{
+						base: couleurBordureBas,
+						md: couleurBordureBas,
+					}}
 					color={couleurDuTexte}
 					shadow="md"
 					fontWeight="bold"
@@ -36,10 +38,12 @@ const OngletsAuthentification = (Props: Props) => {
 			) : (
 				<Button
 					w="100%"
-					opacity={0.7}
-					shadow="md"
+					h={9}
+					fontSize={{ base: "xs", md: "md" }}
+					transform="scale(0.99)"
 					size="sm"
-					fontWeight="bold"
+					opacity={0.7}
+					shadow="xs"
 					onClick={() => setEtat(nomOnglet)}
 				>
 					{nomOnglet}

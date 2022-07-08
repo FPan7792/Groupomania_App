@@ -5,7 +5,15 @@ export const Footer = () => {
 	const bgColor = useColorModeValue("neutre", "elements.bleu");
 
 	return (
-		<Flex justify="center" mt="50px" p={4} w="100%" bgColor={bgColor}>
+		<Flex
+			// pos="absolute"
+			bottom={0}
+			justify="center"
+			mt={{ base: "100px", md: "50px" }}
+			p={4}
+			w="100%"
+			bgColor={bgColor}
+		>
 			<Text fontSize="sm" color={color} fontWeight="bold">
 				Conditions générales d&apos;utilisation
 			</Text>

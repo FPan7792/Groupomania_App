@@ -9,7 +9,6 @@ import {
 	Image,
 	useColorMode,
 	InputGroup,
-	InputRightElement,
 	Flex,
 	Textarea,
 	Heading,
@@ -251,7 +250,6 @@ const EditionPost = () => {
 		<Box
 			bgColor={colorMode === "light" ? "#fdfdfd" : "fond.dark"}
 			w={{ base: "90%", md: "95%" }}
-			// m="0 auto"
 			color={couleurDuTexte}
 			borderRadius={{ base: "xl", md: "3xl" }}
 			shadow="xs"
