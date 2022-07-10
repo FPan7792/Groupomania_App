@@ -60,10 +60,7 @@ exports.login = async (req, res) => {
           username,
           token: jwt.sign(
             { userId: targetedUser.user_id },
-            process.env.UUID_TOKEN_GENERATOR,
-            {
-              expiresIn: "48h",
-            }
+            process.env.UUID_TOKEN_GENERATOR
           ),
         });
       } else {

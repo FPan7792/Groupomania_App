@@ -1,6 +1,7 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { useContext, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
+
 // TYPES
 import { CONNEXIONUTILISATEUR } from "../Types/types";
 
@@ -10,7 +11,8 @@ type FormInputs = {
 };
 // gestion authentification
 import Cookies from "js-cookie";
-// css
+
+// composants css
 import {
 	FormLabel,
 	Input,
@@ -21,6 +23,7 @@ import {
 	useColorMode,
 	useColorModeValue,
 } from "@chakra-ui/react";
+
 // gestion des formulaires
 import { useForm } from "react-hook-form";
 import { activeNotif } from "../Fonctions/Fonctions";
@@ -29,6 +32,7 @@ const Connexion = () => {
 	const { setEstConnecte } = useContext(AuthContext);
 	const [showPassword, setShowPassword] = useState(false);
 
+	// gestion du theme
 	const { colorMode } = useColorMode();
 	const couleurDesBoutons = useColorModeValue("primaire", "secondaire");
 
@@ -73,7 +77,8 @@ const Connexion = () => {
 							token: Cookies.get("token") || null,
 							userId: Cookies.get("userId") || null,
 							username: Cookies.get("username") || null,
-							isAdmin: Cookies.get("admin") || null,
+							isAdmin:
+								Cookies.get("admin") === "true" ? true : false || null,
 						});
 					}
 				}

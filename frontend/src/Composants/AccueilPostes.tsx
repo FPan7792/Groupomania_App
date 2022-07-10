@@ -12,6 +12,7 @@ import { Box } from "@chakra-ui/react";
 import Post from "./Post";
 
 const AccueilPostes = (Props: Props) => {
+	// verification de connexion
 	const { posts, userId, refresh, isAdmin } = Props;
 
 	return (

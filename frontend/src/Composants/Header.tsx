@@ -21,48 +21,14 @@ import { Flex, Button, useColorModeValue, Text, Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
-// fonction réutilisables
-function deconnexion(
-	setState: React.Dispatch<
-		React.SetStateAction<{
-			connexion: boolean;
-			token: string | null;
-			userId: string | number | null;
-			username: string | null;
-			isAdmin: boolean | null;
-		}>
-	>,
-	notyfColor: string,
-	navigationFunction: NavigateFunction
-) {
-	{
-		Cookies.remove("token");
-		Cookies.remove("userId");
-		Cookies.remove("username");
-		Cookies.remove("admin");
-		if (
-			!Cookies.get("token") &&
-			!Cookies.get("userId") &&
-			!Cookies.get("username")
-		) {
-			setState({
-				connexion: false,
-				token: null,
-				userId: null,
-				username: null,
-				isAdmin: null,
-			});
-			navigationFunction("/");
-			activeNotif("Vous êtes bien déconnecté", true, notyfColor);
-		}
-	}
-}
-
 export const Header = (Props: Props) => {
+	// gestion de l'etat de connexion
 	const { setEstConnecte } = Props;
 
+	// redirection
 	const navigate = useNavigate();
 
+	// gestion du theme
 	const color = useColorModeValue("primaire", "secondaire");
 	const couleurLogo = useColorModeValue("black", "whitesmoke");
 	const couleurNotifications = useColorModeValue("#4E5166", "#FFD7D7");
@@ -149,7 +115,6 @@ export const Header = (Props: Props) => {
 				Déconnexion
 			</Button>
 			<Button
-				// size="sm"
 				onClick={() =>
 					deconnexion(setEstConnecte, couleurNotifications, navigate)
 				}
@@ -166,3 +131,40 @@ export const Header = (Props: Props) => {
 	);
 };
 export default Header;
+
+// fonction réutilisables
+function deconnexion(
+	setState: React.Dispatch<
+		React.SetStateAction<{
+			connexion: boolean;
+			token: string | null;
+			userId: string | number | null;
+			username: string | null;
+			isAdmin: boolean | null;
+		}>
+	>,
+	notyfColor: string,
+	navigationFunction: NavigateFunction
+) {
+	{
+		Cookies.remove("token");
+		Cookies.remove("userId");
+		Cookies.remove("username");
+		Cookies.remove("admin");
+		if (
+			!Cookies.get("token") &&
+			!Cookies.get("userId") &&
+			!Cookies.get("username")
+		) {
+			setState({
+				connexion: false,
+				token: null,
+				userId: null,
+				username: null,
+				isAdmin: null,
+			});
+			navigationFunction("/");
+			activeNotif("Vous êtes bien déconnecté", true, notyfColor);
+		}
+	}
+}

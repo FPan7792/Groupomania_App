@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+// Types
+import { ETAT_DE_CONNEXION } from "./Types/types";
+
 // gestion de connexion utilisateur
 // context authentification utilisateur
 import { AuthContext } from "./Context/AuthContext";
@@ -26,13 +29,7 @@ import Header from "./Composants/Header";
 import Footer from "./Composants/Footer";
 
 function App() {
-	const [estConnecte, setEstConnecte] = useState<{
-		connexion: boolean;
-		token: string | null;
-		userId: string | number | null;
-		username: string | null;
-		isAdmin: boolean | null;
-	}>({
+	const [estConnecte, setEstConnecte] = useState<ETAT_DE_CONNEXION>({
 		connexion: Cookies.get("token") && Cookies.get("userId") ? true : false,
 		token: Cookies.get("token") || null,
 		userId: Cookies.get("userId") || null,
@@ -52,11 +49,10 @@ function App() {
 	const couleurIcone = useColorModeValue("elements.bleu", "neutre");
 	const couleurIconeFlottante = useColorModeValue("primaire", "neutre");
 
-	console.log(estConnecte);
-
 	return (
 		<AuthContext.Provider value={gestionDeConnexion}>
 			<Flex
+				pos="relative"
 				bgColor={bgColor}
 				color={color}
 				minH="100vh"
@@ -66,7 +62,8 @@ function App() {
 					md: !estConnecte.connexion ? "center" : "none",
 				}}
 				flexDirection="column"
-				pos="relative"
+				maxW="1440px"
+				m="0 auto"
 			>
 				<Flex
 					justify="center"

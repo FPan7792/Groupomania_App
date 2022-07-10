@@ -1,8 +1,9 @@
 import { useState } from "react";
+
 // css et images
 import { Box, Flex, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 
-// composants
+// composants jsx
 import Inscription from "../Composants/Inscription";
 import Connexion from "../Composants/Connexion";
 import OngletsAuthentification from "../Composants/OngletsAuthentification";

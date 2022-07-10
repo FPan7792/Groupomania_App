@@ -10,9 +10,12 @@ const OngletsAuthentification = (Props: Props) => {
 	const { nomOnglet, etat, setEtat } = Props;
 
 	// gestion du theme
-	// const couleurDesElements = useColorModeValue("primaire", "secondaire");
 	const couleurBordureBas = useColorModeValue("elements.bleu", "whitesmoke");
 	const couleurDuTexte = useColorModeValue("textes.white", "textes.sombre");
+
+	function changerOnglet() {
+		setEtat(nomOnglet);
+	}
 
 	return (
 		<Box w="100%">
@@ -44,7 +47,7 @@ const OngletsAuthentification = (Props: Props) => {
 					size="sm"
 					opacity={0.7}
 					shadow="xs"
-					onClick={() => setEtat(nomOnglet)}
+					onClick={changerOnglet}
 				>
 					{nomOnglet}
 				</Button>

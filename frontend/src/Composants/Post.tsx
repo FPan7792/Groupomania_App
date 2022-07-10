@@ -1,3 +1,12 @@
+// types
+import { POST } from "../Types/types";
+type Props = {
+	post: POST;
+	userId?: string | number | null;
+	refresh: React.Dispatch<React.SetStateAction<number>>;
+	isAdmin?: boolean | null;
+};
+
 // composants css & icones
 import {
 	Box,
@@ -15,14 +24,7 @@ import {
 	faPenToSquare,
 	faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
-// types
-import { POST } from "../Types/types";
-type Props = {
-	post: POST;
-	userId?: string | number | null;
-	refresh: React.Dispatch<React.SetStateAction<number>>;
-	isAdmin?: boolean | null;
-};
+
 // navigation
 import { Link } from "react-router-dom";
 // notification pop

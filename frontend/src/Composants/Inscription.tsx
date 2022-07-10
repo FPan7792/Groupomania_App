@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+// types
+import { CREATIONUTILISATEUR } from "../Types/types";
+type Props = {
+	setEtat: React.Dispatch<React.SetStateAction<"Connexion" | "Inscription">>;
+};
+
+// composants css
 import {
 	FormLabel,
 	Input,
@@ -8,15 +15,9 @@ import {
 	InputGroup,
 	InputRightElement,
 	useColorModeValue,
-	Stack,
 } from "@chakra-ui/react";
 
-// types
-import { CREATIONUTILISATEUR } from "../Types/types";
-type Props = {
-	setEtat: React.Dispatch<React.SetStateAction<"Connexion" | "Inscription">>;
-};
-
+// données envoyées
 type FormInputs = {
 	email: string;
 	password: string;
@@ -36,7 +37,7 @@ const Inscription = (Props: Props) => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	// gestion du theme
-	const buttonColor = useColorModeValue("primaire", "secondaire");
+	const couleurDesBoutons = useColorModeValue("primaire", "secondaire");
 
 	const onSubmit = async (datas: FormInputs) => {
 		console.log(datas);
@@ -65,6 +66,10 @@ const Inscription = (Props: Props) => {
 				return err;
 			});
 	};
+
+	function changerMontrerMDP() {
+		setShowPassword((value) => !value);
+	}
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<FormLabel
@@ -108,12 +113,7 @@ const Inscription = (Props: Props) => {
 					{...register("password")}
 				/>
 				<InputRightElement width="4.5rem">
-					<Button
-						h="70%"
-						mr="10px"
-						size="xs"
-						onClick={() => setShowPassword((value) => !value)}
-					>
+					<Button h="70%" mr="10px" size="xs" onClick={changerMontrerMDP}>
 						{showPassword ? "Cacher" : "Voir"}
 					</Button>
 				</InputRightElement>
@@ -121,13 +121,14 @@ const Inscription = (Props: Props) => {
 
 			<Flex justify="center">
 				<Button
-					colorScheme="red"
-					marginTop="10"
-					disabled={isSubmitting}
+					marginTop={10}
+					m={{ base: "60px 0 ", md: "" }}
+					isDisabled={isSubmitting}
 					size="sm"
 					w="40%"
-					bgColor={buttonColor}
 					type="submit"
+					colorScheme="red"
+					bgColor={couleurDesBoutons}
 				>
 					S&apos;inscrire
 				</Button>

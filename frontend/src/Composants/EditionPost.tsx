@@ -1,5 +1,6 @@
 import { useState, useLayoutEffect, useRef } from "react";
-// composants css
+
+// composants css et icones
 import {
 	Button,
 	Box,
@@ -15,13 +16,16 @@ import {
 	useColorModeValue,
 	InputLeftElement,
 } from "@chakra-ui/react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
 	faArrowLeft,
 	faCircleXmark,
 	faFileCircleCheck,
 	faFileCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
+
 // types
 import { POST } from "../Types/types";
 
@@ -32,144 +36,23 @@ import {
 	useNavigate,
 	NavigateFunction,
 } from "react-router-dom";
+
 // gestion du formulaire
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+
 // hook requete
 import { useFetch } from "../Hooks/hooks";
+
 // auth
 import Cookies from "js-cookie";
+
 // notification pop
-import { activeNotif } from "../Fonctions/Fonctions";
-
-// Func REQUETES
-async function creerPost(formulaire: POST, image: HTMLInputElement | null) {
-	console.log(formulaire);
-
-	const { title, content } = formulaire;
-	let creationConfirmation = false;
-
-	const nouveauPost = new FormData();
-	title && title !== "" && nouveauPost.append("title", title);
-	content && content !== "" && nouveauPost.append("content", content);
-	Cookies.get("username") &&
-		nouveauPost.append("username", Cookies.get("username") as string);
-
-	if (image && image.files) {
-		nouveauPost.append("image", image.files[0]);
-	}
-
-	// implémenter la validation avec useform
-
-	await fetch("http://localhost:3003/posts/create", {
-		method: "POST",
-		headers: { Authorization: "Bearer " + Cookies.get("token") },
-		body: nouveauPost,
-	})
-		.then(async (response) => {
-			const resultat = await response.json();
-			if (!response.ok) {
-				throw new Error(resultat.message);
-			} else return resultat;
-		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
-			creationConfirmation = true;
-		})
-		.catch((err) => {
-			console.log("error", err);
-			return err;
-		});
-
-	return creationConfirmation;
-}
-
-async function modifierPost(
-	formulaire: POST,
-	post_id: string,
-	image: HTMLInputElement | null
-) {
-	console.log(formulaire);
-
-	const { title, content } = formulaire;
-	let modificationConfirmation = false;
-
-	const nouveauPost = new FormData();
-	nouveauPost.append("title", title);
-	nouveauPost.append("content", content);
-	nouveauPost.append("post_id", post_id);
-	Cookies.get("username") &&
-		nouveauPost.append("username", Cookies.get("username") as string);
-
-	if (image && image.files && image.files?.length !== 0) {
-		nouveauPost.append("image", image.files[0]);
-	}
-
-	await fetch("http://localhost:3003/posts/modify", {
-		method: "POST",
-		headers: { Authorization: "Bearer " + Cookies.get("token") },
-		body: nouveauPost,
-	})
-		.then(async (response) => {
-			const resultat = await response.json();
-			if (!response.ok) {
-				throw new Error(resultat.message);
-			} else return resultat;
-		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
-			modificationConfirmation = true;
-		})
-		.catch((err) => {
-			console.log("error", err);
-			return err;
-		});
-
-	return modificationConfirmation;
-}
-
-function confirmationOperation(
-	operation: boolean,
-	message: string,
-	navigate: NavigateFunction,
-	notyfColor: string
-) {
-	if (operation) {
-		navigate("/");
-		activeNotif(message, true, notyfColor);
-	} else activeNotif("Un problème est survenue", false, notyfColor);
-}
-
-async function supprimerLaPhoto(post: POST) {
-	let modificationConfirmation = false;
-
-	const nouveauPost = new FormData();
-	nouveauPost.append("post_id", post.post_id.toString());
-	nouveauPost.append("process", "process_deleteImage");
-
-	await fetch("http://localhost:3003/posts/modify", {
-		method: "POST",
-		headers: { Authorization: "Bearer " + Cookies.get("token") },
-		body: nouveauPost,
-	})
-		.then(async (response) => {
-			const resultat = await response.json();
-			if (!response.ok) {
-				throw new Error(resultat.message);
-			} else return resultat;
-		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
-			modificationConfirmation = true;
-		})
-		.catch((err) => {
-			console.log("error", err);
-			return err;
-		});
-
-	console.log(modificationConfirmation);
-
-	return modificationConfirmation;
-}
+import {
+	activeNotif,
+	creerPost,
+	modifierPost,
+	supprimerLaPhoto,
+} from "../Fonctions/Fonctions";
 
 const EditionPost = () => {
 	// url params
@@ -178,6 +61,7 @@ const EditionPost = () => {
 	// navigation
 	const navigate = useNavigate();
 
+	// etats
 	const [post, setPost] = useState<POST | null | "nouveaupost">(null);
 	const [imageAttendue, setImageAttendue] = useState<any>(null);
 	const [showImage, setShowImage] = useState<boolean>(true);
@@ -192,9 +76,7 @@ const EditionPost = () => {
 	const couleurDuTexte = useColorModeValue("textes.sombre", "textes.white");
 
 	if (id !== "nouveaupost") {
-		const { isError, isLoading, isSuccess } = useFetch(
-			"http://localhost:3003/posts"
-		);
+		const { isSuccess } = useFetch("http://localhost:3003/posts");
 
 		useLayoutEffect(() => {
 			if (
@@ -318,7 +200,6 @@ const EditionPost = () => {
 								<Flex
 									flexDir={{ base: "column", md: "row" }}
 									align="center"
-									// border="black solid 2px"
 								>
 									<Controller
 										name="content"
@@ -331,7 +212,6 @@ const EditionPost = () => {
 												flex={{ md: 3 }}
 												mr={{ base: 0, md: 2 }}
 												fontSize={{ base: "xs", md: "sm" }}
-												// w="2xl"
 												w={{ base: "100%", md: "2xl" }}
 												h={{ base: "200px", md: "xs" }}
 												required={true}
@@ -397,7 +277,6 @@ const EditionPost = () => {
 									Image
 								</FormLabel>
 								<InputGroup
-									// w="30%"
 									size={{ base: "sm", md: "md" }}
 									flexShrink={1}
 									flexWrap="wrap"
@@ -442,12 +321,7 @@ const EditionPost = () => {
 							</Stack>
 						</Stack>
 
-						<Flex
-							justify="center"
-							m={10}
-							// mt="100px"
-							mt={{ base: 10, md: "100px" }}
-						>
+						<Flex justify="center" m={10} mt={{ base: 10, md: "100px" }}>
 							<Button
 								type="submit"
 								colorScheme="red"
@@ -471,3 +345,16 @@ const EditionPost = () => {
 	);
 };
 export default EditionPost;
+
+// Functions REQUETES
+function confirmationOperation(
+	operation: boolean,
+	message: string,
+	navigate: NavigateFunction,
+	notyfColor: string
+) {
+	if (operation) {
+		navigate("/");
+		activeNotif(message, true, notyfColor);
+	} else activeNotif("Un problème est survenue", false, notyfColor);
+}

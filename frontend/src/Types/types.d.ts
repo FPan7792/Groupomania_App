@@ -6,12 +6,14 @@ export type CONNEXIONUTILISATEUR = {
 	is_admin: string;
 };
 
+// envoi au back
 export type CREATIONUTILISATEUR = {
 	response: string;
 	newUser?: any;
 	// schema de reponse a definir
 };
 
+// enregistrement de post
 export type POST = {
 	owner_name: string;
 	post_id: number;
@@ -24,4 +26,13 @@ export type POST = {
 	is_image: boolean;
 	owner_id: number;
 	updatedAt: Date;
+};
+
+// etat global
+export type ETAT_DE_CONNEXION = {
+	connexion: boolean;
+	token: string | null;
+	userId: string | number | null;
+	username: string | null;
+	isAdmin: boolean | null;
 };

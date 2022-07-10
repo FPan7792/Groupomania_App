@@ -1,4 +1,5 @@
 import { useState, useLayoutEffect } from "react";
+
 // types
 import { POST } from "../Types/types";
 type Props = {
@@ -8,10 +9,13 @@ type Props = {
 	etat: "Accueil" | "Mes Posts" | "Likes" | null;
 	isAdmin: boolean | null;
 };
+
 // composants css
 import { Button, Box, Flex, useColorModeValue } from "@chakra-ui/react";
+
 // navigation
 import { Link } from "react-router-dom";
+
 // composants
 import Post from "./Post";
 
