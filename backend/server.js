@@ -57,5 +57,5 @@ app.all("*", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is listenning on port ${port}`);
+  console.log(`Server is listenning on port ${port || 3003}`);
 });

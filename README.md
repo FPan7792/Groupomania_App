@@ -25,6 +25,26 @@ cd backend
 puis tapez :
 
 ```bash
+npm install
+```
+
+Puis creer un fichier .env dans lequel vous entrerez vos variables d'environnements pour la connexion :
+
+**Cloudinary** :
+CLOUDINARY_CLOUD_NAME,
+CLOUDINARY_API_KEY,
+CLOUDINARY_API_SECRET
+
+**Base de Données mySQL** : DATABASE_USER,
+DATABASE_PASSWORD
+
+**Générateur de TOKEN code** : UUID_TOKEN_GENERATOR,
+
+(Pensez à relancer votre éditeur de code)
+
+puis tapez :
+
+```bash
 node server.js
 ```
 
