@@ -8,7 +8,7 @@ type Props = {
 };
 
 // composants css & icones
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import Post from "./Post";
 
 const AccueilPostes = (Props: Props) => {
@@ -17,17 +17,23 @@ const AccueilPostes = (Props: Props) => {
 
 	return (
 		<Box>
-			{posts?.map((post) => {
-				return (
-					<Post
-						key={post.post_id}
-						isAdmin={isAdmin}
-						userId={userId}
-						refresh={refresh}
-						post={post}
-					/>
-				);
-			})}
+			{posts && posts?.length < 1 ? (
+				<Text textAlign="center" p={10}>
+					Aucune publication pour l&apos;instant 😴{" "}
+				</Text>
+			) : (
+				posts?.map((post) => {
+					return (
+						<Post
+							key={post.post_id}
+							isAdmin={isAdmin}
+							userId={userId}
+							refresh={refresh}
+							post={post}
+						/>
+					);
+				})
+			)}
 		</Box>
 	);
 };
