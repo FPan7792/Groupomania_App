@@ -125,7 +125,6 @@ export const Post = (Props: Props) => {
 						shadow="xs"
 						mr={5}
 						src={post.image_url}
-						// boxSize="100px"
 						objectFit="contain"
 						flex={1}
 						boxSize={{ base: "150px", md: "200px" }}
@@ -217,16 +216,13 @@ export const Post = (Props: Props) => {
 
 				<Button
 					size="xs"
-					// pos="absolute"
-					// right={0}
-					// bottom={1.5}
 					display={{ base: "none", md: "initial" }}
 					colorScheme={"pink"}
-					bgColor={!aLike ? "none" : "whitesmoke"}
+					bgColor={aLike !== -1 ? "none" : "whitesmoke"}
 					color={
 						colorMode === "dark"
 							? "#4E5166"
-							: !aLike
+							: aLike !== -1
 							? "whitesmoke"
 							: "#4E5166"
 					}
@@ -259,7 +255,7 @@ export const Post = (Props: Props) => {
 				>
 					<FontAwesomeIcon
 						icon={faHeart}
-						color={!aLike ? "#FD2D01" : couleurDuCoeur}
+						color={aLike !== -1 ? "#FD2D01" : couleurDuCoeur}
 					/>
 				</Button>
 			</Flex>
