@@ -43,9 +43,6 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 // hook requete
 import { useFetch } from "../Hooks/hooks";
 
-// auth
-import Cookies from "js-cookie";
-
 // notification pop
 import {
 	activeNotif,
@@ -63,7 +60,7 @@ const EditionPost = () => {
 
 	// etats
 	const [post, setPost] = useState<POST | null | "nouveaupost">(null);
-	const [imageAttendue, setImageAttendue] = useState<any>(null);
+	const [imageAttendue, setImageAttendue] = useState<string | null>(null);
 	const [showImage, setShowImage] = useState<boolean>(true);
 
 	// recup image
@@ -93,7 +90,6 @@ const EditionPost = () => {
 	} else
 		useLayoutEffect(() => {
 			setPost(id);
-			console.log(post);
 		}, [post]);
 
 	// gestion de validation formulaire
@@ -281,7 +277,7 @@ const EditionPost = () => {
 									flexShrink={1}
 									flexWrap="wrap"
 								>
-									<InputLeftElement left={-2} top={2}>
+									<InputLeftElement top={1}>
 										<FontAwesomeIcon
 											icon={
 												!imageAttendue
@@ -292,9 +288,9 @@ const EditionPost = () => {
 										/>
 										{imageAttendue && (
 											<Button
+												size="xs"
 												onClick={() => {
 													setImageAttendue(null);
-													console.log(imageRef.current?.value);
 												}}
 											>
 												<FontAwesomeIcon
@@ -305,6 +301,7 @@ const EditionPost = () => {
 										)}
 									</InputLeftElement>
 									<Input
+										ml={10}
 										type="file"
 										accept=".jpg, .jpeg, .png"
 										name="image"
@@ -314,7 +311,6 @@ const EditionPost = () => {
 										isDisabled={isSubmitting}
 										onChange={(e) => {
 											setImageAttendue(e.target.value);
-											console.log(e.target.value);
 										}}
 									/>
 								</InputGroup>

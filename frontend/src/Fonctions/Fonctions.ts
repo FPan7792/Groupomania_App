@@ -5,8 +5,6 @@ export async function creerPost(
 	formulaire: POST,
 	image: HTMLInputElement | null
 ) {
-	console.log(formulaire);
-
 	const { title, content } = formulaire;
 	let creationConfirmation = false;
 
@@ -20,7 +18,6 @@ export async function creerPost(
 		nouveauPost.append("image", image.files[0]);
 	}
 
-	// implémenter la validation avec useform
 	await fetch("http://localhost:3003/posts/create", {
 		method: "POST",
 		headers: { Authorization: "Bearer " + Cookies.get("token") },
@@ -32,8 +29,7 @@ export async function creerPost(
 				throw new Error(resultat.message);
 			} else return resultat;
 		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
+		.then(() => {
 			creationConfirmation = true;
 		})
 		.catch((err) => {
@@ -50,8 +46,6 @@ export async function modifierPost(
 	post_id: string,
 	image: HTMLInputElement | null
 ) {
-	console.log(formulaire);
-
 	const { title, content } = formulaire;
 	let modificationConfirmation = false;
 
@@ -77,8 +71,7 @@ export async function modifierPost(
 				throw new Error(resultat.message);
 			} else return resultat;
 		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
+		.then(() => {
 			modificationConfirmation = true;
 		})
 		.catch((err) => {
@@ -108,16 +101,13 @@ export async function supprimerLaPhoto(post: POST) {
 				throw new Error(resultat.message);
 			} else return resultat;
 		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
+		.then(() => {
 			modificationConfirmation = true;
 		})
 		.catch((err) => {
 			console.log("error", err);
 			return err;
 		});
-
-	console.log(modificationConfirmation);
 
 	return modificationConfirmation;
 }
@@ -138,8 +128,28 @@ export async function supprimerPost(url: string, post_id: number) {
 				throw new Error(resultat.message);
 			} else return resultat;
 		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
+		.catch((err) => {
+			console.log("error", err);
+			return err;
+		});
+}
+
+// like / dislike
+export async function likerPost(nouveauLikes: number[], post_id: number) {
+	const formulaire = new FormData();
+	formulaire.append("usersIds_likes", JSON.stringify(nouveauLikes));
+	formulaire.append("post_id", post_id.toString());
+
+	await fetch("http://localhost:3003/posts/like", {
+		method: "POST",
+		headers: { Authorization: "Bearer " + Cookies.get("token") },
+		body: formulaire,
+	})
+		.then(async (response) => {
+			const resultat = await response.json();
+			if (!response.ok) {
+				throw new Error(resultat.message);
+			} else return resultat;
 		})
 		.catch((err) => {
 			console.log("error", err);
@@ -185,30 +195,4 @@ export function activeNotif(message: string, success: boolean, color: string) {
 	if (success) {
 		notyf.success(message);
 	} else notyf.error(message);
-}
-
-// like / dislike
-export async function likerPost(nouveauLikes: number[], post_id: number) {
-	const formulaire = new FormData();
-	formulaire.append("usersIds_likes", JSON.stringify(nouveauLikes));
-	formulaire.append("post_id", post_id.toString());
-
-	await fetch("http://localhost:3003/posts/like", {
-		method: "POST",
-		headers: { Authorization: "Bearer " + Cookies.get("token") },
-		body: formulaire,
-	})
-		.then(async (response) => {
-			const resultat = await response.json();
-			if (!response.ok) {
-				throw new Error(resultat.message);
-			} else return resultat;
-		})
-		.then((confirmation: any) => {
-			console.log(confirmation);
-		})
-		.catch((err) => {
-			console.log("error", err);
-			return err;
-		});
 }

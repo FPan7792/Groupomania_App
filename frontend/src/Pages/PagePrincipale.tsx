@@ -4,10 +4,6 @@ import { AuthContext } from "../Context/AuthContext";
 // types
 import { POST } from "../Types/types";
 
-// gestion authentification
-import Cookies from "js-cookie";
-const TOKENACTIF = Cookies.get("token");
-
 // composants css
 import { Box, Text, Flex, useColorMode } from "@chakra-ui/react";
 
@@ -38,7 +34,7 @@ const PagePrincipale = () => {
 			await fetch("http://localhost:3003/posts", {
 				method: "GET",
 				headers: {
-					Authorization: "Bearer " + TOKENACTIF,
+					Authorization: "Bearer " + estConnecte.token,
 				},
 			})
 				.then(async (response) => {
@@ -59,7 +55,7 @@ const PagePrincipale = () => {
 				.finally(() => setIsLoading(false));
 		};
 
-		fetchDatas();
+		setTimeout(fetchDatas, 1000);
 	}, [refresh, isSuccess]);
 
 	// eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -50,8 +50,6 @@ const Connexion = () => {
 	const onSubmit = async (datas: FormInputs) => {
 		const { email, password } = datas;
 
-		console.log(datas);
-
 		const infosUtilisateur = new FormData();
 
 		infosUtilisateur.append("email", email);
@@ -88,7 +86,7 @@ const Connexion = () => {
 				return err;
 			})
 			.finally(() => {
-				console.log("COOKIE SETTED : " + Cookies.get("token"));
+				// console.log("COOKIE SETTED : " + Cookies.get("token"));
 				Cookies.get("token") && Cookies.get("userId")
 					? activeNotif(
 							"Vous êtes maintenant connecté",
@@ -102,6 +100,10 @@ const Connexion = () => {
 					  );
 			});
 	};
+
+	function changerVoirMDP() {
+		setShowPassword((value) => !value);
+	}
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -147,12 +149,7 @@ const Connexion = () => {
 					{...register("password")}
 				/>
 				<InputRightElement width="4.5rem">
-					<Button
-						h="70%"
-						mr="10px"
-						size="xs"
-						onClick={() => setShowPassword((value) => !value)}
-					>
+					<Button h="70%" mr="10px" size="xs" onClick={changerVoirMDP}>
 						{showPassword ? "Cacher" : "Voir"}
 					</Button>
 				</InputRightElement>
