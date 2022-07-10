@@ -28,7 +28,11 @@ puis tapez :
 npm install
 ```
 
-Puis creer un fichier .env dans lequel vous entrerez vos variables d'environnements pour la connexion :
+Puis creer un fichier .env dans lequel vous entrerez vos variables d'environnements nécéssaires pour la connexion sous cette forme :
+
+```env
+NOM_DE_LA_VARIABLE=valeurdelavariable
+```
 
 **Cloudinary** :
 CLOUDINARY_CLOUD_NAME,
@@ -40,7 +44,7 @@ DATABASE_PASSWORD
 
 **Générateur de TOKEN code** : UUID_TOKEN_GENERATOR,
 
-(Pensez à relancer votre éditeur de code)
+(Pensez à redémarrer votre éditeur de code)
 
 puis tapez :
 
