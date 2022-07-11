@@ -12,11 +12,11 @@ gh repo clone FPan7792/Groupomania_App
 
 **SINON**
 
-Vous pouvez télécharger le dossier ZIP du projet et le décomporesser sur la machine
+Vous pouvez télécharger le dossier ZIP du projet et le décompresser sur la machine
 
 ## **Démarrer le BACKEND**
 
-A la source du projet :
+A la racine du projet :
 
 ```bash
 cd backend
@@ -54,7 +54,7 @@ node server.js
 
 ## **Démarrer le FRONTEND**
 
-A la source du projet :
+A la racine du projet :
 
 ```bash
 cd frontend
@@ -76,7 +76,7 @@ npm start
 yarn start
 ```
 
-Pour optimiser le l'application pour la production
+Pour generer un fichier optimisé de l'application pour la production :
 
 ```bash
 npm build
