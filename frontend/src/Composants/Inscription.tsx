@@ -25,6 +25,7 @@ type FormInputs = {
 
 // gestion fomulaire
 import { useForm } from "react-hook-form";
+import { activeNotif } from "../Fonctions/Fonctions";
 
 const Inscription = (Props: Props) => {
 	const {
@@ -53,16 +54,22 @@ const Inscription = (Props: Props) => {
 			body: infosUtilisateur,
 		})
 			.then((response) => response.json())
-			.then((datas: CREATIONUTILISATEUR) => {
+			.then((datas: CREATIONUTILISATEUR | any) => {
 				console.log("DATAS", datas);
 
 				if (datas.response === "NOUVEL UTILISATEUR ENREGISTRE") {
 					console.log(datas.response);
 					setEtat("Connexion");
+				} else if (datas.name === "SequelizeUniqueConstraintError") {
+					activeNotif(
+						"Ces identifiants sont déja utilisés.",
+						false,
+						"red"
+					);
 				}
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log("ERR", err);
 				return err;
 			});
 	};

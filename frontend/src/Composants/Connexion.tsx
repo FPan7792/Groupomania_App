@@ -94,7 +94,7 @@ const Connexion = () => {
 							colorMode === "light" ? "#4E5166" : "#FFD7D7"
 					  )
 					: activeNotif(
-							"Un problème est survenue",
+							"Identifiants incorrects",
 							false,
 							colorMode === "light" ? "#4E5166" : "#FFD7D7"
 					  );

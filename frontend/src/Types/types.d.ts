@@ -10,6 +10,7 @@ export type CONNEXIONUTILISATEUR = {
 export type CREATIONUTILISATEUR = {
 	response: string;
 	newUser?: any;
+	name?: string;
 	// schema de reponse a definir
 };
 

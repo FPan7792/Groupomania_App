@@ -4,7 +4,7 @@
 
 Ce projet est codé en javascript avec NODEJS, REACT, DOCKER .
 
-GROUPOMANIA_APP est un réseau social interne d'entreprise entièrement fonctionnel et responsive (adapté à tous types d'écrans) . Il permettra à chaque collaborateur de crée un compte unique, de poster des message avec ou sans images et de trier les messages et de les liker.
+GROUPOMANIA_APP est un réseau social interne d'entreprise entièrement fonctionnel et responsive (adapté à tous types d'écrans) . Il permettra à chaque collaborateur de creer un compte unique, de poster des messages avec ou sans image, de les liker et trier.
 Un dark mode est implémenté .
 
 ## **Installation du projet**
