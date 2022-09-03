@@ -5,6 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "docker build -t database-groupomania .",
+    "init": "docker run --name database-groupomania -d -p 3310:3306 database-groupomania",
+    "init-dtb": "cat groupomania_app_DTB.sql | docker exec -i database-groupomania /usr/bin/mysql -u root --password=my-groupomania-pwd groupomania_app",
     "start": "node server.js"
   },
   "keywords": [],
